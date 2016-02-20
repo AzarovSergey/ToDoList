@@ -1,0 +1,61 @@
+﻿.logo-account{
+    width:100px;
+    height:100px; 
+    display: block;
+    margin:20px auto 20px auto;
+}
+
+body{
+    background-color:#fafafa;
+}
+
+.centrate,.title, .form-container{
+    display: table;
+    margin: 0 auto;
+}
+
+
+.title{
+    color:gray;
+    font-size:3em;
+}
+
+.form-container{
+    background-color:white;
+    border:solid 1px;
+    border-color:#eee;
+    border-radius:4px;
+}
+
+
+.form-item{
+    border-radius:0;
+    padding:8px;
+}
+
+.input-icon{
+    color:lightblue;
+}
+
+input{
+    border:hidden;
+    padding:20px;
+    width:350px;
+    color:gray;
+}
+input:focus{
+    outline: none;
+}
+
+hr{
+    margin:0;
+}
+.button-container{
+    padding: 16px;
+}
+button{
+    background-color:#2b88d9 !important;
+    width:100%;
+    padding:12px !important;
+}
+

@@ -1,0 +1,51 @@
+﻿@model CustomAuth.ViewModels.Login
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Account.css" rel="stylesheet" />
+</head>
+<body>
+    <img class="logo-account" src="~/Content/Images/logo.png" />
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-container">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-item">
+                <span class="fa fa-envelope input-icon"></span>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @placeholder = "Email", title = "Please enter a valid email address.", autofocus = "" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+            <hr />
+            <div class="form-item">
+                <span class="fa fa-lock input-icon"></span>
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @placeholder = "Password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+            <hr />
+            <div class="button-container">
+                <button type="submit" class="btn btn-info">Sign In</button>
+            </div>
+
+            <a class="centrate" href="">Forgot your password?</a>
+        </div>
+    }
+    <p class="centrate" style="margin-top:40px;">
+        Don’t have an account? <a href="~/Account/Register">Create Account</a>
+    </p>
+</body>
+</html>

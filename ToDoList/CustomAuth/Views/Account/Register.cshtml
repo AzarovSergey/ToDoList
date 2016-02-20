@@ -1,0 +1,54 @@
+﻿@model CustomAuth.ViewModels.Register
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Account.css" rel="stylesheet" />
+</head>
+<body>
+    <img class="logo-account" src="~/Content/Images/logo.png"/>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <span class="title">Get Wunderlist for Free</span>
+    @using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-container">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-item">
+                <span class="glyphicon glyphicon-user input-icon"></span>
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { title = "Please enter your full name.", @placeholder = "Name", autofocus = "", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+            <hr />
+            <div class="form-item">
+                <span class="fa fa-envelope input-icon"></span>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @placeholder = "Email", title = "Please enter a valid email address." } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+            <hr />
+            <div class="form-item">
+                <span class="fa fa-lock input-icon"></span>
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @placeholder = "Password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+            <hr />
+            <div class="button-container">
+                <button type="submit" class="btn btn-info">Create Free Account</button>
+            </div>
+        </div>
+    }
+    <p class="centrate" style="margin-top:20px">Have an account already? <a href="/account/login">Sign In</a></p>
+</body>
+</html>
