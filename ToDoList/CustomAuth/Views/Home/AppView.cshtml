@@ -9,20 +9,84 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>AppView</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/reset.css" rel="stylesheet" />
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet"/>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/Site.js"></script>
 </head>
 <body>
     <div id="left">
-        <div id="top">
-            <div id="menu-button"></div>
-            <div id="search">
-                <input type="text" />
-                <span class="fa fa-search"></span>
-            </div>
+        <div id="top-left">
+            <span id="menu-button" class="fa fa-bars glyph-button"></span>
+            <input type="text" class="input-search"/>
+            <span id="search-button" class="fa fa-search"></span>
         </div>
         <div id="folder-menu">
+            <div>
+                <span id="user-info-button">
+                    <img src="~/Content/Images/logo.png" width="40" height="40" />
+                        <span id="username">Sergey</span>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                </span>
+                <span id="activities-button" class="fa fa-bell-o"></span>
+            </div>
 
+            <div id="user-info">
+                <h2>Menu</h2>
+            </div>
+            
+            <div class="folder">
+                <span class="left-side">
+                    <img src="~/Content/Images/logo.png" width="40" height="40"/>
+                    <span class="folder-title">Folder name</span>
+                </span>
+                <span class="right-side">
+                    <span class="missed">3</span>
+                    <span class="total">6</span>
+                </span>
+            </div>
+
+            
+
+            <div class="folder">
+                <span class="left-side">
+                    <img src="~/Content/Images/logo.png" width="40" height="40" />
+                    <span class="folder-title">Folder name</span>
+                </span>
+                <span class="right-side">
+                    <span class="missed">3</span>
+                    <span class="total">6</span>
+                </span>
+            </div>
+
+            <div class="folder">
+                <span class="left-side">
+                    <img src="~/Content/Images/logo.png" width="40" height="40" />
+                    <span class="folder-title">Folder name</span>
+                </span>
+                <span class="right-side">
+                    <span class="missed">3</span>
+                    <span class="total">6</span>
+                </span>
+            </div>
+
+            
         </div>
     </div>
+    <script>
+        var folders = $('.folder');
+        folders.click(function () {
+            folders.css('background-color', 'white');
+            $(this).css('background-color', '#e0eefa');
+        });
 
+        $('#user-info').hide();
+        $('#user-info-button').click(function () {
+            $('#user-info').toggle();
+        });
+    </script>
 </body>
 </html>

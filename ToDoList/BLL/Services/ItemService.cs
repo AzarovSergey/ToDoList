@@ -13,19 +13,18 @@ namespace BLL.Services
     public class ItemService : IItemService
     {
         private readonly IUnitOfWork uow;
-       // private readonly IItemRepository itemRepository;
+        private readonly IItemRepository itemRepository;
 
-        public ItemService(IUnitOfWork uow/*, IItemRepository repository*/)
+        public ItemService(IUnitOfWork uow, IItemRepository repository)
         {
             this.uow = uow;
-           // this.itemRepository = repository;
+            this.itemRepository = repository;
         }
 
 
         public IEnumerable<ItemEntity> GetByToDoListId(int toDoListId)
         {
-            return new ItemEntity[0];
-            //return itemRepository.GetByToDoListId(toDoListId).Select(item => item.ToBllItem());
+            return itemRepository.GetByToDoListId(toDoListId).Select(item => item.ToBllItem());
         }
     }
 }

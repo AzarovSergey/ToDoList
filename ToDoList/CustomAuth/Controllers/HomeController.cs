@@ -13,5 +13,9 @@ namespace MvcPL.Controllers
             return View();
         }
 
+        public ActionResult AppView()
+        {
+            return View();
+        }
     }
 }

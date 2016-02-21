@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Concrete\FolderRepository.cs" />
+    <Compile Include="Concrete\ItemRepository.cs" />
     <Compile Include="Concrete\RoleRepository.cs" />
     <Compile Include="Concrete\ToDoListRepository.cs" />
     <Compile Include="Concrete\UnitOfWork.cs" />
