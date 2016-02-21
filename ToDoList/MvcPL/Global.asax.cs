@@ -7,7 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using MvcPL.Infrastructure;
 using System.Web.Http;
-using CustomAuth;
+using MvcPL;
 
 namespace MvcPL
 {
