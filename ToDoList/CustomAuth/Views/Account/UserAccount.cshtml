@@ -1,0 +1,13 @@
+﻿
+@{
+    Layout = null;
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>You are authenticated.</p>
+    <p>name:[@User.Identity.Name]</p>
+}else
+{
+    <p>Not authenticated</p>
+}   

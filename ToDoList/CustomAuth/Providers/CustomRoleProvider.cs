@@ -2,32 +2,33 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
-//using BLL.Interface.Services;
+using BLL.Interface.Services;
 
 namespace MvcPL.Providers
 {
     public class CustomRoleProvider : RoleProvider
     {
-        //public IUserService UserService = (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
+        public IUserService UserService = (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
 
-        //public IRoleService RoleService = (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
+        public IRoleService RoleService = (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
 
         public override bool IsUserInRole(string email, string roleName)
         {
-            //var user = UserService.GetAllUserEntities().FirstOrDefault(u => u.Login == email);
+            //var user = UserService.GetAll().FirstOrDefault(u => u.Login == email);
+            var user = UserService.GetByEmail(email);
 
-            //if (user == null) return false;
+            if (user == null) return false;
 
-            //var userRole = RoleService.GetById(user.RoleId);
+            var userRole = RoleService.GetById(user.RoleId);
 
-            //if (userRole != null && userRole.Name == roleName)
-            //{
-            //    return true;
-            //}
+            if (userRole != null && userRole.Name == roleName)
+            {
+                return true;
+            }
 
-            //return false;
+            return false;
 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override string[] GetRolesForUser(string email)
