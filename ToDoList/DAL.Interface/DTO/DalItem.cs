@@ -13,7 +13,7 @@ namespace DAL.Interface.DTO
         public int ToDoListId { get; set; }
         public System.DateTime CreationDateTime { get; set; }
         public System.DateTime RemindDateTime { get; set; }
-        public System.DateTime СompletionDateTime { get; set; }
+        public System.DateTime CompletionDateTime { get; set; }
         public int RepeatKindId { get; set; }
         public int Interval { get; set; }
         public bool IsStarred { get; set; }

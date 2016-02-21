@@ -102,7 +102,7 @@ namespace DAL.Mappers
                 ToDoListId = item.ToDoListId,
                 CreationDateTime = item.CreationDateTime,
                 RemindDateTime = item.RemindDateTime,
-                СompletionDateTime = item.СompletionDateTime,
+                CompletionDateTime = item.СompletionDateTime,
                 RepeatKindId = item.RepeatKindId,
                 Interval = item.Interval,
                 IsStarred = item.IsStarred,

@@ -29,6 +29,9 @@ namespace DependencyResolver
 
             Bind<IRoleRepository>().To<RoleRepository>();
             Bind<IUserRepository>().To<UserRepository>();
+            Bind<IToDoListRepository>().To<ToDoListRepository>();
+            Bind<IFolderRepository>().To<FolderRepository>();
+            //Bind<IItemRepository>().To<Item>
         }
     }
 }

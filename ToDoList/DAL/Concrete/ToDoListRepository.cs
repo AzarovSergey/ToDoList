@@ -22,8 +22,8 @@ namespace DAL.Concrete
 
         public IEnumerable<DalToDoList> GetByFolderId(int folderid)
         {
-            var ListsId = context.Set<ToDoListFolder>().Where(x => x.FolderId == folderid).Select(x => x.ToDoListId).ToArray();
-            return context.Set<ToDoList>().Where(todolist => ListsId.Contains(todolist.Id)).Select(todolist => todolist.ToDalToDoList());
+            var ListsId = context.Set<ToDoListFolder>().Where(x => x.FolderId == folderid).ToArray().Select(x => x.ToDoListId);
+            return context.Set<ToDoList>().Where(todolist => ListsId.Contains(todolist.Id)).ToArray().Select(todolist => todolist.ToDalToDoList());
         }
     }
 }

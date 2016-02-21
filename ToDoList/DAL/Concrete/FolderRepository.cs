@@ -22,7 +22,7 @@ namespace DAL.Concrete
 
         public IEnumerable<DalFolder> GetByAuthorId(int authorid)
         {
-            return context.Set<Folder>().Where(folder => folder.AuthorId == authorid).Select(folder => folder.ToDalFolder());
+            return context.Set<Folder>().Where(folder => folder.AuthorId == authorid).ToArray().Select(folder => folder.ToDalFolder());
         }
     }
 }
