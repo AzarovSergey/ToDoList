@@ -32,7 +32,7 @@ namespace BLL.Services
 
         public RoleEntity GetByRoleName(string roleName)
         {
-            throw new NotImplementedException();
+            return roleRepository.GetAll().FirstOrDefault(role => role.Name == roleName)?.ToBllRole();
         }
     }
 }

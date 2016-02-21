@@ -4,22 +4,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ORM
 {
-    [Table("Role")]
-    public partial class Role
+    [Table("ToDoList")]
+    public partial class ToDoList
     {
-        public Role()
+        public ToDoList()
         {
-            Users = new List<User>();
+            Items = new List<Item>();
         }
 
-
         [Key]
-        public int Id { get; set; }
+        public int Id { get; set;}
 
         [Required]
-        [MaxLength(16)]
+        [StringLength(100)]
         public string Name { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Item> Items { get; set; }
     }
 }

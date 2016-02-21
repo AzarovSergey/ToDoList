@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using MvcPL.ViewModels;
 using System.Web.Security;
 using BLL.Interface.Services;
+using MvcPL.Providers;
 
 namespace MvcPL.Controllers
 {
@@ -39,7 +40,6 @@ namespace MvcPL.Controllers
                 if (Membership.ValidateUser(viewModel.Email, viewModel.Password))
                 {
                     FormsAuthentication.SetAuthCookie(viewModel.Email, true/*remember user*/);
-                    //TempData["user"] = userService.GetByEmail(viewModel.Email).ToPlUser();
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -56,6 +56,43 @@ namespace MvcPL.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Register(Register viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = userService.GetByEmail(viewModel.Email);
+                if (user != null)
+                {
+                    ModelState.AddModelError("", "User with this address already registered.");
+                    return View(viewModel);
+                }
+                var membershipUser = ((CustomMembershipProvider)Membership.Provider)
+                    .CreateUser(viewModel.Email, viewModel.Password, viewModel.Name);
+                if (membershipUser != null)
+                {
+                    FormsAuthentication.SetAuthCookie(viewModel.Email, true);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Error registration.");
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+
+
 
         [HttpGet]
         public ActionResult UserAccount()

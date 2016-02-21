@@ -1,0 +1,59 @@
+﻿#left{
+    width:300px;
+}
+
+#top-left{
+    color:white;
+    background-color:#5b7a59;
+    padding:12px;
+    padding:0;
+}
+
+.input-search{
+    background-color:inherit;
+    padding:20px;
+    width:160px;
+    border:hidden;
+    margin:0;
+}
+input{
+    outline: none;
+}
+
+#search-button,#menu-button,
+#activities-button,
+#user-info-button{
+    padding:20px;
+    background-color:inherit;
+    cursor:pointer;
+}
+
+#activities-button{
+    float:right;
+    padding-bottom:0;
+}
+
+#user-info-button{
+    margin:0;
+    padding:0;
+}
+
+.right-side{
+    float:right;
+    margin:12px;
+    /*margin-right:-40px;*/
+}
+.missed{
+    background-color:#FCC;
+    border-radius:20px;
+    padding:4px;
+    color:red;
+    font-size:0.7em;
+}
+.total{
+    font-size:0.7em;
+}
+
+span{
+    vertical-align:super;
+}

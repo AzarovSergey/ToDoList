@@ -34,7 +34,7 @@ namespace ORM
         public string Password { get; set; }
 
         [Required]
-        public bool EmailNotification { get; set; }
+        public bool IsEmailNotification { get; set; }
 
         [Required]
         public int RoleId { get; set; }

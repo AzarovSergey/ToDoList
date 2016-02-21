@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using MvcPL.Infrastructure;
+using System.Web.Http;
+using CustomAuth;
 
 namespace MvcPL
 {
@@ -17,6 +19,7 @@ namespace MvcPL
         //один раз за время жизни домена приложения не для каждого экземпляра HttpApplication.
         protected void Application_Start()
         {
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

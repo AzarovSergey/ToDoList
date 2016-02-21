@@ -11,17 +11,18 @@ using DAL.Mappers;
 
 namespace DAL.Concrete
 {
-    public class RoleRepository : IRoleRepository
+    public class FolderRepository : IFolderRepository
     {
         private readonly DbContext context;
-        public RoleRepository(DbContext dbContext)
+
+        public FolderRepository(DbContext dbContext)
         {
             this.context = dbContext;
         }
 
-        public IEnumerable<DalRole> GetAll()
+        public IEnumerable<DalFolder> GetByAuthorId(int authorid)
         {
-            return context.Set<Role>().ToArray().Select(role=>role.ToDalRole());
+            return context.Set<Folder>().Where(folder => folder.AuthorId == authorid).ToArray().Select(folder => folder.ToDalFolder());
         }
     }
 }
