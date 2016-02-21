@@ -12,6 +12,7 @@ namespace ORM
             Users = new List<User>();
         }
 
+
         [Key]
         public int Id { get; set; }
 
