@@ -34,22 +34,22 @@ namespace CustomAuth.Controllers.API
         [HttpGet]
         public JsonResult/*<IEnumerable<FolderModel>>*/ GetFillFolders()
         {
-            return Json
-                (new FolderModel()
-                {
-                    Name ="f1",
-                    OrderIndex =3,
-                    ToDoLists =
-                        new ToDoListModel[]
-                        {
-                        new ToDoListModel
-                            {
-                                Name ="tl1",OrderIndex=2,
-                                Items =new ItemModel[] { new ItemModel() {Name="ii1" },new ItemModel {Name="ii2" } }
-                            }
-                        }
-                },
-                JsonRequestBehavior.AllowGet);
+            //return Json
+            //    (new FolderModel()
+            //    {
+            //        Name ="f1",
+            //        OrderIndex =3,
+            //        ToDoLists =
+            //            new ToDoListModel[]
+            //            {
+            //            new ToDoListModel
+            //                {
+            //                    Name ="tl1",OrderIndex=2,
+            //                    Items =new ItemModel[] { new ItemModel() {Name="ii1" },new ItemModel {Name="ii2" } }
+            //                }
+            //            }
+            //    },
+            //    JsonRequestBehavior.AllowGet);
             var user = userService.GetByEmail(User.Identity.Name);
             FolderEntity[] folders = folderService.GetByAuthorId(user.Id).ToArray();
             FolderModel[] folderModels=new FolderModel[folders.Count()];
@@ -65,7 +65,7 @@ namespace CustomAuth.Controllers.API
                 }
                 folderModels[i].ToDoLists = toDoListModels;
             }
-            return Json(folderModels/* as IEnumerable<FolderModel>*/);
+            return Json(folderModels, JsonRequestBehavior.AllowGet);
         }
 
     }

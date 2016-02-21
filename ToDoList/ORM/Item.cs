@@ -25,7 +25,7 @@ namespace ORM
         public string Name { get; set; }
 
         [Required]
-        [ForeignKey("ToDoList")]
+        //[ForeignKey("ToDoList")]
         public int ToDoListId { get; set;}
 
         [Required]
@@ -38,7 +38,7 @@ namespace ORM
         public System.DateTime СompletionDateTime { get; set; }
 
         [Required]
-        [ForeignKey("RepeatKind")]
+       // [ForeignKey("RepeatKind")]
         public int RepeatKindId { get; set;}
 
         [Required]
@@ -51,7 +51,7 @@ namespace ORM
         public int OrderIndex { get; set;}
 
         [Required]
-        [ForeignKey("User")]
+       // [ForeignKey("User")]
         public int ExecutorId { get; set;}
 
         [Required]

@@ -20,7 +20,7 @@ namespace ORM
         public string Name { get; set; }
 
         [Required]
-        [ForeignKey("User")]
+        //[ForeignKey("User")]
         public int AuthorId { get; set; }
 
         [Required]

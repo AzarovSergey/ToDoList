@@ -16,11 +16,11 @@ namespace ORM
         public int Id { get; set; }
 
         [Required]
-        [ForeignKey("ToDoList")]
+       // [ForeignKey("ToDoList")]
         public int ToDoListId { get; set; }
 
         [Required]
-        [ForeignKey("Folder")]
+        //[ForeignKey("Folder")]
         public int FolderId { get; set; }
 
         [Required]
