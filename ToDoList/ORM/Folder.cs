@@ -27,5 +27,6 @@ namespace ORM
         public int OrderIndex { get; set; }
 
         public virtual ICollection<ToDoList> ToDoLists { get; set; }
+        public virtual User Author { get; set; }
     }
 }

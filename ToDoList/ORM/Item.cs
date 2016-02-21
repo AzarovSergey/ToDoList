@@ -60,5 +60,7 @@ namespace ORM
 
         [Required]
         public bool IsCompleted { get; set;}
+
+        public virtual ToDoList Container { get; set; }
     }
 }
