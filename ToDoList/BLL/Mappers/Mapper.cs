@@ -26,7 +26,7 @@ namespace BLL.Mappers
             return new DalUser()
             {
                 Email = user.Email,
-                EmailNotification = user.EmailNotification,
+                IsEmailNotification = user.IsEmailNotification,
                 Id = user.Id,
                 Name = user.Name,
                 Password = user.Password,
@@ -42,7 +42,7 @@ namespace BLL.Mappers
             return new UserEntity()
             {
                 Email = user.Email,
-                EmailNotification = user.EmailNotification,
+                IsEmailNotification = user.IsEmailNotification,
                 Id = user.Id,
                 Name = user.Name,
                 Password = user.Password,

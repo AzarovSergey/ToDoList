@@ -27,7 +27,7 @@ namespace DAL.Mappers
             return new User()
             {
                 Email = user.Email,
-                EmailNotification = user.EmailNotification,
+                IsEmailNotification = user.IsEmailNotification,
                 Id = user.Id,
                 Name = user.Name,
                 Password = user.Password,
@@ -43,7 +43,7 @@ namespace DAL.Mappers
             return new DalUser()
             {
                 Email = user.Email,
-                EmailNotification = user.EmailNotification,
+                IsEmailNotification = user.IsEmailNotification,
                 Id = user.Id,
                 Name = user.Name,
                 Password = user.Password,
@@ -63,6 +63,53 @@ namespace DAL.Mappers
             {
                 Id = role.Id,
                 Name = role.Name,
+            };
+        }
+
+        public static DalFolder ToDalFolder(this Folder folder)
+        {
+            if (folder == null)
+                throw new ArgumentNullException(nameof(folder));
+            return new DalFolder()
+            {
+                Id = folder.Id,
+                Name = folder.Name,
+                AuthorId = folder.AuthorId,
+                OrderIndex = folder.OrderIndex
+                
+            };
+        }
+
+        public static DalToDoList ToDalToDoList(this ToDoList todolist)
+        {
+            if (todolist == null)
+                throw new ArgumentNullException(nameof(todolist));
+            return new DalToDoList()
+            {
+                Id = todolist.Id,
+                Name = todolist.Name      
+            };
+        }
+
+        public static DalItem ToDalItem(this Item item)
+        {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+            return new DalItem()
+            {
+                Id = item.Id,
+                Name = item.Name,
+                ToDoListId = item.ToDoListId,
+                CreationDateTime = item.CreationDateTime,
+                RemindDateTime = item.RemindDateTime,
+                СompletionDateTime = item.СompletionDateTime,
+                RepeatKindId = item.RepeatKindId,
+                Interval = item.Interval,
+                IsStarred = item.IsStarred,
+                OrderIndex = item.OrderIndex,
+                ExecutorId = item.ExecutorId,
+                Description = item.Description,
+                IsCompleted = item.IsCompleted
             };
         }
     }
