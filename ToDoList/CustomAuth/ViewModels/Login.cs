@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace CustomAuth.ViewModels
+namespace MvcPL.ViewModels
 {
     public class Login
     {

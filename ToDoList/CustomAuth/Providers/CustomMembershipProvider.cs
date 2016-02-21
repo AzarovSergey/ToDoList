@@ -3,78 +3,65 @@ using System.Linq;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
-//using BLL.Interface.Services;
-//using BLL.Interface.Entities;
-
-
-    //////////////////////////////////////////////////////// ВЕСЬ ЗАКОММЕНТИРОВАННЫЙ КОД ЗДЕСЬ РАБОТАЮЩИЙ
+using BLL.Interface.Services;
+using BLL.Interface.Entities;
 
 namespace MvcPL.Providers
 {
     public class CustomMembershipProvider : MembershipProvider
     {
-        // private IUserService userService = (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
+        private IUserService userService = (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
 
-        // private IRoleService roleService = (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
+        private IRoleService roleService = (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
 
 
-        //public MembershipUser CreateUser(string login, string password,string userName)
-        //{
-        //    MembershipUser membershipUser = GetUser(login, false);
+        public MembershipUser CreateUser(string email, string password, string userName)
+        {
+            MembershipUser membershipUser = GetUser(email, false);
 
-        //    if (membershipUser != null)
-        //    {
-        //        return null;
-        //    }
+            if (membershipUser != null)
+            {
+                return null;
+            }
 
-        //    var user = new UserEntity
-        //    {
-        //        Login = login,
-        //        Password = password,
-        //        Ban = false,
-        //        UserName = userName,
-        //    };
+            var user = new UserEntity
+            {
+                Email = email,
+                Password = password,
+                Name = userName,
+            };
 
-        //    user.RoleId = roleService.GetByRoleName("User").Id;
+            user.RoleId = roleService.GetByRoleName("User").Id;
 
-        //    userService.CreateUser(user);
-        //    membershipUser = GetUser(login, false);
-        //    return membershipUser;
-        //}
+            userService.Create(user);
+            membershipUser = GetUser(email, false);
+            return membershipUser;
+        }
 
         public override bool ValidateUser(string email, string password)
         {
-            //var user = userService.GetByLogin(email);
+            var user = userService.GetByEmail(email);
 
-            //if (user != null && user.Password == password)
-            //{//TODO rewrite here
-            //    return true;
-            //}
-            //return false;
-
-
-
-            ///Код здесь работает
-            throw new NotImplementedException();
+            if (user != null && user.Password == password)
+            {//TODO rewrite here
+                return true;
+            }
+            return false;
         }
 
         public override MembershipUser GetUser(string email, bool userIsOnline)
         {
-            //var user = userService.GetByLogin(email);
+            var user = userService.GetByEmail(email);
 
-            //if (user == null) return null;
+            if (user == null) return null;
 
-            //var memberUser = new MembershipUser("CustomMembershipProvider", user.Login,
-            //    null, null, null, null,
-            //    false, false, DateTime.Now,
-            //    DateTime.MinValue, DateTime.MinValue,
-            //    DateTime.MinValue, DateTime.MinValue);
+            var memberUser = new MembershipUser("CustomMembershipProvider", user.Email,
+                null, null, null, null,
+                false, false, DateTime.Now,
+                DateTime.MinValue, DateTime.MinValue,
+                DateTime.MinValue, DateTime.MinValue);
 
-            //return memberUser;
-
-
-            ///Код здесь работает
-            throw new NotImplementedException();
+            return memberUser;
         }
 
         #region Stabs
