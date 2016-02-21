@@ -11,7 +11,7 @@ using MvcPL.Models;
 using BLL.Interface.Entities;
 using MvcPL.Mapper;
 
-namespace CustomAuth.Controllers.API
+namespace MvcPL.Controllers.API
 {
     [Authorize]
     public class FolderController : Controller//ApiController
