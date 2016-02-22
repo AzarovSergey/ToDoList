@@ -52,8 +52,13 @@ namespace ORM
                 User u3 = new User() { Name = "User 3", Role = roleUser, Password = "p3", Email = "u3@m.c" };
 
                 //RepeatKind kind1 = new RepeatKind() { Name = "Kind 1" };
-                Folder folder1 = new Folder() { Name = "Folder 1", Author = u1, OrderIndex = 1 };
-                Folder folder2 = new Folder() { Name = "Folder 2", Author = u3, OrderIndex = 2 };
+                Folder[] folders = new Folder[] {
+                    new Folder() { Name = "Folder 1", Author = u1, OrderIndex = 1 },
+                    new Folder() { Name = "Folder 2", Author = u1, OrderIndex = 1 },
+                    new Folder() { Name = "Folder 3", Author = u1, OrderIndex = 1 },
+                    new Folder() { Name = "Folder 4", Author = u1, OrderIndex = 1 },
+                    new Folder() { Name = "Folder u3", Author = u3, OrderIndex = 2 },
+                };
                 //ToDoList list1 = new ToDoList() { Name = "List 1" };
                 //ToDoList list2 = new ToDoList() { Name = "List 2" };
                 //ToDoListFolder lf1 = new ToDoListFolder() { ToDoListId = list1.Id, FolderId = folder1.Id, IndexInFolder = 1 };
@@ -67,8 +72,10 @@ namespace ORM
                 context.Users.Add(u2);
                 context.Users.Add(u3);
                // context.RepeatKinds.Add(kind1);
-                context.Folders.Add(folder1);
-                context.Folders.Add(folder2);
+                foreach(Folder folder in folders)
+                {
+                    context.Folders.Add(folder);
+                }
                 //context.ToDoLists.Add(list1);
                 //context.ToDoLists.Add(list2);
                 //context.Items.Add(i1);
