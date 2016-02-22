@@ -32,6 +32,7 @@ namespace MvcPL.Controllers.API
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public JsonResult/*<IEnumerable<FolderModel>>*/ GetFillFolders()
         {
             //return Json
@@ -50,6 +51,10 @@ namespace MvcPL.Controllers.API
             //            }
             //    },
             //    JsonRequestBehavior.AllowGet);
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new { redirect="/account/login/" },JsonRequestBehavior.AllowGet);
+            }
             var user = userService.GetByEmail(User.Identity.Name);
             FolderEntity[] folders = folderService.GetByAuthorId(user.Id).ToArray();
             FolderModel[] folderModels=new FolderModel[folders.Count()];

@@ -1,6 +1,9 @@
 ﻿#left{
     width:300px;
 }
+#left-container{
+    overflow:hidden;
+}
 
 #top-left{
     color:white;
@@ -20,7 +23,7 @@ input{
     outline: none;
 }
 
-#search-button,#menu-button,
+#search-button,#menu-toggle-button,
 #activities-button,
 #user-info-button{
     padding:20px;
@@ -56,4 +59,52 @@ input{
 
 span{
     vertical-align:super;
+}
+
+#background-container{
+    background-image: url("Images/bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index:-999;
+}
+
+#folder-menu{
+    background-color:white;
+    height:100vh;
+}
+
+body{
+    overflow:hidden;
+}
+
+#user-info{
+    margin-left:20px;
+    position:fixed;
+    background-color:white;
+    width:200px;
+    border:solid 1px;
+    border-color:lightgray
+     /*box-shadow:
+       0 0 0 1px rgba(237, 237, 237, 0.8),
+       0 0 0 2px rgba(243, 243, 243, 0.6);*/
+}
+
+.user-info-item{
+    padding:10px;
+    padding-left:30px;
+}
+
+.user-info-item:hover{
+    background-color:#328ad6;
+    color:white;
+}
+
+.folder-title{
+    margin-left:20px;
 }
