@@ -40,10 +40,11 @@
                     <div class="user-info-item">btn1</div>
                     <div class="user-info-item">button 2</div>
                     <div class="user-info-item">3</div>
+                    <div class="user-info-item"><a href="/account/logout/">logout</a></div>
                 </div>
 
                 <div id="folder-container">
-                    <div class="folder">
+                    @*<div class="folder">
                         <span class="left-side">
                             <img src="~/Content/Images/logo.png" width="40" height="40" />
                             <span class="folder-title">Folder name</span>
@@ -76,11 +77,44 @@
                             <span class="missed">3</span>
                             <span class="total">6</span>
                         </span>
-                    </div>
+                    </div>*@
                 </div>
 
 
             </div>
+        </div> @*left*@
+    </div>
+
+    <div id="center">
+        <div id="top-line">
+            folder name here
+        </div>
+        <div id="add-item">
+            <span class="fa fa-plus" id="add-item-icon"></span>
+            <input type="text" @*id="add-item-input"*@ />
+        </div>
+        <div id="active-item-container">
+
+            <div class="task">
+                <span class="checkbox-item"></span>
+                <span>item 1</span>
+            </div>
+
+            <div class="task">
+                <span class="checkbox-item"></span>
+                <span>item 2</span>
+            </div>
+
+            <div class="task">
+                <span class="checkbox-item"></span>
+                <span>item 3</span>
+            </div>
+
+            <div class="task">
+                <span class="checkbox-item"></span>
+                <span>item 4</span>
+            </div>
+
         </div>
     </div>
     <script>
@@ -95,16 +129,25 @@
         $('#menu-toggle-button').click(function () {
             if (isLeftHide) {
                 $('#left-container').css('width', '300px');
+                $('#center').css('left', '300px');
             } else {
                 $('#left-container').css('width', '50px');
+                $('#center').css('left', '50px');
             }
             isLeftHide ^= true;
         });
 
-        setInterval(DataRefresher, 5000);
-        function DataRefresher() {
+        (function AjaxInitializator(){
+            var interval=5000;
+            setInterval(FoldersRefresher, interval);
+            setInterval(ToDoListRefresher, interval);
+        })();
+        FoldersRefresher();
+        ToDoListRefresher();
+
+        function FoldersRefresher() {
             $.ajax({
-                url: "/folder/GetFillFolders/",
+                url: "/folder/GetFolders/",
                 success: function (result) {
                     if (result.redirect != undefined)
                         location.href = result.redirect;
@@ -124,8 +167,12 @@
                             </span>'
                         );
                         folder.click(function () {
-                            folders.children().css('background-color', 'white');
-                            $(this).css('background-color', '#e0eefa');
+                            folders.children()
+                                .css('background-color', 'white')
+                                .removeAttr('data-selected-folder');
+                            $(this)
+                                .css('background-color', '#e0eefa')
+                                .attr('data-selected-folder','selected');
                         });
                         folders.append(folder);
                         //alert(item);
@@ -133,11 +180,25 @@
                     
                 },
                 error: function (result) {
-                    //alert("error");
+                    alert("error at FoldersRefresher");
                 }
             });
         };
-        DataRefresher();
+
+        function ToDoListRefresher() {
+            if (isNaN(selectedFolderIndex))
+                return;
+            var folderId = $('[data-selected-folder]').attr('data-server-id');
+            $.ajax({
+                url: '/todolist/GetByFolderId/' + folderId,
+                success: function (result) {
+                    alert(result);
+                },
+                error: function (result) {
+                    alert("error at ToDoListRefresher");
+                }
+            });
+        };
     </script>
 </body>
 </html>

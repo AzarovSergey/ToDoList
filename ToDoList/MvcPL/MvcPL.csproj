@@ -147,6 +147,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\JsonHelper.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -154,6 +155,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FolderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\ToDoListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -222,9 +225,10 @@
     <Content Include="Views\Home\AppView.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\API\" />
+    <Folder Include="Views\Item\" />
+    <Folder Include="Views\ToDoList\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -238,10 +242,6 @@
     <ProjectReference Include="..\BLL.Interface\BLL.Interface.csproj">
       <Project>{300f44d8-00eb-4131-bdf7-53590ca1b47a}</Project>
       <Name>BLL.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BLL\BLL.csproj">
-      <Project>{0c65136a-2bb2-40d4-abbd-5f13e25c0597}</Project>
-      <Name>BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\DependencyResolver\DependencyResolver.csproj">
       <Project>{ac2b34c7-0710-4cac-b6e8-a97860809c8c}</Project>

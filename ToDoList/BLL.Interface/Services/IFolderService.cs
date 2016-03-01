@@ -11,5 +11,6 @@ namespace BLL.Interface.Services
     {
         void Create(FolderEntity folder);
         IEnumerable<FolderEntity> GetByAuthorId(int authorId);
+        FolderEntity GetById(int id);
     }
 }

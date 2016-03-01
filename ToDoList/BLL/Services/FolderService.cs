@@ -30,5 +30,11 @@ namespace BLL.Services
         {
             return folderRepository.GetByAuthorId(authorId).Select(folder => folder.ToBllFolder());
         }
+
+        public FolderEntity GetById(int id)
+        {
+            return null;
+            //return folderRepository.GetById(id);
+        }
     }
 }

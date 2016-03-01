@@ -33,8 +33,22 @@ namespace MvcPL.Controllers.API
 
         [HttpGet]
         [AllowAnonymous]
+        public JsonResult GetFolders()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new { redirect = "/account/login/" }, JsonRequestBehavior.AllowGet);
+            }
+            var user = userService.GetByEmail(User.Identity.Name);
+            FolderModel[] folders = folderService.GetByAuthorId(user.Id).Select(folder=>folder.ToFolderModel()).ToArray();
+            return Json(folders, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
         public JsonResult/*<IEnumerable<FolderModel>>*/ GetFillFolders()
         {
+            throw new NotImplementedException();
             //return Json
             //    (new FolderModel()
             //    {
@@ -53,7 +67,7 @@ namespace MvcPL.Controllers.API
             //    JsonRequestBehavior.AllowGet);
             if (!User.Identity.IsAuthenticated)
             {
-                return Json(new { redirect="/account/login/" },JsonRequestBehavior.AllowGet);
+                return Json(new { redirect = "/account/login/" }, JsonRequestBehavior.AllowGet);
             }
             var user = userService.GetByEmail(User.Identity.Name);
             FolderEntity[] folders = folderService.GetByAuthorId(user.Id).ToArray();

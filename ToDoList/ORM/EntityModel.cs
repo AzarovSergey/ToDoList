@@ -53,9 +53,9 @@ namespace ORM
 
                 //RepeatKind kind1 = new RepeatKind() { Name = "Kind 1" };
                 Folder[] folders = new Folder[] {
-                    new Folder() { Name = "Folder 1", Author = u1, OrderIndex = 1 },
-                    new Folder() { Name = "Folder 2", Author = u1, OrderIndex = 1 },
-                    new Folder() { Name = "Folder 3", Author = u1, OrderIndex = 1 },
+                    new Folder() { Name = "Folder 1", Author = u1, OrderIndex = 4 },
+                    new Folder() { Name = "Folder 2", Author = u1, OrderIndex = 3 },
+                    new Folder() { Name = "Folder 3", Author = u1, OrderIndex = 2 },
                     new Folder() { Name = "Folder 4", Author = u1, OrderIndex = 1 },
                     new Folder() { Name = "Folder u3", Author = u3, OrderIndex = 2 },
                 };

@@ -9,7 +9,7 @@ namespace ORM
     {
         public Role()
         {
-            Users = new List<User>();
+          //  Users = new List<User>();
         }
 
 
@@ -20,6 +20,6 @@ namespace ORM
         [MaxLength(16)]
         public string Name { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        //public virtual ICollection<User> Users { get; set; }
     }
 }

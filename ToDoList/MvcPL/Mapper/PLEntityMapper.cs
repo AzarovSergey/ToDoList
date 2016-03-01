@@ -42,5 +42,16 @@ namespace MvcPL.Mapper
                 RepeatKindId = item.RepeatKindId,
             };
         }
+
+        public static ToDoListModel ToToDoListModel(this ToDoListEntity list)
+        {
+            if (list == null)
+                throw new ArgumentNullException(nameof(list));
+            return new ToDoListModel()
+            {
+                Items = null,
+                Name = list.Name,
+            };
+        }
     }
 }
