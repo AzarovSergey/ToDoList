@@ -1,21 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORM", "ORM\ORM.csproj", "{2D9861F9-632B-400C-B039-2A209D297264}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.Wunderlist.Web", "Epam.Wunderlist.Web\Epam.Wunderlist.Web.csproj", "{37BF85A2-2776-4484-8FF2-8CF8DD8A54C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcPL", "MvcPL\MvcPL.csproj", "{37BF85A2-2776-4484-8FF2-8CF8DD8A54C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.Wunderlist.DataAccess.Interfaces", "Epam.Wunderlist.DataAccess.Interfaces\Epam.Wunderlist.DataAccess.Interfaces.csproj", "{DE27FEF5-D072-4B48-9E47-163974CB6274}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyResolver", "DependencyResolver\DependencyResolver.csproj", "{BB1E3275-1E69-4CBA-8E21-2E8138AECF67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.Wunderlist.DataAccess.MsSql", "Epam.Wunderlist.DataAccess.MsSql\Epam.Wunderlist.DataAccess.MsSql.csproj", "{84E02921-7323-42F9-A552-91C02858D4DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{0C65136A-2BB2-40D4-ABBD-5F13E25C0597}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.Wunderlist.DependencyResolver", "Epam.Wunderlist.DependencyResolver\Epam.Wunderlist.DependencyResolver.csproj", "{BB1E3275-1E69-4CBA-8E21-2E8138AECF67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL.Interface", "BLL.Interface\BLL.Interface.csproj", "{CC5626CB-EC04-440F-83BB-C3A74BBE38BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.Wunderlist.Orm", "Epam.Wunderlist.Orm\Epam.Wunderlist.Orm.csproj", "{2D9861F9-632B-400C-B039-2A209D297264}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{84E02921-7323-42F9-A552-91C02858D4DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.Wunderlist.Services", "Epam.Wunderlist.Services\Epam.Wunderlist.Services.csproj", "{0C65136A-2BB2-40D4-ABBD-5F13E25C0597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL.Interface", "DAL.Interface\DAL.Interface.csproj", "{DE27FEF5-D072-4B48-9E47-163974CB6274}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam.Wunderlist.Services.Interface", "Epam.Wunderlist.Services.Interface\Epam.Wunderlist.Services.Interface.csproj", "{CC5626CB-EC04-440F-83BB-C3A74BBE38BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,18 +23,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2D9861F9-632B-400C-B039-2A209D297264}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D9861F9-632B-400C-B039-2A209D297264}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D9861F9-632B-400C-B039-2A209D297264}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D9861F9-632B-400C-B039-2A209D297264}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37BF85A2-2776-4484-8FF2-8CF8DD8A54C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37BF85A2-2776-4484-8FF2-8CF8DD8A54C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37BF85A2-2776-4484-8FF2-8CF8DD8A54C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37BF85A2-2776-4484-8FF2-8CF8DD8A54C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE27FEF5-D072-4B48-9E47-163974CB6274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE27FEF5-D072-4B48-9E47-163974CB6274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE27FEF5-D072-4B48-9E47-163974CB6274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE27FEF5-D072-4B48-9E47-163974CB6274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84E02921-7323-42F9-A552-91C02858D4DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84E02921-7323-42F9-A552-91C02858D4DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84E02921-7323-42F9-A552-91C02858D4DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84E02921-7323-42F9-A552-91C02858D4DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BB1E3275-1E69-4CBA-8E21-2E8138AECF67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BB1E3275-1E69-4CBA-8E21-2E8138AECF67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB1E3275-1E69-4CBA-8E21-2E8138AECF67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB1E3275-1E69-4CBA-8E21-2E8138AECF67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D9861F9-632B-400C-B039-2A209D297264}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D9861F9-632B-400C-B039-2A209D297264}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D9861F9-632B-400C-B039-2A209D297264}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D9861F9-632B-400C-B039-2A209D297264}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0C65136A-2BB2-40D4-ABBD-5F13E25C0597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0C65136A-2BB2-40D4-ABBD-5F13E25C0597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C65136A-2BB2-40D4-ABBD-5F13E25C0597}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,14 +51,6 @@ Global
 		{CC5626CB-EC04-440F-83BB-C3A74BBE38BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC5626CB-EC04-440F-83BB-C3A74BBE38BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC5626CB-EC04-440F-83BB-C3A74BBE38BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84E02921-7323-42F9-A552-91C02858D4DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84E02921-7323-42F9-A552-91C02858D4DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84E02921-7323-42F9-A552-91C02858D4DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84E02921-7323-42F9-A552-91C02858D4DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE27FEF5-D072-4B48-9E47-163974CB6274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE27FEF5-D072-4B48-9E47-163974CB6274}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE27FEF5-D072-4B48-9E47-163974CB6274}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE27FEF5-D072-4B48-9E47-163974CB6274}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

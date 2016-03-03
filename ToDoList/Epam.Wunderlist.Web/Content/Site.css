@@ -1,0 +1,172 @@
+﻿#left{
+    width:300px;
+}
+#left-container{
+    overflow:hidden;
+}
+
+#top-left{
+    color:white;
+    background-color:#5b7a59;
+    padding:12px;
+    padding:0;
+}
+
+.input-search{
+    background-color:inherit;
+    padding:20px;
+    width:160px;
+    border:hidden;
+    margin:0;
+}
+input{
+    outline: none;
+}
+
+#search-button,#menu-toggle-button,
+#activities-button,
+#user-info-button
+{
+    padding:20px;
+    background-color:inherit;
+    cursor:pointer;
+}
+
+#activities-button{
+    float:right;
+    padding-bottom:0;
+}
+
+#user-info-button{
+    margin:0;
+    padding:0;
+}
+
+.right-side{
+    float:right;
+    margin:12px;
+    /*margin-right:-40px;*/
+}
+.missed{
+    background-color:#FCC;
+    border-radius:20px;
+    padding:4px;
+    color:red;
+    font-size:0.7em;
+}
+.total{
+    font-size:0.7em;
+}
+
+span{
+    vertical-align:super;
+}
+
+#background-container{
+    background-image: url("Images/bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index:-999;
+}
+
+#folder-menu{
+    background-color:white;
+    height:100vh;
+}
+
+body{
+    overflow:hidden;
+}
+
+#user-info{
+    margin-left:20px;
+    position:fixed;
+    background-color:white;
+    width:200px;
+    border:solid 1px;
+    border-color:lightgray
+     /*box-shadow:
+       0 0 0 1px rgba(237, 237, 237, 0.8),
+       0 0 0 2px rgba(243, 243, 243, 0.6);*/
+}
+
+.user-info-item{
+    padding:10px;
+    padding-left:30px;
+}
+
+.user-info-item>*{
+    color:black;
+
+}
+
+.user-info-item:hover,
+.user-info-item:hover>*{
+    background-color:#328ad6;
+    color:white;
+}
+
+.folder-title{
+    margin-left:20px;
+}
+
+#center{
+    position:fixed;
+    top:0;
+    left:300px;
+    width:400px;
+    /*remove width*/
+}
+
+#top-line{
+    background-color:#668964;
+    width:100%;
+    padding:8px;
+    color:white;
+}
+
+#add-item{
+    background-color:#749273;
+    margin:16px;
+    border-radius:4px;
+    color:#c1d2c6;
+}
+#add-item>[type=text]{
+    /*padding:16px;*/
+    background-color:#729173;
+    /*border:none;*/
+}
+
+#add-item-icon{
+    padding:24px;
+}
+
+#active-item-container{
+    margin:16px;
+}
+
+.task{
+    background-color:white;
+    margin:1px;
+    padding:12px;
+    padding-top:16px;
+    border-radius:4px;
+}
+.task>[type=checkbox]{
+    background-color:white;
+}
+
+.checkbox-item{
+    width:16px;
+    height:16px;
+    border:solid 1px;
+    border-color:#ccc;
+    border-radius:2px;
+    display:inline-block;
+}

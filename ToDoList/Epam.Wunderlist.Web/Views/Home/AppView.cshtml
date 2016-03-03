@@ -1,0 +1,204 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AppView</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/reset.css" rel="stylesheet" />
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet"/>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/Site.js"></script>
+</head>
+<body>
+    <div id="background-container"></div>
+    <div id="left-container">
+        <div id="left">
+            <div id="top-left">
+                <span id="menu-toggle-button" class="fa fa-bars glyph-button"></span>
+                <input type="text" class="input-search" />
+                <span id="search-button" class="fa fa-search"></span>
+            </div>
+            <div id="folder-menu">
+                <div>
+                    <span id="user-info-button">
+                        <img src="~/Content/Images/logo.png" width="40" height="40" />
+                        <span id="username" class="folder-title">Sergey</span>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </span>
+                    <span id="activities-button" class="fa fa-bell-o"></span>
+                </div>
+
+                <div id="user-info">
+                    <div class="user-info-item">btn1</div>
+                    <div class="user-info-item">button 2</div>
+                    <div class="user-info-item">3</div>
+                    <div class="user-info-item"><a href="/account/logout/">logout</a></div>
+                </div>
+
+                <div id="folder-container">
+                    @*<div class="folder">
+                        <span class="left-side">
+                            <img src="~/Content/Images/logo.png" width="40" height="40" />
+                            <span class="folder-title">Folder name</span>
+                        </span>
+                        <span class="right-side">
+                            <span class="missed">3</span>
+                            <span class="total">6</span>
+                        </span>
+                    </div>
+
+
+
+                    <div class="folder">
+                        <span class="left-side">
+                            <img src="~/Content/Images/logo.png" width="40" height="40" />
+                            <span class="folder-title">Folder with items</span>
+                        </span>
+                        <span class="right-side">
+                            <span class="missed">3</span>
+                            <span class="total">6</span>
+                        </span>
+                    </div>
+
+                    <div class="folder">
+                        <span class="left-side">
+                            <img src="~/Content/Images/logo.png" width="40" height="40" />
+                            <span class="folder-title">Folder name</span>
+                        </span>
+                        <span class="right-side">
+                            <span class="missed">3</span>
+                            <span class="total">6</span>
+                        </span>
+                    </div>*@
+                </div>
+
+
+            </div>
+        </div> @*left*@
+    </div>
+
+    <div id="center">
+        <div id="top-line">
+            folder name here
+        </div>
+        <div id="add-item">
+            <span class="fa fa-plus" id="add-item-icon"></span>
+            <input type="text" @*id="add-item-input"*@ />
+        </div>
+        <div id="active-item-container">
+
+            <div class="task">
+                <span class="checkbox-item"></span>
+                <span>item 1</span>
+            </div>
+
+            <div class="task">
+                <span class="checkbox-item"></span>
+                <span>item 2</span>
+            </div>
+
+            <div class="task">
+                <span class="checkbox-item"></span>
+                <span>item 3</span>
+            </div>
+
+            <div class="task">
+                <span class="checkbox-item"></span>
+                <span>item 4</span>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var selectedFolderIndex = NaN;
+
+        $('#user-info').hide();
+        $('#user-info-button').click(function () {
+            $('#user-info').toggle();
+        });
+
+        var isLeftHide = false;
+        $('#menu-toggle-button').click(function () {
+            if (isLeftHide) {
+                $('#left-container').css('width', '300px');
+                $('#center').css('left', '300px');
+            } else {
+                $('#left-container').css('width', '50px');
+                $('#center').css('left', '50px');
+            }
+            isLeftHide ^= true;
+        });
+
+        (function AjaxInitializator(){
+            var interval=5000;
+            setInterval(FoldersRefresher, interval);
+            setInterval(ToDoListRefresher, interval);
+        })();
+        FoldersRefresher();
+        ToDoListRefresher();
+
+        function FoldersRefresher() {
+            $.ajax({
+                url: "/folder/GetFolders/",
+                success: function (result) {
+                    if (result.redirect != undefined)
+                        location.href = result.redirect;
+                    //alert('---'+result+'---');
+                    var folders = $('.folder');
+                    folders.remove();
+                    folders = $('#folder-container');
+                    for (var item in result) {
+                        folder = $('<div></div>').addClass('folder').html(
+                            '<span class="left-side">\
+                                <img src="/Content/Images/logo.png" width="40" height="40" />\
+                                <span class="folder-title">'+result[item].Name+'</span>\
+                            </span>\
+                            <span class="right-side">\
+                                <span class="missed">3</span>\
+                                <span class="total">6</span>\
+                            </span>'
+                        );
+                        folder.click(function () {
+                            folders.children()
+                                .css('background-color', 'white')
+                                .removeAttr('data-selected-folder');
+                            $(this)
+                                .css('background-color', '#e0eefa')
+                                .attr('data-selected-folder','selected');
+                        });
+                        folders.append(folder);
+                        //alert(item);
+                    }
+                    
+                },
+                error: function (result) {
+                    alert("error at FoldersRefresher");
+                }
+            });
+        };
+
+        function ToDoListRefresher() {
+            if (isNaN(selectedFolderIndex))
+                return;
+            var folderId = $('[data-selected-folder]').attr('data-server-id');
+            $.ajax({
+                url: '/todolist/GetByFolderId/' + folderId,
+                success: function (result) {
+                    alert(result);
+                },
+                error: function (result) {
+                    alert("error at ToDoListRefresher");
+                }
+            });
+        };
+    </script>
+</body>
+</html>
