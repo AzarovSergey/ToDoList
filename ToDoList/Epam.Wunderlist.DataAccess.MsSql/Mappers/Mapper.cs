@@ -27,12 +27,10 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Mappers
             return new User()
             {
                 Email = user.Email,
-                IsEmailNotification = user.IsEmailNotification,
                 Id = user.Id,
                 Name = user.Name,
                 Password = user.Password,
                 RoleId = user.RoleId,
-                ThemeId = user.ThemeId,
                 Photo=ToByteArray(user.Photo),
             };
         }
@@ -43,12 +41,10 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Mappers
             return new DalUser()
             {
                 Email = user.Email,
-                IsEmailNotification = user.IsEmailNotification,
                 Id = user.Id,
                 Name = user.Name,
                 Password = user.Password,
                 RoleId = user.RoleId,
-                ThemeId = user.ThemeId,
                 Photo = ConvertFromBytes(user.Photo),
             };
         }
@@ -74,8 +70,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Mappers
             {
                 Id = folder.Id,
                 Name = folder.Name,
-                AuthorId = folder.AuthorId,
-                OrderIndex = folder.OrderIndex
+                UserId = folder.UserId,
                 
             };
         }
@@ -87,7 +82,8 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Mappers
             return new DalToDoList()
             {
                 Id = todolist.Id,
-                Name = todolist.Name      
+                Name = todolist.Name ,
+                FolderId = todolist.FolderId
             };
         }
 
@@ -100,15 +96,11 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Mappers
                 Id = item.Id,
                 Name = item.Name,
                 ToDoListId = item.ToDoListId,
-                CreationDateTime = item.CreationDateTime,
-                RemindDateTime = item.RemindDateTime,
-                CompletionDateTime = item.СompletionDateTime,
-                RepeatKindId = item.RepeatKindId,
-                Interval = item.Interval,
+                DueDateTime = item.DueDateTime,
                 IsStarred = item.IsStarred,
                 OrderIndex = item.OrderIndex,
-                ExecutorId = item.ExecutorId,
-                Description = item.Description,
+                ExecutorId = item.UserId,
+                Note = item.Note,
                 IsCompleted = item.IsCompleted
             };
         }

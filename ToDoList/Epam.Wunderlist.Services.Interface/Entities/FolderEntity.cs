@@ -10,7 +10,7 @@ namespace Epam.Wunderlist.Services.Interface.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int AuthorId { get; set; }
+        public int UserId { get; set; }
         public int OrdreIndex { get; set; }
     }
 }

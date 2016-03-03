@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license AngularJS v1.5.0
  * (c) 2010-2016 Google, Inc. http://angularjs.org
  * License: MIT
@@ -18829,7 +18829,7 @@ var originUrl = urlResolve(window.location.href);
  * @description Normalizes and parses a URL.
  * @returns {object} Returns the normalized URL as a dictionary.
  *
- *   | member name   | Description    |
+ *   | member name   | Note    |
  *   |---------------|----------------|
  *   | href          | A normalized version of the provided URL if it was not an absolute URL |
  *   | protocol      | The protocol including the trailing colon                              |
@@ -19909,7 +19909,7 @@ var DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZEwG']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|
  *    number) or various ISO 8601 datetime string formats (e.g. yyyy-MM-ddTHH:mm:ss.sssZ and its
  *    shorter versions like yyyy-MM-ddTHH:mmZ, yyyy-MM-dd or yyyyMMddTHHmmssZ). If no timezone is
  *    specified in the string input, the time is considered to be in the local timezone.
- * @param {string=} format Formatting rules (see Description). If not specified,
+ * @param {string=} format Formatting rules (see Note). If not specified,
  *    `mediumDate` is used.
  * @param {string=} timezone Timezone to be used for formatting. It understands UTC/GMT and the
  *    continental US time zone abbreviations, but for general use, use a time zone offset, for
@@ -20681,12 +20681,12 @@ var htmlAnchorDirective = valueFn({
  *
  * The buggy way to write it:
  * ```html
- * <img src="http://www.gravatar.com/avatar/{{hash}}" alt="Description"/>
+ * <img src="http://www.gravatar.com/avatar/{{hash}}" alt="Note"/>
  * ```
  *
  * The correct way to write it:
  * ```html
- * <img ng-src="http://www.gravatar.com/avatar/{{hash}}" alt="Description" />
+ * <img ng-src="http://www.gravatar.com/avatar/{{hash}}" alt="Note" />
  * ```
  *
  * @element IMG
@@ -20707,12 +20707,12 @@ var htmlAnchorDirective = valueFn({
  *
  * The buggy way to write it:
  * ```html
- * <img srcset="http://www.gravatar.com/avatar/{{hash}} 2x" alt="Description"/>
+ * <img srcset="http://www.gravatar.com/avatar/{{hash}} 2x" alt="Note"/>
  * ```
  *
  * The correct way to write it:
  * ```html
- * <img ng-srcset="http://www.gravatar.com/avatar/{{hash}} 2x" alt="Description" />
+ * <img ng-srcset="http://www.gravatar.com/avatar/{{hash}} 2x" alt="Note" />
  * ```
  *
  * @element IMG

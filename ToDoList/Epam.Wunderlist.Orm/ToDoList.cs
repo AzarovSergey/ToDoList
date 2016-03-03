@@ -19,6 +19,11 @@ namespace Epam.Wunderlist.Orm
         [StringLength(100)]
         public string Name { get; set; }
 
+        [Required]
+        //[ForeignKey("Folder")]
+        public int FolderId { get; set; }
+
+
         public virtual ICollection<Item> Items { get; set; }
     }
 }

@@ -22,8 +22,6 @@ namespace Epam.Wunderlist.Orm
         public DbSet<Folder> Folders { get; set; }
         public DbSet<ToDoList> ToDoLists { get; set; }
         public DbSet<Item> Items { get; set; }
-        public DbSet<RepeatKind> RepeatKinds { get; set; }
-        public DbSet<ToDoListFolder> ToDoListsFolders { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -53,18 +51,18 @@ namespace Epam.Wunderlist.Orm
 
                 //RepeatKind kind1 = new RepeatKind() { Name = "Kind 1" };
                 Folder[] folders = new Folder[] {
-                    new Folder() { Name = "Folder 1", Author = u1, OrderIndex = 4 },
-                    new Folder() { Name = "Folder 2", Author = u1, OrderIndex = 3 },
-                    new Folder() { Name = "Folder 3", Author = u1, OrderIndex = 2 },
-                    new Folder() { Name = "Folder 4", Author = u1, OrderIndex = 1 },
-                    new Folder() { Name = "Folder u3", Author = u3, OrderIndex = 2 },
+                    new Folder() { Name = "Folder 1", User = u1 },
+                    new Folder() { Name = "Folder 2", User = u1 },
+                    new Folder() { Name = "Folder 3", User = u1 },
+                    new Folder() { Name = "Folder 4", User = u1 },
+                    new Folder() { Name = "Folder u3", User = u3 },
                 };
                 //ToDoList list1 = new ToDoList() { Name = "List 1" };
                 //ToDoList list2 = new ToDoList() { Name = "List 2" };
                 //ToDoListFolder lf1 = new ToDoListFolder() { ToDoListId = list1.Id, FolderId = folder1.Id, IndexInFolder = 1 };
                 //ToDoListFolder lf2 = new ToDoListFolder() { ToDoListId = list2.Id, FolderId = folder2.Id, IndexInFolder = 2 };
-                //Item i1 = new Item() { Name = "Item 1", ToDoListId = list1.Id, ExecutorId = u1.Id, OrderIndex = 1 };
-                //Item i2 = new Item() { Name = "Item 2", ToDoListId = list2.Id, ExecutorId = u2.Id, OrderIndex = 2 };
+                //Item i1 = new Item() { Name = "Item 1", ToDoListId = list1.Id, UserId = u1.Id, OrderIndex = 1 };
+                //Item i2 = new Item() { Name = "Item 2", ToDoListId = list2.Id, UserId = u2.Id, OrderIndex = 2 };
                
                 context.Roles.Add(roleUser);
                 context.Roles.Add(roleAdmin);

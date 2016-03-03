@@ -22,8 +22,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
 
         public IEnumerable<DalToDoList> GetByFolderId(int folderid)
         {
-            var ListsId = context.Set<ToDoListFolder>().Where(x => x.FolderId == folderid).ToArray().Select(x => x.ToDoListId);
-            return context.Set<ToDoList>().Where(todolist => ListsId.Contains(todolist.Id)).ToArray().Select(todolist => todolist.ToDalToDoList());
+            return context.Set<ToDoList>().Where(todolist => todolist.FolderId == folderid).ToArray().Select(todolist => todolist.ToDalToDoList());
         }
     }
 }

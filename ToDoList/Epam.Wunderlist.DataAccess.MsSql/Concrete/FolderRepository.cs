@@ -22,7 +22,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
 
         public IEnumerable<DalFolder> GetByAuthorId(int authorid)
         {
-            return context.Set<Folder>().Where(folder => folder.AuthorId == authorid).ToArray().Select(folder => folder.ToDalFolder());
+            return context.Set<Folder>().Where(folder => folder.UserId == authorid).ToArray().Select(folder => folder.ToDalFolder());
         }
     }
 }

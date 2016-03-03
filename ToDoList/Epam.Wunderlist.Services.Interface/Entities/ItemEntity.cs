@@ -19,7 +19,7 @@ namespace Epam.Wunderlist.Services.Interface.Entities
         public bool IsStarred { get; set; }
         public int OrderIndex { get; set; }
         public int ExecutorId { get; set; }
-        public string Description { get; set; }
+        public string Note { get; set; }
         public bool IsComleted { get; set; }
     }
 }

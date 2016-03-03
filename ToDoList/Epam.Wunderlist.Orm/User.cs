@@ -34,16 +34,8 @@ namespace Epam.Wunderlist.Orm
         public string Password { get; set; }
 
         [Required]
-        public bool IsEmailNotification { get; set; }
-
-        [Required]
         public int RoleId { get; set; }
-
-        [Required]
-        //[ForeignKey("Theme")]
-        public int ThemeId { get; set; }
-        
-        
+              
         public byte[] Photo { get; set; }
 
         public virtual Role Role { get; set; }

@@ -28,20 +28,7 @@ namespace Epam.Wunderlist.Orm
         public int ToDoListId { get; set;}
 
         [Required]
-        public System.DateTime CreationDateTime { get; set; }
-
-        [Required]
-        public System.DateTime RemindDateTime { get; set; }
-
-        [Required]
-        public System.DateTime СompletionDateTime { get; set; }
-
-        [Required]
-       // [ForeignKey("RepeatKind")]
-        public int RepeatKindId { get; set;}
-
-        [Required]
-        public int Interval { get; set;}
+        public System.DateTime DueDateTime { get; set; }
 
         [Required]
         public bool IsStarred { get; set;}
@@ -51,11 +38,11 @@ namespace Epam.Wunderlist.Orm
 
         [Required]
        // [ForeignKey("User")]
-        public int ExecutorId { get; set;}
+        public int UserId { get; set;}
 
         [Required]
         [StringLength(500)]
-        public string Description { get; set;}
+        public string Note { get; set;}
 
         [Required]
         public bool IsCompleted { get; set;}

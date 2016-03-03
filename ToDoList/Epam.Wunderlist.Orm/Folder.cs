@@ -21,12 +21,9 @@ namespace Epam.Wunderlist.Orm
 
         [Required]
         //[ForeignKey("User")]
-        public int AuthorId { get; set; }
-
-        [Required]
-        public int OrderIndex { get; set; }
+        public int UserId { get; set; }
 
         public virtual ICollection<ToDoList> ToDoLists { get; set; }
-        public virtual User Author { get; set; }
+        public virtual User User { get; set; }
     }
 }

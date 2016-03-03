@@ -58,7 +58,7 @@ namespace Epam.Wunderlist.Services.Mappers
                 throw new ArgumentNullException(nameof(folder));
             return new FolderEntity()
             {
-                AuthorId = folder.AuthorId,
+                UserId = folder.UserId,
                 Id = folder.Id,
                 Name = folder.Name,
                 OrdreIndex = folder.OrderIndex,
@@ -70,18 +70,14 @@ namespace Epam.Wunderlist.Services.Mappers
                 throw new ArgumentNullException(nameof(item));
             return new ItemEntity()
             {
-                CompletionDateTime = item.CompletionDateTime,
-                CreationDateTime = item.CreationDateTime,
-                Description = item.Description,
+                CompletionDateTime = item.DueDateTime,
+                Note = item.Note,
                 ExecutorId = item.ExecutorId,
                 Id = item.Id,
-                Intrerval = item.Interval,
                 IsComleted = item.IsCompleted,
                 IsStarred = item.IsStarred,
                 Name = item.Name,
                 OrderIndex = item.OrderIndex,
-                RemindDateTime = item.RemindDateTime,
-                RepeatKindId = item.RepeatKindId,
                 ToDoListId = item.ToDoListId,
             };
         }

@@ -32,7 +32,7 @@ namespace Epam.Wunderlist.Web.Mapper
             {
                 CompletionDateTime = item.CompletionDateTime,
                 CreationDateTime = item.CreationDateTime,
-                Description = item.Description,
+                Description = item.Note,
                 Intrerval = item.Intrerval,
                 IsComleted = item.IsComleted,
                 IsStarred = item.IsStarred,

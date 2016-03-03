@@ -35,7 +35,7 @@ namespace Epam.Wunderlist.Web.Controllers
                 return Json(new { redirect = "/account/login/" }, JsonRequestBehavior.AllowGet);
             }
             var user = userService.GetByEmail(User.Identity.Name);
-            if ((folderService.GetById(folderId)?.AuthorId ?? 0) != user.Id)
+            if ((folderService.GetById(folderId)?.UserId ?? 0) != user.Id)
             {
                 return Json(new { redirect = "/account/login/" }, JsonRequestBehavior.AllowGet);
             }
