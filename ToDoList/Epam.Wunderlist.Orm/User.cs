@@ -15,7 +15,7 @@ namespace Epam.Wunderlist.Orm
 
         public User()
         {
-            //Articles = new List<Article>();
+            
         }
 
         [Key]
