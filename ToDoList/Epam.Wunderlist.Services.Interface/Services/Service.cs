@@ -5,17 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Epam.Wunderlist.Services.Interface.Entities;
 using Epam.Wunderlist.DataAccess.Interfaces.Repository;
+using Epam.Wunderlist.Services.Interface.Mappers;
 
 namespace Epam.Wunderlist.Services.Interface.Services
 {
-    public class Service<TEntity,TRepository>: IService<TEntity> 
-        where TEntity :IEntity
-        where TRepository :IRepository<Epam.Wunderlist.DataAccess.Interfaces.DTO.IEntity>
+    public class Service<TEntity,TRepository,TRepositoryEntity>: IService<TEntity> 
+        where TEntity : IEntity
+        where TRepository : IRepository<TRepositoryEntity>
+        where TRepositoryEntity : Epam.Wunderlist.DataAccess.Interfaces.DTO.IEntity
     {
         protected TRepository repository;
         protected IUnitOfWork uow;
+        protected IMapper mapper;
 
-        public Service(TRepository repository, IUnitOfWork uow)
+        public Service(TRepository repository, IUnitOfWork uow,IMapper mapper)
         {
             this.repository = repository;
             this.uow = uow;
@@ -25,7 +28,7 @@ namespace Epam.Wunderlist.Services.Interface.Services
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
-            return repository.Create(entity.ToDal());
+            return repository.Create(mapper.Map<TEntity,TRepositoryEntity>(entity));
         }
 
         public TEntity GetById(int Id)

@@ -40,6 +40,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TinyMapper, Version=2.0.0.40, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TinyMapper.2.0.8\lib\net45\TinyMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mappers\Mapper.cs" />
@@ -50,7 +54,9 @@
     <Compile Include="Services\ToDoListService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Epam.Wunderlist.Services.Interface\Epam.Wunderlist.Services.Interface.csproj">
       <Project>{cc5626cb-ec04-440f-83bb-c3a74bbe38ba}</Project>
