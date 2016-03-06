@@ -9,7 +9,8 @@ using Epam.Wunderlist.DataAccess.Interfaces.Repository;
 namespace Epam.Wunderlist.Services.Interface.Services
 {
     public class Service<TEntity,TRepository>: IService<TEntity> 
-        where TEntity :IEntity, TRepository :IRepository<Epam.Wunderlist.DataAccess.Interfaces.DTO.IEntity>
+        where TEntity :IEntity
+        where TRepository :IRepository<Epam.Wunderlist.DataAccess.Interfaces.DTO.IEntity>
     {
         protected TRepository repository;
         protected IUnitOfWork uow;
