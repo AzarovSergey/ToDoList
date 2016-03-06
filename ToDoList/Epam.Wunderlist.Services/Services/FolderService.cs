@@ -10,31 +10,11 @@ using Epam.Wunderlist.Services.Mappers;
 
 namespace Epam.Wunderlist.Services.Services
 {
-    public class FolderService : IFolderService
+    public class FolderService : FolderServiceBase
     {
-        private readonly IUnitOfWork uow;
-        private readonly IFolderRepository folderRepository;
-
-        public FolderService(IUnitOfWork uow, IFolderRepository repository)
+        public override IEnumerable<FolderEntity> GetByAuthorId(int authorId)
         {
-            this.uow = uow;
-            this.folderRepository = repository;
-        }
-
-        public void Create(FolderEntity folder)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<FolderEntity> GetByAuthorId(int authorId)
-        {
-            return folderRepository.GetByAuthorId(authorId).Select(folder => folder.ToBllFolder());
-        }
-
-        public FolderEntity GetById(int id)
-        {
-            return null;
-            //return folderRepository.GetById(id);
+            return repository.GetByAuthorId(authorId).Select(folder => folder.ToBllFolder());
         }
     }
 }

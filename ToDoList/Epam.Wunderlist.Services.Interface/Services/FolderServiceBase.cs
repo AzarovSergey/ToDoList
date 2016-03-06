@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Epam.Wunderlist.Services.Interface.Entities;
+using Epam.Wunderlist.DataAccess.Interfaces.Repository;
 
 namespace Epam.Wunderlist.Services.Interface.Services
 {
-    public interface IFolderService
+    public abstract class FolderServiceBase:Service<FolderEntity,IFolderRepository>
     {
-        void Create(FolderEntity folder);
-        IEnumerable<FolderEntity> GetByAuthorId(int authorId);
-        FolderEntity GetById(int id);
+        public abstract IEnumerable<FolderEntity> GetByAuthorId(int authorId);
     }
 }

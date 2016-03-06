@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Epam.Wunderlist.Services.Interface.Entities
 {
-    public class ToDoListEntity
+    public class ToDoListEntity : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
