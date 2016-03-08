@@ -7,8 +7,9 @@ namespace Epam.Wunderlist.Web.Models
 {
     public class FolderModel
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public int OrderIndex { get; set; }
+
         public IEnumerable<ToDoListModel> ToDoLists { get; set; }
     }
 }

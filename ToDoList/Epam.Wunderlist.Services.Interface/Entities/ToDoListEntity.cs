@@ -10,6 +10,7 @@ namespace Epam.Wunderlist.Services.Interface.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
         public int FolderId { get; set; }
     }
 }
