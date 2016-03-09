@@ -11,7 +11,7 @@ using Epam.Wunderlist.DataAccess.MsSql.Mappers;
 
 namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
 {
-    public class FolderRepository : IFolderRepository
+    public class FolderRepository : FolderRepositoryBase
     {
         private readonly DbContext context;
 
@@ -20,7 +20,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
             this.context = dbContext;
         }
 
-        public IEnumerable<DalFolder> GetByAuthorId(int authorid)
+        public override IEnumerable<DalFolder> GetByAuthorId(int authorid)
         {
             return context.Set<Folder>().Where(folder => folder.UserId == authorid).ToArray().Select(folder => folder.ToDalFolder());
         }

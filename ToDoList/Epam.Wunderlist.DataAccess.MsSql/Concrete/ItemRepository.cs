@@ -11,7 +11,7 @@ using Epam.Wunderlist.DataAccess.MsSql.Mappers;
 
 namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
 {
-    public class ItemRepository:IItemRepository
+    public class ItemRepository : ItemRepositoryBase
     {
         private readonly DbContext context;
 
@@ -20,7 +20,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
             this.context = dbContext;
         }
 
-        public IEnumerable<DalItem> GetByToDoListId(int todolistid)
+        public override IEnumerable<DalItem> GetByToDoListId(int todolistid)
         {
             return context.Set<Item>().Where(item => item.ToDoListId == todolistid).ToArray().Select(item=>item.ToDalItem());
         }

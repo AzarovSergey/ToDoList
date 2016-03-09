@@ -9,7 +9,7 @@ using Epam.Wunderlist.DataAccess.Interfaces.DTO;
 
 namespace Epam.Wunderlist.Services.Interface.Services
 {
-    public abstract class FolderServiceBase:Service<FolderEntity,IFolderRepository,DalFolder>
+    public abstract class FolderServiceBase:Service<FolderEntity, FolderRepositoryBase ,DalFolder>
     {
         public abstract IEnumerable<FolderEntity> GetByAuthorId(int authorId);
     }

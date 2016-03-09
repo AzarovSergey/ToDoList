@@ -11,7 +11,7 @@ using Epam.Wunderlist.DataAccess.MsSql.Mappers;
 
 namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
 {
-    public class RoleRepository : IRoleRepository
+    public class RoleRepository : RoleRepositoryBase
     {
         private readonly DbContext context;
         public RoleRepository(DbContext dbContext)
@@ -19,7 +19,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
             this.context = dbContext;
         }
 
-        public IEnumerable<DalRole> GetAll()
+        public override IEnumerable<DalRole> GetAll()
         {
             return context.Set<Role>().ToArray().Select(role=>role.ToDalRole());
         }

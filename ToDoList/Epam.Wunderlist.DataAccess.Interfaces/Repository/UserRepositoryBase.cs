@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Epam.Wunderlist.DataAccess.Interfaces.DTO;
+using Epam.Wunderlist.DataAccess.Interfaces.Mapper;
+using Epam.Wunderlist.Orm;
 
 namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 {
-    public interface IRoleRepository:IRepository<DalRole>
+    public abstract class UserRepositoryBase : BaseRepository<DalUser, User, IMapper<User, DalUser>>
     {
-        IEnumerable<DalRole> GetAll();
+        public abstract DalUser GetByEmail(string email);
     }
 }

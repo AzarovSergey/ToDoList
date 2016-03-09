@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -47,14 +50,23 @@
     <Compile Include="DTO\DalToDoList.cs" />
     <Compile Include="DTO\DalUser.cs" />
     <Compile Include="DTO\IEntity.cs" />
+    <Compile Include="Mapper\IMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\IFolderRepository.cs" />
-    <Compile Include="Repository\IItemRepository.cs" />
+    <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\FolderRepositoryBase.cs" />
     <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="Repository\IRoleRepository.cs" />
+    <Compile Include="Repository\ItemRepositoryBase.cs" />
     <Compile Include="Repository\IUnitOfWork.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
-    <Compile Include="Repository\IToDoListRepository.cs" />
+    <Compile Include="Repository\RoleRepositoryBase.cs" />
+    <Compile Include="Repository\ToDoListRepositoryBase.cs" />
+    <Compile Include="Repository\UserRepositoryBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Epam.Wunderlist.Orm\Epam.Wunderlist.Orm.csproj">
+      <Project>{2d9861f9-632b-400c-b039-2a209d297264}</Project>
+      <Name>Epam.Wunderlist.Orm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,7 +11,7 @@ using Epam.Wunderlist.DataAccess.MsSql.Mappers;
 
 namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository : UserRepositoryBase
     {
 
         private readonly DbContext context;
@@ -20,12 +20,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
             this.context = dbContext;
         }
 
-        public void Create(DalUser user)
-        {
-            context.Set<User>().Add(user.ToOrmUser());
-        }
-
-        public DalUser GetByEmail(string email)
+        public override DalUser GetByEmail(string email)
         {
             return context.Set<User>().FirstOrDefault(user=>user.Email==email)?.ToDalUser();
         }

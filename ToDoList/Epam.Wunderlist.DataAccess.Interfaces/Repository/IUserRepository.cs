@@ -9,7 +9,6 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 {
     public interface IUserRepository:IRepository<DalUser>
     {
-        void Create(DalUser user);
         DalUser GetByEmail(string email);
     }
 }
