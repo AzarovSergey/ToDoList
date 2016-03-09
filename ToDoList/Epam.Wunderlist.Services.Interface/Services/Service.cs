@@ -18,11 +18,16 @@ namespace Epam.Wunderlist.Services.Interface.Services
         protected IUnitOfWork uow;
         protected IMapper mapper;
 
-        public Service(TRepository repository, IUnitOfWork uow,IMapper mapper)
+        public Service(TRepository repository, IUnitOfWork uow, IMapper mapper)
         {
             this.repository = repository;
             this.uow = uow;
+            this.mapper = mapper;
         }
+        //public Service(TRepository repository)
+        //{
+        //    this.repository = repository;
+        //}
 
         public int Create(TEntity entity)
         {
@@ -33,14 +38,14 @@ namespace Epam.Wunderlist.Services.Interface.Services
 
         public TEntity GetById(int Id)
         {
-            return repository.GetById(Id).ToBll();
+            return mapper.Map<TRepositoryEntity,TEntity>(repository.GetById(Id));
         }
 
         public bool Update(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
-            bool result = repository.Update(entity.ToDal());
+            bool result = repository.Update(mapper.Map<TEntity,TRepositoryEntity>(entity));
             uow.Commit();
             return result;
 

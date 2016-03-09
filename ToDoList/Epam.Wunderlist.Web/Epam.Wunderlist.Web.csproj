@@ -164,7 +164,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Mapper\IMapper.cs" />
     <Compile Include="Mapper\Mapper.cs" />
     <Compile Include="Mapper\PLEntityMapper.cs" />
@@ -234,6 +233,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\API\" />
+    <Folder Include="Infrastructure\" />
     <Folder Include="Views\Item\" />
     <Folder Include="Views\ToDoList\" />
   </ItemGroup>

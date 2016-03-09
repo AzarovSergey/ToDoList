@@ -6,20 +6,18 @@ using System.Threading.Tasks;
 using Epam.Wunderlist.Services.Interface.Entities;
 using Epam.Wunderlist.DataAccess.Interfaces.Repository;
 using Epam.Wunderlist.DataAccess.Interfaces.DTO;
-using Ninject;
 using Epam.Wunderlist.Services.Interface.Mappers;
 
 namespace Epam.Wunderlist.Services.Interface.Services
 {
-    public abstract class FolderServiceBase:Service<FolderEntity, FolderRepositoryBase ,DalFolder>
+    public abstract class ToDoListServiceBase: Service<ToDoListEntity, ToDoListRepositoryBase, DalToDoList>
     {
-        public FolderServiceBase(FolderRepositoryBase repository,IUnitOfWork unitOfWork,IMapper mapper)
+        public ToDoListServiceBase(ToDoListRepositoryBase repository, IUnitOfWork unitOfWork, IMapper mapper)
             :base(repository,unitOfWork,mapper)
         {
 
         }
 
-
-        public abstract IEnumerable<FolderEntity> GetByAuthorId(int authorId);
+        public abstract IEnumerable<ToDoListEntity> GetByFolderId(int folderId);
     }
 }

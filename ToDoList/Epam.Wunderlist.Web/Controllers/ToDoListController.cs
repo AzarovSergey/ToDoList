@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Epam.Wunderlist.Services.Interface.Services;
 using Epam.Wunderlist.Web.Mapper;
 using Epam.Wunderlist.Web.Models;
+using Epam.Wunderlist.Services.Interface;
 
 namespace Epam.Wunderlist.Web.Controllers
 {
@@ -13,11 +14,11 @@ namespace Epam.Wunderlist.Web.Controllers
     {
         private readonly IUserService userService;
         private readonly IRoleService roleService;
-        private readonly IFolderService folderService;
+        private readonly FolderServiceBase folderService;
         private readonly IToDoListService toDoListService;
         private readonly IItemService itemService;
 
-        public ToDoListController(IUserService userService, IRoleService roleService, IFolderService folderService, IToDoListService toDoListService, IItemService itemService)
+        public ToDoListController(IUserService userService, IRoleService roleService, FolderServiceBase folderService, IToDoListService toDoListService, IItemService itemService)
         {
             this.userService = userService;
             this.roleService = roleService;

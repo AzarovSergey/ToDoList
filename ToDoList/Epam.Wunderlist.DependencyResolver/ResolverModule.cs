@@ -18,15 +18,10 @@ namespace Epam.Wunderlist.DependencyResolver
             
             Bind<IRoleService>().To<RoleService>();
             Bind<IUserService>().To<UserService>();
-            Bind<IFolderService>().To<FolderService>();
+            Bind<FolderServiceBase>().To<FolderService>();
             Bind<IToDoListService>().To<ToDoListService>();
             Bind<IItemService>().To<ItemService>();
 
-            Bind<IRoleRepository>().To<RoleRepository>();
-            Bind<IUserRepository>().To<UserRepository>();
-            Bind<IToDoListRepository>().To<ToDoListRepository>();
-            Bind<IFolderRepository>().To<FolderRepository>();
-            Bind<IItemRepository>().To<ItemRepository>();
         }
     }
 }

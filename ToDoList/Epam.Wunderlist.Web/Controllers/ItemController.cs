@@ -11,11 +11,11 @@ namespace Epam.Wunderlist.Web.Controllers
     {
         private readonly IUserService userService;
         private readonly IRoleService roleService;
-        private readonly IFolderService folderService;
+        private readonly FolderServiceBase folderService;
         private readonly IToDoListService toDoListService;
         private readonly IItemService itemService;
 
-        public ItemController(IUserService userService, IRoleService roleService, IFolderService folderService, IToDoListService toDoListService, IItemService itemService)
+        public ItemController(IUserService userService, IRoleService roleService, FolderServiceBase folderService, IToDoListService toDoListService, IItemService itemService)
         {
             this.userService = userService;
             this.roleService = roleService;

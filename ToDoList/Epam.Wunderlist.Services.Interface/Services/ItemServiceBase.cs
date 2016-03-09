@@ -11,15 +11,14 @@ using Epam.Wunderlist.Services.Interface.Mappers;
 
 namespace Epam.Wunderlist.Services.Interface.Services
 {
-    public abstract class FolderServiceBase:Service<FolderEntity, FolderRepositoryBase ,DalFolder>
+    public abstract class ItemServiceBase : Service<ItemEntity, ItemRepositoryBase, DalItem>
     {
-        public FolderServiceBase(FolderRepositoryBase repository,IUnitOfWork unitOfWork,IMapper mapper)
+        public ItemServiceBase(ItemRepositoryBase repository, IUnitOfWork unitOfWork, IMapper mapper)
             :base(repository,unitOfWork,mapper)
         {
 
         }
 
-
-        public abstract IEnumerable<FolderEntity> GetByAuthorId(int authorId);
+        public abstract IEnumerable<ItemEntity> GetByToDoListId(int toDoListId);
     }
 }
