@@ -10,7 +10,7 @@ using System.Drawing;
 namespace Epam.Wunderlist.Orm
 {
     [Table("User")]
-    public partial class User
+    public partial class User : IEntity
     {
 
         public User()

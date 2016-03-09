@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Epam.Wunderlist.Orm
 {
     [Table("Item")]
-    public partial class Item
+    public partial class Item : IEntity
     {
         public Item()
         {

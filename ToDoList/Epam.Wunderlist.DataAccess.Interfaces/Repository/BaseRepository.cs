@@ -12,15 +12,14 @@ using Epam.Wunderlist.DataAccess.Interfaces.Mapper;
 
 namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 {
-    public abstract class BaseRepository<TDal, TOrm, TMapper> : IRepository<TDal>
-        where TDal : class, IEntity
-        where TOrm : class, IEntity
-        where TMapper : IMapper<TOrm, TDal>, new()
+    public abstract class BaseRepository<TDal, TOrm> : IRepository<TDal>
+        where TDal : class, DTO.IEntity
+        where TOrm : class, Orm.IEntity
     {
         private readonly DbContext context;
         protected IMapper<TOrm, TDal> mapper = new TMapper();
 
-        public BaseRepository(DbContext context)
+        protected BaseRepository(DbContext context)
         {
             this.context = context;
         }

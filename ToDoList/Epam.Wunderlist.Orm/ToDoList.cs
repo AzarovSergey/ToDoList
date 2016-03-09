@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Epam.Wunderlist.Orm
 {
     [Table("ToDoList")]
-    public partial class ToDoList
+    public partial class ToDoList : IEntity
     {
         public ToDoList()
         {

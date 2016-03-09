@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,12 @@ using Epam.Wunderlist.Orm;
 
 namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 {
-    public abstract class ItemRepositoryBase : BaseRepository<DalItem, Item, IMapper<Item, DalItem>>
+    public abstract class ItemRepositoryBase : BaseRepository<DalItem, Item>
     {
         public abstract IEnumerable<DalItem> GetByToDoListId(int todolistid);
+
+        protected ItemRepositoryBase(DbContext context) : base(context)
+        {
+        }
     }
 }
