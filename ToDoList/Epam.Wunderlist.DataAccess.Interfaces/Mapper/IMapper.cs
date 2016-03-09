@@ -7,12 +7,9 @@ using Epam.Wunderlist.DataAccess.Interfaces.DTO;
 
 namespace Epam.Wunderlist.DataAccess.Interfaces.Mapper
 {
-    public interface IMapper<TOrmEntity, TDalEntity>
-        where TOrmEntity : Orm.IEntity
-        where TDalEntity : DTO.IEntity
+    public interface IMapper
     {
-        TOrmEntity ToOrm(TDalEntity dal);
-        TDalEntity ToDal(TOrmEntity orm);
+        TTarget Map<TSource, TTarget>(TSource entity);
     }
 
 }

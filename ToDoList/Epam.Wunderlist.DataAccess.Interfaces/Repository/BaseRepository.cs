@@ -17,27 +17,22 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
         where TOrm : class, Orm.IEntity
     {
         private readonly DbContext context;
-        protected IMapper<TOrm, TDal> mapper = new TMapper();
+        protected IMapper mapper;
 
         protected BaseRepository(DbContext context)
         {
             this.context = context;
         }
 
-        public virtual IEnumerable<TDal> GetAll()
-        {
-            return context.Set<TOrm>().Select(mapper.ToDal);
-        }
-
         public virtual TDal GetById(int key)
         {
             TOrm model = context.Set<TOrm>().FirstOrDefault(e => e.Id == key);
-            return mapper.ToDal(model);
+            return mapper.Map<TOrm, TDal>(model);
         }
 
         public virtual int Create(TDal entity)
         {
-            TOrm modelEntity = mapper.ToOrm(entity);
+            TOrm modelEntity = mapper.Map<TDal, TOrm>(entity);
             DbEntityEntry<TOrm> dbEntity = context.Entry<TOrm>(modelEntity);
             context.Set<TOrm>().Add(dbEntity.Entity);
             context.SaveChanges();
@@ -46,14 +41,14 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 
         public virtual void Delete(TDal entity)
         {
-            TOrm modelEntity = mapper.ToOrm(entity);
+            TOrm modelEntity = mapper.Map<TDal, TOrm>(entity);
             DbEntityEntry<TOrm> dbEntity = context.Entry<TOrm>(context.Set<TOrm>().Find(entity.Id));
             context.Set<TOrm>().Remove(dbEntity.Entity);
         }
 
         public virtual void Update(TDal entity)
         {
-            TOrm modelEntity = mapper.ToOrm(entity);
+            TOrm modelEntity = mapper.Map<TDal, TOrm>(entity);
             var x = context.Set<TOrm>().Find(modelEntity.Id);
             context.Entry(x).CurrentValues.SetValues(modelEntity);
         }
