@@ -15,7 +15,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
     {
 
         private readonly DbContext context;
-        public UserRepository(DbContext dbContext)
+        public UserRepository(DbContext dbContext) : base(dbContext)
         {
             this.context = dbContext;
         }

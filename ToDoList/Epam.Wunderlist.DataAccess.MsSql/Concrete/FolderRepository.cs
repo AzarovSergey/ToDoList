@@ -15,7 +15,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
     {
         private readonly DbContext context;
 
-        public FolderRepository(DbContext dbContext)
+        public FolderRepository(DbContext dbContext) :base(dbContext)
         {
             this.context = dbContext;
         }
