@@ -9,7 +9,6 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 {
     public interface IRepository<TEntity> where TEntity : IEntity
     {
-        IEnumerable<TEntity> GetAll();
         TEntity GetById(int key);
         int Create(TEntity e);
         void Delete(TEntity e);
