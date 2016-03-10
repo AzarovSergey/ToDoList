@@ -14,7 +14,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
     public class RoleRepository : RoleRepositoryBase
     {
         private readonly DbContext context;
-        public RoleRepository(DbContext dbContext):base(dbContext)
+        public RoleRepository(DbContext dbContext) : base(dbContext)
         {
             this.context = dbContext;
         }
