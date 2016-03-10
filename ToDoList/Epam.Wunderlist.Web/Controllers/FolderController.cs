@@ -23,7 +23,7 @@ namespace Epam.Wunderlist.Web.Controllers.API
         private readonly ItemServiceBase itemService;
         private readonly IMapper mapper;
 
-        internal FolderController(UserServiceBase userService, RoleServiceBase roleService, FolderServiceBase folderService, ToDoListServiceBase toDoListService, ItemServiceBase itemService, IMapper mapper)
+        public FolderController(UserServiceBase userService, RoleServiceBase roleService, FolderServiceBase folderService, ToDoListServiceBase toDoListService, ItemServiceBase itemService, IMapper mapper)
         {
             this.userService = userService;
             this.roleService = roleService;

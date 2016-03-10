@@ -13,11 +13,8 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
 {
     public class FolderRepository : FolderRepositoryBase
     {
-        private readonly DbContext context;
-
         public FolderRepository(DbContext dbContext) :base(dbContext)
         {
-            this.context = dbContext;
         }
 
         public override IEnumerable<DalFolder> GetByAuthorId(int authorid)

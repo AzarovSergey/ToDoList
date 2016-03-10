@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Epam.Wunderlist.Web.Mapper
 {
-    interface IMapper
+    public interface IMapper
     {
         TTarget Map<TSource, TTarget>(TSource entity);
     }

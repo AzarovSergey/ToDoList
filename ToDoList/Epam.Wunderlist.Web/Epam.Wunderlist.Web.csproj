@@ -245,6 +245,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Epam.Wunderlist.DataAccess.Interfaces\Epam.Wunderlist.DataAccess.Interfaces.csproj">
+      <Project>{de27fef5-d072-4b48-9e47-163974cb6274}</Project>
+      <Name>Epam.Wunderlist.DataAccess.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Epam.Wunderlist.DependencyResolver\Epam.Wunderlist.DependencyResolver.csproj">
       <Project>{bb1e3275-1e69-4cba-8e21-2e8138aecf67}</Project>
       <Name>Epam.Wunderlist.DependencyResolver</Name>

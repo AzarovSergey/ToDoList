@@ -73,10 +73,6 @@
       <Project>{2d9861f9-632b-400c-b039-2a209d297264}</Project>
       <Name>Epam.Wunderlist.Orm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Epam.Wunderlist.Services.Interface\Epam.Wunderlist.Services.Interface.csproj">
-      <Project>{CC5626CB-EC04-440F-83BB-C3A74BBE38BA}</Project>
-      <Name>Epam.Wunderlist.Services.Interface</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

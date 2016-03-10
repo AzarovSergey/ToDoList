@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using Epam.Wunderlist.Orm;
 using Epam.Wunderlist.DataAccess.Interfaces.Mapper;
+using System.Web;
 
 namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 {
@@ -16,8 +17,8 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
         where TDal : class, DTO.IEntity
         where TOrm : class, Orm.IEntity
     {
-        private readonly DbContext context;
-        protected IMapper mapper;
+        protected readonly DbContext context;
+        protected IMapper mapper= (IMapper)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IMapper));
 
         protected BaseRepository(DbContext context)
         {
