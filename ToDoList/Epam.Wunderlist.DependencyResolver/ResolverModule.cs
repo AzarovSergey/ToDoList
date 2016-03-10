@@ -16,12 +16,20 @@ namespace Epam.Wunderlist.DependencyResolver
 
             Bind<DbContext>().To<EntityModel>().InSingletonScope();
             
-            Bind<IRoleService>().To<RoleService>();
-            Bind<IUserService>().To<UserService>();
+            Bind<RoleServiceBase>().To<RoleService>();
+            Bind<UserServiceBase>().To<UserService>();
             Bind<FolderServiceBase>().To<FolderService>();
-            Bind<IToDoListService>().To<ToDoListService>();
-            Bind<IItemService>().To<ItemService>();
+            Bind<ToDoListServiceBase>().To<ToDoListService>();
+            Bind<ItemServiceBase>().To<ItemService>();
 
+            Bind<RoleRepositoryBase>().To<RoleRepository>();
+            Bind<UserRepositoryBase>().To<UserRepository>();
+            Bind<FolderRepositoryBase>().To<FolderRepository>();
+            Bind<ToDoListRepositoryBase>().To<ToDoListRepository>();
+            Bind<ItemRepositoryBase>().To<ItemRepository>();
+
+            Bind<Epam.Wunderlist.DataAccess.Interfaces.Mapper.IMapper>().To<Epam.Wunderlist.DataAccess.MsSql.Mappers.Mapper>();
+            Bind<Epam.Wunderlist.Services.Interface.Mappers.IMapper>().To<Epam.Wunderlist.Services.Mappers.Mapper>();
         }
     }
 }

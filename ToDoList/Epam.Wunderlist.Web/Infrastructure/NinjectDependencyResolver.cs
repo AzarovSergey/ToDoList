@@ -12,7 +12,7 @@ namespace Epam.Wunderlist.Web.Infrastructure
 
         public NinjectDependencyResolver()
         {
-            _kernel = new StandardKernel(new RevolverModule());
+            _kernel = new StandardKernel(new WebResolver(),new RevolverModule());
         }
         public object GetService(Type serviceType)
         {

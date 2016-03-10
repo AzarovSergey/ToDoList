@@ -23,6 +23,8 @@ namespace Epam.Wunderlist.Services.Mappers
 
         public TTarget Map<TSource, TTarget>(TSource entity)
         {
+            if (entity == null)
+                return default(TTarget);
             return TinyMapper.Map<TTarget>(entity);
         }
     }

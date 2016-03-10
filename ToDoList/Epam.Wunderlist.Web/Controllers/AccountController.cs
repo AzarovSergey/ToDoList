@@ -14,10 +14,10 @@ namespace Epam.Wunderlist.Web.Controllers
     [Authorize]
     public class AccountController:Controller
     {
-        private readonly IUserService userService;
-        private readonly IRoleService roleService;
+        private readonly UserServiceBase userService;
+        private readonly RoleServiceBase roleService;
 
-        public AccountController(IUserService userService, IRoleService roleService)
+        public AccountController(UserServiceBase userService, RoleServiceBase roleService)
         {
             this.userService = userService;
             this.roleService = roleService;

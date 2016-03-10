@@ -7,24 +7,27 @@ using Epam.Wunderlist.Services.Interface.Services;
 using Epam.Wunderlist.Web.Mapper;
 using Epam.Wunderlist.Web.Models;
 using Epam.Wunderlist.Services.Interface;
+using Epam.Wunderlist.Services.Interface.Entities;
 
 namespace Epam.Wunderlist.Web.Controllers
 {
     public class ToDoListController : Controller
     {
-        private readonly IUserService userService;
-        private readonly IRoleService roleService;
+        private readonly UserServiceBase userService;
+        private readonly RoleServiceBase roleService;
         private readonly FolderServiceBase folderService;
-        private readonly IToDoListService toDoListService;
-        private readonly IItemService itemService;
+        private readonly ToDoListServiceBase toDoListService;
+        private readonly ItemServiceBase itemService;
+        private readonly IMapper mapper;
 
-        public ToDoListController(IUserService userService, IRoleService roleService, FolderServiceBase folderService, IToDoListService toDoListService, IItemService itemService)
+        internal ToDoListController(UserServiceBase userService, RoleServiceBase roleService, FolderServiceBase folderService, ToDoListServiceBase toDoListService, ItemServiceBase itemService, IMapper mapper)
         {
             this.userService = userService;
             this.roleService = roleService;
             this.folderService = folderService;
             this.toDoListService = toDoListService;
             this.itemService = itemService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -40,7 +43,7 @@ namespace Epam.Wunderlist.Web.Controllers
             {
                 return Json(new { redirect = "/account/login/" }, JsonRequestBehavior.AllowGet);
             }
-            ToDoListModel[] lists = toDoListService.GetByFolderId(folderId).Select(list => list.ToToDoListModel()).ToArray();
+            ToDoListModel[] lists = toDoListService.GetByFolderId(folderId).Select(list =>mapper.Map<ToDoListEntity,ToDoListModel>(list)).ToArray();
             return Json(lists, JsonRequestBehavior.AllowGet);
         }
     }

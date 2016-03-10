@@ -15,14 +15,14 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
     {
 
         private readonly DbContext context;
-        public UserRepository(DbContext dbContext)
+        public UserRepository(DbContext dbContext):base(dbContext)
         {
             this.context = dbContext;
         }
 
         public override DalUser GetByEmail(string email)
         {
-            return context.Set<User>().FirstOrDefault(user=>user.Email==email)?.ToDalUser();
+            return mapper.Map<User,DalUser>(context.Set<User>().FirstOrDefault(user=>user.Email==email));
         }
     }
 }

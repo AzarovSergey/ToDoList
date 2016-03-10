@@ -39,18 +39,22 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
             return dbEntity.Entity.Id;
         }
 
-        public virtual void Delete(TDal entity)
+        public virtual bool Delete(int key)
         {
-            TOrm modelEntity = mapper.Map<TDal, TOrm>(entity);
-            DbEntityEntry<TOrm> dbEntity = context.Entry<TOrm>(context.Set<TOrm>().Find(entity.Id));
+            //TOrm modelEntity = mapper.Map<TDal, TOrm>(entity);
+            DbEntityEntry<TOrm> dbEntity = context.Entry<TOrm>(context.Set<TOrm>().Find(key));
             context.Set<TOrm>().Remove(dbEntity.Entity);
+            return true;
         }
 
-        public virtual void Update(TDal entity)
+        public virtual bool Update(TDal entity)
         {
             TOrm modelEntity = mapper.Map<TDal, TOrm>(entity);
             var x = context.Set<TOrm>().Find(modelEntity.Id);
+            if (x == null)
+                return false;
             context.Entry(x).CurrentValues.SetValues(modelEntity);
+            return true;
         }
 
     }

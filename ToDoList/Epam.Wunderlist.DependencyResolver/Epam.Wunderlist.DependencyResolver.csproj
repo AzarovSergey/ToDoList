@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NinjectDependencyResolver.cs" />
     <Compile Include="ResolverModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

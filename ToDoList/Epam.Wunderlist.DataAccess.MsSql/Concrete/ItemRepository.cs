@@ -15,14 +15,14 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
     {
         private readonly DbContext context;
 
-        public ItemRepository(DbContext dbContext)
+        public ItemRepository(DbContext dbContext):base(dbContext)
         {
             this.context = dbContext;
         }
 
         public override IEnumerable<DalItem> GetByToDoListId(int todolistid)
         {
-            return context.Set<Item>().Where(item => item.ToDoListId == todolistid).ToArray().Select(item=>item.ToDalItem());
+            return context.Set<Item>().Where(item => item.ToDoListId == todolistid).ToArray().Select(item=>mapper.Map<Item,DalItem>(item));
         }
     }
 }

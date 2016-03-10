@@ -11,7 +11,7 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
     {
         TEntity GetById(int key);
         int Create(TEntity e);
-        void Delete(TEntity e);
-        void Update(TEntity entity);
+        bool Delete(int key);
+        bool Update(TEntity entity);
     }
 }

@@ -7,30 +7,22 @@ using Epam.Wunderlist.Services.Interface.Entities;
 using Epam.Wunderlist.Services.Interface.Services;
 using Epam.Wunderlist.DataAccess.Interfaces.Repository;
 using Epam.Wunderlist.Services.Mappers;
+using Epam.Wunderlist.Services.Interface.Mappers;
+using Epam.Wunderlist.DataAccess.Interfaces.DTO;
 
 namespace Epam.Wunderlist.Services.Services
 {
-    public class UserService : IUserService
+    public class UserService : UserServiceBase
     {
-        private readonly IUnitOfWork uow;
-        private readonly IUserRepository userRepository;
-
-        public UserService(IUnitOfWork uow, IUserRepository repository)
+        public UserService(UserRepositoryBase repository, IUnitOfWork unitOfWork, IMapper mapper)
+            :base(repository,unitOfWork,mapper)
         {
-            this.uow = uow;
-            this.userRepository = repository;
+
         }
 
-
-        public void Create(UserEntity user)
+        public override UserEntity GetByEmail(string email)
         {
-            userRepository.Create(user.ToDalUser());
-            uow.Commit();
-        }
-
-        public UserEntity GetByEmail(string email)
-        {
-            return userRepository.GetByEmail(email)?.ToBllUser();
+            return mapper.Map<DalUser,UserEntity>(repository.GetByEmail(email));
         }
     }
 }

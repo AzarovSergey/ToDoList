@@ -15,14 +15,14 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
     {
         private readonly DbContext context;
 
-        public FolderRepository(DbContext dbContext)
+        public FolderRepository(DbContext dbContext):base(dbContext)
         {
             this.context = dbContext;
         }
 
         public override IEnumerable<DalFolder> GetByAuthorId(int authorid)
         {
-            return context.Set<Folder>().Where(folder => folder.UserId == authorid).ToArray().Select(folder => folder.ToDalFolder());
+            return context.Set<Folder>().Where(folder => folder.UserId == authorid).ToArray().Select(folder => mapper.Map<Folder,DalFolder>(folder));
         }
     }
 }

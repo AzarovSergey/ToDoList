@@ -16,19 +16,21 @@ namespace Epam.Wunderlist.Web.Controllers.API
     [Authorize]
     public class FolderController : Controller//ApiController
     {
-        private readonly IUserService userService;
-        private readonly IRoleService roleService;
+        private readonly UserServiceBase userService;
+        private readonly RoleServiceBase roleService;
         private readonly FolderServiceBase folderService;
-        private readonly IToDoListService toDoListService;
-        private readonly IItemService itemService;
+        private readonly ToDoListServiceBase toDoListService;
+        private readonly ItemServiceBase itemService;
+        private readonly IMapper mapper;
 
-        public FolderController(IUserService userService, IRoleService roleService, FolderServiceBase folderService, IToDoListService toDoListService, IItemService itemService)
+        internal FolderController(UserServiceBase userService, RoleServiceBase roleService, FolderServiceBase folderService, ToDoListServiceBase toDoListService, ItemServiceBase itemService, IMapper mapper)
         {
             this.userService = userService;
             this.roleService = roleService;
             this.folderService = folderService;
             this.toDoListService = toDoListService;
             this.itemService = itemService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -40,7 +42,7 @@ namespace Epam.Wunderlist.Web.Controllers.API
                 return Json(new { redirect = "/account/login/" }, JsonRequestBehavior.AllowGet);
             }
             var user = userService.GetByEmail(User.Identity.Name);
-            FolderModel[] folders = folderService.GetByAuthorId(user.Id).Select(folder=>folder.ToFolderModel()).ToArray();
+            FolderModel[] folders = folderService.GetByAuthorId(user.Id).Select(folder=>mapper.Map<FolderEntity,FolderModel>(folder)).ToArray();
             return Json(folders, JsonRequestBehavior.AllowGet);
         }
 

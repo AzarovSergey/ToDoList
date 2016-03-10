@@ -19,7 +19,6 @@ namespace Epam.Wunderlist.Services.Interface.Services
 
         }
 
-
         public abstract IEnumerable<FolderEntity> GetByAuthorId(int authorId);
     }
 }

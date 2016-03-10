@@ -14,14 +14,14 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
     public class RoleRepository : RoleRepositoryBase
     {
         private readonly DbContext context;
-        public RoleRepository(DbContext dbContext)
+        public RoleRepository(DbContext dbContext):base(dbContext)
         {
             this.context = dbContext;
         }
 
         public override IEnumerable<DalRole> GetAll()
         {
-            return context.Set<Role>().ToArray().Select(role=>role.ToDalRole());
+            return context.Set<Role>().ToArray().Select(role=>mapper.Map<Role,DalRole>(role));
         }
     }
 }
