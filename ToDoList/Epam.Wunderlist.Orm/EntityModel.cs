@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 
 namespace Epam.Wunderlist.Orm
 {
@@ -28,7 +29,6 @@ namespace Epam.Wunderlist.Orm
             protected override void Seed(EntityModel context)
             {
                 base.Seed(context);
-
             }
         }
 
@@ -62,20 +62,24 @@ namespace Epam.Wunderlist.Orm
                     new ToDoList() {Folder=folders[0],Name="L5" },
                     new ToDoList() {Folder=folders[0],Name="L6" },
                 };
-
-                //ToDoList list1 = new ToDoList() { Name = "List 1" };
-                //ToDoList list2 = new ToDoList() { Name = "List 2" };
-                //ToDoListFolder lf1 = new ToDoListFolder() { ToDoListId = list1.Id, FolderId = folder1.Id, IndexInFolder = 1 };
-                //ToDoListFolder lf2 = new ToDoListFolder() { ToDoListId = list2.Id, FolderId = folder2.Id, IndexInFolder = 2 };
-                //Item i1 = new Item() { Name = "Item 1", ToDoListId = list1.Id, UserId = u1.Id, OrderIndex = 1 };
-                //Item i2 = new Item() { Name = "Item 2", ToDoListId = list2.Id, UserId = u2.Id, OrderIndex = 2 };
+                Item[] items = new Item[]
+                {
+                    new Item() {Name="item1",Note="note",ToDoList=toDoLists[0],DueDateTime=DateTime.Now },
+                    new Item() {Name="item2",Note="note",ToDoList=toDoLists[0],DueDateTime=DateTime.Now },
+                    new Item() {Name="item3",Note="note",ToDoList=toDoLists[1],DueDateTime=DateTime.Now },
+                    new Item() {Name="item4",Note="note",ToDoList=toDoLists[1],DueDateTime=DateTime.Now },
+                    new Item() {Name="item5",Note="note",ToDoList=toDoLists[0],DueDateTime=DateTime.Now },
+                    new Item() {Name="item6",Note="note",ToDoList=toDoLists[2],DueDateTime=DateTime.Now },
+                    new Item() {Name="item7",Note="note",ToDoList=toDoLists[1],DueDateTime=DateTime.Now },
+                    new Item() {Name="item8",Note="note",ToDoList=toDoLists[2],DueDateTime=DateTime.Now },
+                };
                
                 context.Roles.Add(roleUser);
                 context.Roles.Add(roleAdmin);
                 context.Users.Add(u1);
                 context.Users.Add(u2);
                 context.Users.Add(u3);
-               // context.RepeatKinds.Add(kind1);
+
                 foreach(Folder folder in folders)
                 {
                     context.Folders.Add(folder);
@@ -85,13 +89,11 @@ namespace Epam.Wunderlist.Orm
                 {
                     context.ToDoLists.Add(toDoList);
                 }
-                //context.ToDoLists.Add(list1);
-                //context.ToDoLists.Add(list2);
-                //context.Items.Add(i1);
-                //context.Items.Add(i2);
-                //context.ToDoListsFolders.Add(lf1);
-                //context.ToDoListsFolders.Add(lf2);
 
+                foreach(Item item in items)
+                {
+                    context.Items.Add(item);
+                }
             }
         }
 

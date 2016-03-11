@@ -103,7 +103,6 @@ body{
 
 .user-info-item>*{
     color:black;
-
 }
 
 .user-info-item:hover,
@@ -169,4 +168,12 @@ body{
     border-color:#ccc;
     border-radius:2px;
     display:inline-block;
+}
+
+.to-do-list-container{
+    display:none;
+}
+
+.to-do-list{
+    height:50px;
 }

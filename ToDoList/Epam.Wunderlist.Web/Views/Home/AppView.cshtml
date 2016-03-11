@@ -43,44 +43,7 @@
                     <div class="user-info-item"><a href="/account/logout/">logout</a></div>
                 </div>
 
-                <div id="folder-container">
-                    @*<div class="folder">
-                        <span class="left-side">
-                            <img src="~/Content/Images/logo.png" width="40" height="40" />
-                            <span class="folder-title">Folder name</span>
-                        </span>
-                        <span class="right-side">
-                            <span class="missed">3</span>
-                            <span class="total">6</span>
-                        </span>
-                    </div>
-
-
-
-                    <div class="folder">
-                        <span class="left-side">
-                            <img src="~/Content/Images/logo.png" width="40" height="40" />
-                            <span class="folder-title">Folder with items</span>
-                        </span>
-                        <span class="right-side">
-                            <span class="missed">3</span>
-                            <span class="total">6</span>
-                        </span>
-                    </div>
-
-                    <div class="folder">
-                        <span class="left-side">
-                            <img src="~/Content/Images/logo.png" width="40" height="40" />
-                            <span class="folder-title">Folder name</span>
-                        </span>
-                        <span class="right-side">
-                            <span class="missed">3</span>
-                            <span class="total">6</span>
-                        </span>
-                    </div>*@
-                </div>
-
-
+                <div id="folder-container"></div>
             </div>
         </div> @*left*@
     </div>
@@ -95,7 +58,7 @@
         </div>
         <div id="active-item-container">
 
-            <div class="task">
+            @*<div class="task">
                 <span class="checkbox-item"></span>
                 <span>item 1</span>
             </div>
@@ -113,7 +76,7 @@
             <div class="task">
                 <span class="checkbox-item"></span>
                 <span>item 4</span>
-            </div>
+            </div>*@
 
         </div>
     </div>
@@ -143,7 +106,6 @@
         //    setInterval(ToDoListRefresher, interval);
         //})();
         FoldersRefresher();
-        ToDoListRefresher();
 
         function FoldersRefresher() {
             $.ajax({
@@ -155,35 +117,37 @@
                     var folders = $('.folder');
                     folders.remove();
                     folders = $('#folder-container');
-                    for (var item in result) {
+
+                    for (var folderIndex in result) {
+                        var folderDescriptor=result[folderIndex];
                         var folder = $('<div></div>').addClass('folder');
                         folder.html(
-                            '<span class="left-side">\
+                            '<div class="folder-description"><span class="left-side">\
                                 <img src="/Content/Images/logo.png" width="40" height="40" />\
-                                <span class="folder-title">'+result[item].Name+'</span>\
+                                <span class="folder-title">' + folderDescriptor.Name + '</span>\
                             </span>\
-                            <span class="right-side">\
-                                <span class="missed">3</span>\
-                                <span class="total">6</span>\
-                            </span>'
+                            </div>'
                         );
                         var toDoLists = $('<div></div>').addClass('to-do-list-container');
-                        toDoLists.insertAfter(folder);
-                        //folder.add(toDoLists) 
-                        for(toDoList in toDoLists){
-                            //$('<div></div>').addClass('to-do-list').html('<span>'+toDoLists[toDoList].Name+'</span>').after(folder);
-                            $('<div></div>').addClass('to-do-list').html('<span>' + toDoLists[toDoList].Name + '</span>').insertAfter(folder);
+                        folder.append(toDoLists);
+                        for (toDoListIndex in folderDescriptor.ToDoLists) {
+                            var toDoListDescriptor=folderDescriptor.ToDoLists[toDoListIndex];
+                            newList = $('<div></div>').addClass('to-do-list').html(
+                                '<span>' + toDoListDescriptor.Name + '</span><span class="right-side">\
+                                <span class="missed">3</span>\
+                                <span class="total">6</span>\
+                            </span>');
+                            toDoLists.append(newList);
+                            newList.attr('data-db-id', toDoListDescriptor.Id);
+                            newList.click(function () {
+                                var id = +$(this).attr('data-db-id');
+                                SetSelectedToDoList(id);
+                            });
                         }
-                        folder.click(function () {
-                            folders.children()
-                                .css('background-color', 'white')
-                                .removeAttr('data-selected-folder');
-                            $(this)
-                                .css('background-color', '#e0eefa')
-                                .attr('data-selected-folder','selected');
+                        folder.find('.folder-description').click(function () {
+                            $(this).siblings('.to-do-list-container').toggle(500);
                         });
                         folders.append(folder);
-                        //alert(item);
                     }
                     
                 },
@@ -193,20 +157,30 @@
             });
         };
 
-        //function ToDoListRefresher() {
-        //    if (isNaN(selectedFolderIndex))
-        //        return;
-        //    var folderId = $('[data-selected-folder]').attr('data-server-id');
-        //    $.ajax({
-        //        url: '/todolist/GetByFolderId/' + folderId,
-        //        success: function (result) {
-        //            alert(result);
-        //        },
-        //        error: function (result) {
-        //            alert("error at ToDoListRefresher");
-        //        }
-        //    });
-        //};
+
+        function SetSelectedToDoList(Id)
+        {
+            $.ajax({
+                url: '/item/GetItems?toDoListId=' + Id,
+                success: function (result) {
+                    if (result.redirect != undefined)
+                        location.href = result.redirect;
+                    //alert(result+"");
+                    //console.log(result);
+                    var itemsContainer = $('#active-item-container').html('');
+                    for(var itemIndex in result)
+                    {
+                        var newItem = $('<div></div>').addClass('task').html(
+                            '<span class="checkbox-item"></span>\
+                            <span>'+result[itemIndex].Name+'</span>');
+                        itemsContainer.append(newItem);
+                    }
+                },
+                error:function(result){
+                    alert('error in function SetSelectedToDoList. result:'+result);
+                }
+            });
+        }
     </script>
 </body>
 </html>
