@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
 
 namespace Epam.Wunderlist.Orm
 {
     [Table("User")]
     public partial class User : IEntity
     {
-
-        public User()
-        {
-            //Articles = new List<Article>();
-        }
-
         [Key]
         public int Id { get; set; }
 
@@ -39,7 +27,5 @@ namespace Epam.Wunderlist.Orm
         public byte[] Photo { get; set; }
 
         public virtual Role Role { get; set; }
-       // public virtual ICollection<A> A { get; set; }
-       // public virtual Theme Theme { get; set; }
     }
 }

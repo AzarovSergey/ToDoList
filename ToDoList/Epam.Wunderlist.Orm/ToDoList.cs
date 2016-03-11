@@ -20,10 +20,9 @@ namespace Epam.Wunderlist.Orm
         public string Name { get; set; }
 
         [Required]
-        //[ForeignKey("Folder")]
         public int FolderId { get; set; }
 
-        public virtual Folder folder { get; set; }
+        public virtual Folder Folder { get; set; }
         public virtual ICollection<Item> Items { get; set; }
     }
 }

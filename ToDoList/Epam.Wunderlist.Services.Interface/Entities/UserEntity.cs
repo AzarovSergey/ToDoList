@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-
-namespace Epam.Wunderlist.Services.Interface.Entities
+﻿namespace Epam.Wunderlist.Services.Interface.Entities
 {
     public class UserEntity : IEntity
     {

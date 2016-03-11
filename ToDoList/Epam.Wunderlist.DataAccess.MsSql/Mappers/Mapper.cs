@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Epam.Wunderlist.Orm;
+﻿using Epam.Wunderlist.Orm;
 using Epam.Wunderlist.DataAccess.Interfaces.DTO;
-using System.Drawing;
 using Epam.Wunderlist.DataAccess.Interfaces.Mapper;
 using Nelibur.ObjectMapper;
 

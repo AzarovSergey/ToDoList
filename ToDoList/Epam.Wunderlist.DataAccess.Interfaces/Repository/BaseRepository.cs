@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Epam.Wunderlist.DataAccess.Interfaces.DTO;
-using Epam.Wunderlist.DataAccess.Interfaces.Repository;
+﻿using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using Epam.Wunderlist.Orm;
 using Epam.Wunderlist.DataAccess.Interfaces.Mapper;
-using System.Web;
 
 namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 {

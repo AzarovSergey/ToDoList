@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
 namespace Epam.Wunderlist.Orm
 {
@@ -60,12 +55,12 @@ namespace Epam.Wunderlist.Orm
                 };
                 ToDoList[] toDoLists = new ToDoList[]
                 {
-                    new ToDoList() {folder=folders[0],Name="the first list" },
-                    new ToDoList() {folder=folders[0],Name="L2" },
-                    new ToDoList() {folder=folders[2],Name="L3" },
-                    new ToDoList() {folder=folders[2],Name="L4" },
-                    new ToDoList() {folder=folders[0],Name="L5" },
-                    new ToDoList() {folder=folders[0],Name="L6" },
+                    new ToDoList() {Folder=folders[0],Name="the first list" },
+                    new ToDoList() {Folder=folders[0],Name="L2" },
+                    new ToDoList() {Folder=folders[2],Name="L3" },
+                    new ToDoList() {Folder=folders[2],Name="L4" },
+                    new ToDoList() {Folder=folders[0],Name="L5" },
+                    new ToDoList() {Folder=folders[0],Name="L6" },
                 };
 
                 //ToDoList list1 = new ToDoList() { Name = "List 1" };

@@ -20,7 +20,6 @@ namespace Epam.Wunderlist.Orm
         public string Name { get; set; }
 
         [Required]
-        //[ForeignKey("User")]
         public int UserId { get; set; }
 
         public virtual ICollection<ToDoList> ToDoLists { get; set; }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Epam.Wunderlist.Orm
@@ -11,11 +6,6 @@ namespace Epam.Wunderlist.Orm
     [Table("Item")]
     public partial class Item : IEntity
     {
-        public Item()
-        {
-
-        }
-
         [Key]
         public int Id { get; set;}
 
@@ -24,7 +14,6 @@ namespace Epam.Wunderlist.Orm
         public string Name { get; set; }
 
         [Required]
-        //[ForeignKey("ToDoList")]
         public int ToDoListId { get; set;}
 
         [Required]
@@ -37,16 +26,12 @@ namespace Epam.Wunderlist.Orm
         public int OrderIndex { get; set;}
 
         [Required]
-       // [ForeignKey("User")]
-        public int UserId { get; set;}
-
-        [Required]
         [StringLength(500)]
         public string Note { get; set;}
 
         [Required]
         public bool IsCompleted { get; set;}
 
-        public virtual ToDoList Container { get; set; }
+        public virtual ToDoList ToDoList { get; set; }
     }
 }

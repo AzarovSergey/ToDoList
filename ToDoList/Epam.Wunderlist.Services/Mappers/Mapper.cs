@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Epam.Wunderlist.DataAccess.Interfaces.DTO;
+﻿using Epam.Wunderlist.DataAccess.Interfaces.DTO;
 using Epam.Wunderlist.Services.Interface.Entities;
 using Nelibur.ObjectMapper;
 using Epam.Wunderlist.Services.Interface.Mappers;
@@ -23,9 +18,7 @@ namespace Epam.Wunderlist.Services.Mappers
 
         public TTarget Map<TSource, TTarget>(TSource entity)
         {
-            if (entity == null)
-                return default(TTarget);
-            return TinyMapper.Map<TTarget>(entity);
+            return entity == null ? default(TTarget) : TinyMapper.Map<TTarget>(entity);
         }
     }
 }
