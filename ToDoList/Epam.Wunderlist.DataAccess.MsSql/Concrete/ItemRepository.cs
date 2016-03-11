@@ -13,11 +13,8 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
 {
     public class ItemRepository : ItemRepositoryBase
     {
-        private readonly DbContext context;
-
         public ItemRepository(DbContext dbContext) : base(dbContext)
         {
-            this.context = dbContext;
         }
 
         public override IEnumerable<DalItem> GetByToDoListId(int todolistid)

@@ -13,28 +13,42 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/Account.css" rel="stylesheet" />
+    <script src="~/Scripts/angular.js"></script>
 </head>
-<body>
+<body ng-app="">
     <img class="logo-account" src="~/Content/Images/logo.png" />
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
 
-    @using (Html.BeginForm())
-    {
+    <form action="/Account/Login" method="post" name="login" @*novalidate="novalidate"*@>
         @Html.AntiForgeryToken()
 
         <div class="form-container">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger", })
             <div class="form-item">
                 <span class="fa fa-envelope input-icon"></span>
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @placeholder = "Email", title = "Please enter a valid email address.", autofocus = "" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Email, new {
+                  htmlAttributes = new {
+                       @placeholder = "Email",
+                       title = "Please enter a valid email address.",
+                       autofocus = "",
+                       @ng_model = "Email"
+                   }
+               })
+                <span ng-show="login.Email.$invalid">invalid</span>
             </div>
             <hr />
             <div class="form-item">
                 <span class="fa fa-lock input-icon"></span>
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @placeholder = "Password" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Password, new {
+               htmlAttributes = new {
+                   @placeholder = "Password",
+                   @ng_model="Password",
+                   @required = ""
+               }
+           })
+                @*<span ng-show="registration.Password.$valid">valid</span>*@
+                <span ng-show="login.Password.$touched && login.Password.$invalid">invalid</span>
             </div>
             <hr />
             <div class="button-container">
@@ -43,7 +57,7 @@
 
             <a class="centrate" href="">Forgot your password?</a>
         </div>
-    }
+    </form>
     <p class="centrate" style="margin-top:40px;">
         Don’t have an account? <a href="~/Account/Register">Create Account</a>
     </p>
