@@ -43,6 +43,10 @@ namespace Epam.Wunderlist.Web.Controllers.API
             }
             var user = userService.GetByEmail(User.Identity.Name);
             FolderModel[] folders = folderService.GetByAuthorId(user.Id).Select(folder=>mapper.Map<FolderEntity,FolderModel>(folder)).ToArray();
+            foreach(var folder in folders)
+            {
+                folder.ToDoLists = toDoListService.GetByFolderId(folder.Id).Select(toDoList => mapper.Map<ToDoListEntity, ToDoListModel>(toDoList)).ToArray();
+            }
             return Json(folders, JsonRequestBehavior.AllowGet);
         }
 

@@ -23,7 +23,7 @@ namespace Epam.Wunderlist.Orm
         //[ForeignKey("Folder")]
         public int FolderId { get; set; }
 
-
+        public virtual Folder folder { get; set; }
         public virtual ICollection<Item> Items { get; set; }
     }
 }

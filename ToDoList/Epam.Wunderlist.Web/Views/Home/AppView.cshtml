@@ -137,11 +137,11 @@
             isLeftHide ^= true;
         });
 
-        (function AjaxInitializator(){
-            var interval=5000;
-            setInterval(FoldersRefresher, interval);
-            setInterval(ToDoListRefresher, interval);
-        })();
+        //(function AjaxInitializator(){
+        //    var interval=5000;
+        //    setInterval(FoldersRefresher, interval);
+        //    setInterval(ToDoListRefresher, interval);
+        //})();
         FoldersRefresher();
         ToDoListRefresher();
 
@@ -156,7 +156,8 @@
                     folders.remove();
                     folders = $('#folder-container');
                     for (var item in result) {
-                        folder = $('<div></div>').addClass('folder').html(
+                        var folder = $('<div></div>').addClass('folder');
+                        folder.html(
                             '<span class="left-side">\
                                 <img src="/Content/Images/logo.png" width="40" height="40" />\
                                 <span class="folder-title">'+result[item].Name+'</span>\
@@ -166,6 +167,13 @@
                                 <span class="total">6</span>\
                             </span>'
                         );
+                        var toDoLists = $('<div></div>').addClass('to-do-list-container');
+                        toDoLists.insertAfter(folder);
+                        //folder.add(toDoLists) 
+                        for(toDoList in toDoLists){
+                            //$('<div></div>').addClass('to-do-list').html('<span>'+toDoLists[toDoList].Name+'</span>').after(folder);
+                            $('<div></div>').addClass('to-do-list').html('<span>' + toDoLists[toDoList].Name + '</span>').insertAfter(folder);
+                        }
                         folder.click(function () {
                             folders.children()
                                 .css('background-color', 'white')
@@ -185,20 +193,20 @@
             });
         };
 
-        function ToDoListRefresher() {
-            if (isNaN(selectedFolderIndex))
-                return;
-            var folderId = $('[data-selected-folder]').attr('data-server-id');
-            $.ajax({
-                url: '/todolist/GetByFolderId/' + folderId,
-                success: function (result) {
-                    alert(result);
-                },
-                error: function (result) {
-                    alert("error at ToDoListRefresher");
-                }
-            });
-        };
+        //function ToDoListRefresher() {
+        //    if (isNaN(selectedFolderIndex))
+        //        return;
+        //    var folderId = $('[data-selected-folder]').attr('data-server-id');
+        //    $.ajax({
+        //        url: '/todolist/GetByFolderId/' + folderId,
+        //        success: function (result) {
+        //            alert(result);
+        //        },
+        //        error: function (result) {
+        //            alert("error at ToDoListRefresher");
+        //        }
+        //    });
+        //};
     </script>
 </body>
 </html>

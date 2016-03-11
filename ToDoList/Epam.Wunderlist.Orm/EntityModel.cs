@@ -48,6 +48,7 @@ namespace Epam.Wunderlist.Orm
                 User u1 = new User() { Name = "User 1", Role = roleUser, Password = "p1", Email = "u1@m.c" };
                 User u2 = new User() { Name = "User 2", Role = roleUser, Password = "p2", Email = "u2@m.c" };
                 User u3 = new User() { Name = "User 3", Role = roleUser, Password = "p3", Email = "u3@m.c" };
+                
 
                 //RepeatKind kind1 = new RepeatKind() { Name = "Kind 1" };
                 Folder[] folders = new Folder[] {
@@ -57,6 +58,16 @@ namespace Epam.Wunderlist.Orm
                     new Folder() { Name = "Folder 4", User = u1 },
                     new Folder() { Name = "Folder u3", User = u3 },
                 };
+                ToDoList[] toDoLists = new ToDoList[]
+                {
+                    new ToDoList() {folder=folders[0],Name="the first list" },
+                    new ToDoList() {folder=folders[0],Name="L2" },
+                    new ToDoList() {folder=folders[2],Name="L3" },
+                    new ToDoList() {folder=folders[2],Name="L4" },
+                    new ToDoList() {folder=folders[0],Name="L5" },
+                    new ToDoList() {folder=folders[0],Name="L6" },
+                };
+
                 //ToDoList list1 = new ToDoList() { Name = "List 1" };
                 //ToDoList list2 = new ToDoList() { Name = "List 2" };
                 //ToDoListFolder lf1 = new ToDoListFolder() { ToDoListId = list1.Id, FolderId = folder1.Id, IndexInFolder = 1 };
@@ -73,6 +84,11 @@ namespace Epam.Wunderlist.Orm
                 foreach(Folder folder in folders)
                 {
                     context.Folders.Add(folder);
+                }
+
+                foreach(ToDoList toDoList in toDoLists)
+                {
+                    context.ToDoLists.Add(toDoList);
                 }
                 //context.ToDoLists.Add(list1);
                 //context.ToDoLists.Add(list2);
