@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Epam.Wunderlist.Web.Controllers
 {
+    [Authorize]
     public class HomeController:Controller
     {
         public ActionResult Index()
@@ -13,6 +14,7 @@ namespace Epam.Wunderlist.Web.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult AppView()
         {
             return View();

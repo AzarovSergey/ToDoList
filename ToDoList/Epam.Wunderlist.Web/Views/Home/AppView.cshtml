@@ -15,9 +15,10 @@
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet"/>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/Site.js"></script>
 </head>
-<body>
+<body ng-app="app" ng-controller="main">
     <div id="background-container"></div>
     <div id="left-container">
         <div id="left">
@@ -43,8 +44,26 @@
                     <div class="user-info-item"><a href="/account/logout/">logout</a></div>
                 </div>
 
-                <div id="folder-container"></div>
-            </div>
+                <div id="folder-container">
+                    <div class="folder" ng-repeat="folder in folders">
+                        <div class="folder-description" ng-click="ToggleFolder($event);">
+                            <span class="left-side">
+                                <img src="/Content/Images/logo.png" width="40" height="40">
+                                <span class="folder-title">{{folder.Name}}</span>
+                            </span>
+                        </div>
+                        <div class="to-do-list-container">
+                            <div class="to-do-list" ng-repeat="todolist in folder.ToDoLists" ng-click="SetSelectedToDoList(todolist.Id);">
+                                <span>{{todolist.Name}}</span>
+                                <span class="right-side">
+                                    <span class="missed">3</span>
+                                    <span class="total">6</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div> @* .folder*@
+                </div> @* #folder-container*@
+            </div> @* #folder-menu*@ 
         </div> @*left*@
     </div>
 
@@ -57,32 +76,13 @@
             <input type="text" @*id="add-item-input"*@ />
         </div>
         <div id="active-item-container">
-
-            @*<div class="task">
+            <div class="task" ng-repeat="item in items">
                 <span class="checkbox-item"></span>
-                <span>item 1</span>
+                <span>{{item.Name}}</span>
             </div>
-
-            <div class="task">
-                <span class="checkbox-item"></span>
-                <span>item 2</span>
-            </div>
-
-            <div class="task">
-                <span class="checkbox-item"></span>
-                <span>item 3</span>
-            </div>
-
-            <div class="task">
-                <span class="checkbox-item"></span>
-                <span>item 4</span>
-            </div>*@
-
         </div>
     </div>
     <script>
-        var selectedFolderIndex = NaN;
-
         $('#user-info').hide();
         $('#user-info-button').click(function () {
             $('#user-info').toggle();
@@ -100,87 +100,27 @@
             isLeftHide ^= true;
         });
 
-        //(function AjaxInitializator(){
-        //    var interval=5000;
-        //    setInterval(FoldersRefresher, interval);
-        //    setInterval(ToDoListRefresher, interval);
-        //})();
-        FoldersRefresher();
 
-        function FoldersRefresher() {
-            $.ajax({
-                url: "/folder/GetFolders/",
-                success: function (result) {
-                    if (result.redirect != undefined)
-                        location.href = result.redirect;
-                    //alert('---'+result+'---');
-                    var folders = $('.folder');
-                    folders.remove();
-                    folders = $('#folder-container');
-
-                    for (var folderIndex in result) {
-                        var folderDescriptor=result[folderIndex];
-                        var folder = $('<div></div>').addClass('folder');
-                        folder.html(
-                            '<div class="folder-description"><span class="left-side">\
-                                <img src="/Content/Images/logo.png" width="40" height="40" />\
-                                <span class="folder-title">' + folderDescriptor.Name + '</span>\
-                            </span>\
-                            </div>'
-                        );
-                        var toDoLists = $('<div></div>').addClass('to-do-list-container');
-                        folder.append(toDoLists);
-                        for (toDoListIndex in folderDescriptor.ToDoLists) {
-                            var toDoListDescriptor=folderDescriptor.ToDoLists[toDoListIndex];
-                            newList = $('<div></div>').addClass('to-do-list').html(
-                                '<span>' + toDoListDescriptor.Name + '</span><span class="right-side">\
-                                <span class="missed">3</span>\
-                                <span class="total">6</span>\
-                            </span>');
-                            toDoLists.append(newList);
-                            newList.attr('data-db-id', toDoListDescriptor.Id);
-                            newList.click(function () {
-                                var id = +$(this).attr('data-db-id');
-                                SetSelectedToDoList(id);
-                            });
-                        }
-                        folder.find('.folder-description').click(function () {
-                            $(this).siblings('.to-do-list-container').toggle(500);
-                        });
-                        folders.append(folder);
-                    }
-                    
-                },
-                error: function (result) {
-                    alert("error at FoldersRefresher");
-                }
+        var app = angular.module('app', []);
+        app.controller('main', function ($scope, $http) {
+            $scope.items = [];
+            $http.get('/folder/GetFolders/').then(function (responce) {
+                $scope.folders = responce.data;
+                //console.log(responce);
             });
-        };
 
+            $scope.ToggleFolder = function (event) {
+                $(event.currentTarget).siblings('.to-do-list-container').toggle(500);
+                //console.log(event);
+            };
 
-        function SetSelectedToDoList(Id)
-        {
-            $.ajax({
-                url: '/item/GetItems?toDoListId=' + Id,
-                success: function (result) {
-                    if (result.redirect != undefined)
-                        location.href = result.redirect;
-                    //alert(result+"");
-                    //console.log(result);
-                    var itemsContainer = $('#active-item-container').html('');
-                    for(var itemIndex in result)
-                    {
-                        var newItem = $('<div></div>').addClass('task').html(
-                            '<span class="checkbox-item"></span>\
-                            <span>'+result[itemIndex].Name+'</span>');
-                        itemsContainer.append(newItem);
-                    }
-                },
-                error:function(result){
-                    alert('error in function SetSelectedToDoList. result:'+result);
-                }
-            });
-        }
+            $scope.SetSelectedToDoList = function (Id) {
+                $http.get('/item/GetItems?toDoListId=' + Id).then(function (responce) {
+                    $scope.items = responce.data;
+                    console.log(responce);
+                });
+            }
+        });
     </script>
 </body>
 </html>
