@@ -16,9 +16,8 @@ namespace Epam.Wunderlist.DependencyResolver
             Bind<IUnitOfWork>().To<UnitOfWork>();
 
             //Bind<DbContext>().To<EntityModel>().InSingletonScope();
-            //Bind<DbContext>().To<EntityModel>().I();
             Bind<DbContext>().To<EntityModel>().InRequestScope();
-
+            
             Bind<RoleServiceBase>().To<RoleService>();
             Bind<UserServiceBase>().To<UserService>();
             Bind<FolderServiceBase>().To<FolderService>();

@@ -17,5 +17,17 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
         {
             return context.Set<Item>().Where(item => item.ToDoListId == todolistid).ToArray().Select(item=>mapper.Map<Item,DalItem>(item));
         }
+
+        //public override bool Update(DalItem entity)
+        //{
+        //    //return base.Update(entity);
+        //    Item modelEntity = mapper.Map<DalItem, Item>(entity);
+        //    var x = context.Set<Item>().Find(modelEntity.Id);
+        //    if (x == null)
+        //        return false;
+        //    //context.Entry(x).CurrentValues.SetValues(modelEntity);
+        //    x.IsCompleted = entity.IsCompleted;
+        //    return true;
+        //}
     }
 }

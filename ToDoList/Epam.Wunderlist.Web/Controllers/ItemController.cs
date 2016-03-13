@@ -41,8 +41,8 @@ namespace Epam.Wunderlist.Web.Controllers
             var user = userService.GetByEmail(User.Identity.Name);
             ToDoListEntity currentToDoList = toDoListService.GetById(toDoListId);
             //TODO check that user has permission to get items.
-
-            return Json(itemService.GetByToDoListId(toDoListId).Select(toDoList => mapper.Map<ItemEntity, ItemModel>(toDoList)).ToArray(),
+            var res = itemService.GetByToDoListId(toDoListId).Select(toDoList => mapper.Map<ItemEntity, ItemModel>(toDoList)).ToArray();
+            return Json(res,
                 JsonRequestBehavior.AllowGet);
         }
 
@@ -61,6 +61,15 @@ namespace Epam.Wunderlist.Web.Controllers
                 itemService.Create(entity);
             }
             return GetItems(item.ToDoListId);
+        }
+
+        [HttpPost]
+        public JsonResult SetCompletion(int itemId,bool isCompleted)
+        {
+            var currentItem = itemService.GetById(itemId);
+            currentItem.IsCompleted = isCompleted;
+            itemService.Update(currentItem);
+            return GetItems(currentItem.ToDoListId);
         }
     }
 }

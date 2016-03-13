@@ -14,6 +14,6 @@ namespace Epam.Wunderlist.Web.Models
         public bool IsStarred { get; set; }
         public int OrderIndex { get; set; }
         public string Note { get; set; }
-        public bool IsComleted { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

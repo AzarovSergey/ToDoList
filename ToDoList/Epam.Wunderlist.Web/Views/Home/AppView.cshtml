@@ -63,6 +63,10 @@
                     </div> @* .folder*@
                 </div> @* #folder-container*@
             </div> @* #folder-menu*@ 
+
+            <div id="create-folder">
+                <div class="fa fa-plus btn btn-info">Create folder</div>
+            </div>
         </div> @*left*@
     </div>
 
@@ -76,8 +80,8 @@
         </div>
         <div id="active-item-container">
             <div class="task" ng-repeat="item in items">
-                <span class="checkbox-item"></span>
-                <span>{{item.Name}}</span>
+                <span class="checkbox-item" ng-click="SetCompletion($event,true);" data-db-id="{{item.Id}}"></span>
+                <span>{{item.Name + item.IsCompleted}}</span>
             </div>
         </div>
     </div>
@@ -127,13 +131,18 @@
                 });
             }
 
+            $scope.SetCompletion = function (event, isCompleted) {
+                itemId=$(event.currentTarget).attr('data-db-id');
+                $http.post('/item/SetCompletion?itemId=' + itemId + "&isCompleted=" + isCompleted);
+            }
+
             $http.get('/account/UserAccount').then(function (responce) {
                 $scope.user = responce.data;
                 console.log($scope.user);
             });
         });
 
-        function ItemUrlSuffix(name, toDoListId, isStarred, orderIndex, note, isCompleted, dueDateTime, id) {
+        function ItemUrlSuffix(name, toDoListId, id, isStarred, orderIndex, note, isCompleted, dueDateTime) {
             id = id || 0;
             dueDateTime = dueDateTime || 0;
             isCompleted = isCompleted || false;

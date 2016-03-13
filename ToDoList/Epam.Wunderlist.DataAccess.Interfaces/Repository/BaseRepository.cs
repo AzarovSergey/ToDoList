@@ -10,6 +10,7 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
         where TDal : class, DTO.IEntity
         where TOrm : class, Orm.IEntity
     {
+        
         protected readonly DbContext context;
         protected IMapper mapper= (IMapper)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IMapper));
 
@@ -36,10 +37,6 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 
             }
             return dbEntity.Entity.Id;
-            //if (entity == null)
-            //    throw new ArgumentNullException(nameof(entity));
-            //context.Set<TOrm>().Add(mapper.Map<TDal,TOrm>(entity));
-
         }
 
         public virtual bool Delete(int key)
