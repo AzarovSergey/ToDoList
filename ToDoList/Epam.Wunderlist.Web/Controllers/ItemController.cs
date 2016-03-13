@@ -10,6 +10,7 @@ using Epam.Wunderlist.Services.Interface.Entities;
 
 namespace Epam.Wunderlist.Web.Controllers
 {
+    [Authorize]
     public class ItemController : Controller
     {
         private readonly UserServiceBase userService;
@@ -43,6 +44,23 @@ namespace Epam.Wunderlist.Web.Controllers
 
             return Json(itemService.GetByToDoListId(toDoListId).Select(toDoList => mapper.Map<ItemEntity, ItemModel>(toDoList)).ToArray(),
                 JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult Index(ItemModel item)
+        {
+            if (item.DueDateTime == DateTime.MinValue)
+                item.DueDateTime = DateTime.MaxValue;
+            ItemEntity entity = mapper.Map<ItemModel, ItemEntity>(item);
+            if (item.Id!=0)
+            {
+                itemService.Update(entity);
+            }
+            else
+            {
+                itemService.Create(entity);
+            }
+            return GetItems(item.ToDoListId);
         }
     }
 }

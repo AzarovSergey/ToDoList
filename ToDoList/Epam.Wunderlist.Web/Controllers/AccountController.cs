@@ -8,6 +8,7 @@ using Epam.Wunderlist.Web.ViewModels;
 using System.Web.Security;
 using Epam.Wunderlist.Services.Interface.Services;
 using Epam.Wunderlist.Web.Providers;
+using System.Diagnostics;
 
 namespace Epam.Wunderlist.Web.Controllers
 {
@@ -95,9 +96,9 @@ namespace Epam.Wunderlist.Web.Controllers
 
 
         [HttpGet]
-        public ActionResult UserAccount()
+        public JsonResult UserAccount()
         {
-            return View();
+            return Json(userService.GetByEmail(User.Identity.Name), JsonRequestBehavior.AllowGet);
         }
 
         public string Private()

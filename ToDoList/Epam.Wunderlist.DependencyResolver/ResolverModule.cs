@@ -5,6 +5,7 @@ using Epam.Wunderlist.DataAccess.MsSql.Concrete;
 using Epam.Wunderlist.Orm;
 using Epam.Wunderlist.Services.Interface.Services;
 using Epam.Wunderlist.Services.Services;
+using Ninject.Web.Common;
 
 namespace Epam.Wunderlist.DependencyResolver
 {
@@ -14,8 +15,10 @@ namespace Epam.Wunderlist.DependencyResolver
         {
             Bind<IUnitOfWork>().To<UnitOfWork>();
 
-            Bind<DbContext>().To<EntityModel>().InSingletonScope();
-            
+            //Bind<DbContext>().To<EntityModel>().InSingletonScope();
+            //Bind<DbContext>().To<EntityModel>().I();
+            Bind<DbContext>().To<EntityModel>().InRequestScope();
+
             Bind<RoleServiceBase>().To<RoleService>();
             Bind<UserServiceBase>().To<UserService>();
             Bind<FolderServiceBase>().To<FolderService>();

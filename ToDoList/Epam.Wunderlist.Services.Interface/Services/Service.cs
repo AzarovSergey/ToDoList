@@ -33,7 +33,9 @@ namespace Epam.Wunderlist.Services.Interface.Services
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
-            return repository.Create(mapper.Map<TEntity,TRepositoryEntity>(entity));
+            var newEntityId = repository.Create(mapper.Map<TEntity, TRepositoryEntity>(entity));
+            uow.Commit();
+            return newEntityId;
         }
 
         public TEntity GetById(int Id)

@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using Epam.Wunderlist.DataAccess.Interfaces.Mapper;
+using System;
 
 namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 {
@@ -25,11 +26,20 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 
         public virtual int Create(TDal entity)
         {
-            TOrm modelEntity = mapper.Map<TDal, TOrm>(entity);
-            DbEntityEntry<TOrm> dbEntity = context.Entry<TOrm>(modelEntity);
-            context.Set<TOrm>().Add(dbEntity.Entity);
-            context.SaveChanges();
+            DbEntityEntry<TOrm> dbEntity=null;
+            try {
+                dbEntity = context.Entry<TOrm>( mapper.Map<TDal, TOrm>(entity));
+                context.Set<TOrm>().Add(dbEntity.Entity);
+                context.SaveChanges();
+            }catch(Exception e)
+            {
+
+            }
             return dbEntity.Entity.Id;
+            //if (entity == null)
+            //    throw new ArgumentNullException(nameof(entity));
+            //context.Set<TOrm>().Add(mapper.Map<TDal,TOrm>(entity));
+
         }
 
         public virtual bool Delete(int key)
