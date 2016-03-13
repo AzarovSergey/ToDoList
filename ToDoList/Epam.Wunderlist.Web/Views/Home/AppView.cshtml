@@ -50,6 +50,9 @@
                                 <img src="/Content/Images/logo.png" width="40" height="40">
                                 <span class="folder-title">{{folder.Name}}</span>
                             </span>
+                            <span class="right-side">
+                                <button type="button" class="btn btn-default fa fa-plus" onclick="creatingFolderId=+($(this).attr('data-folder-id'));" data-folder-id="{{folder.Id}}" data-toggle="modal" data-target="#modal-create-todolist"></button>
+                            </span>
                         </div>
                         <div class="to-do-list-container">
                             <div class="to-do-list" ng-repeat="todolist in folder.ToDoLists" ng-click="SetSelectedToDoList(todolist.Id);">
@@ -62,11 +65,10 @@
                         </div>
                     </div> @* .folder*@
                 </div> @* #folder-container*@
+                <button id="create-folder" class="fa fa-plus btn btn-info" data-toggle="modal" data-target="#modal-create-folder">Create folder</button>
             </div> @* #folder-menu*@ 
 
-            <div id="create-folder">
-                <div class="fa fa-plus btn btn-info">Create folder</div>
-            </div>
+            
         </div> @*left*@
     </div>
 
@@ -86,9 +88,11 @@
         </div>
     </div>
     <script>
+        //event.stopPropagation();
         var SelectedToDoListId=undefined;
         var http;
         var scope;
+        var creatingFolderId;
         
         $('#user-info').hide();
         $('#user-info-button').click(function () {
@@ -100,9 +104,11 @@
             if (isLeftHide) {
                 $('#left-container').css('width', '300px');
                 $('#center').css('left', '300px');
+                $('#create-folder').show();
             } else {
                 $('#left-container').css('width', '50px');
                 $('#center').css('left', '50px');
+                $('#create-folder').hide();
             }
             isLeftHide ^= true;
         });
@@ -134,6 +140,40 @@
             $scope.SetCompletion = function (event, isCompleted) {
                 itemId=$(event.currentTarget).attr('data-db-id');
                 $http.post('/item/SetCompletion?itemId=' + itemId + "&isCompleted=" + isCompleted);
+            }
+
+            $scope.AddFolder = function(event) {
+                console.log($(event.target));
+                var path = "/folder/create?name=" + $(event.target).siblings('input')[0].value+"&folderId="+creatingFolderId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        alert('success');
+                        //scope.SetSelectedToDoList(SelectedToDoListId);
+                    },
+                    error: function (responce) {
+                        console.log(responce);
+                        alert('error');
+                    }
+                });
+            }
+
+            $scope.AddToDoList = function (event) {
+                console.log(event);
+                var path = "/todoList/create?name=" + $(event.target).siblings('input')[0].value+"&folderId="+creatingFolderId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        alert('success');
+                        scope.SetSelectedToDoList(SelectedToDoListId);
+                    },
+                    error: function (responce) {
+                        console.log(responce);
+                        alert('error');
+                    }
+                });
             }
 
             $http.get('/account/UserAccount').then(function (responce) {
@@ -172,6 +212,9 @@
                 });
             }
         }
+
+        
+        
     </script>
 
     <div class="modal fade" id="modal-1">
@@ -207,6 +250,48 @@
                     <button class="btn btn-info" type="button" data-dismiss="modal">
                         Done
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-create-folder">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h4 class="modal-title">Create Folder</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="create-folder-form">
+                        <span>Name</span>
+                        <input type="text" placeholder="Name" name="name"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="AddFolder($event);">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-create-todolist">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h4 class="modal-title">Create to-do list</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="create-todolist-form">
+                        <span>Name</span>
+                        <input type="text" placeholder="Name" name="name" />
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="AddToDoList($event);">Create</button>
+                    </form>
                 </div>
             </div>
         </div>

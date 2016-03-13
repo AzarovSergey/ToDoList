@@ -50,6 +50,17 @@ namespace Epam.Wunderlist.Web.Controllers.API
             return Json(folders, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public EmptyResult Create(string name)
+        {
+            folderService.Create(new FolderEntity()
+            {
+                Name = name,
+                UserId = userService.GetByEmail(User.Identity.Name).Id
+            });
+            return new EmptyResult();
+        }
+
 
     }
 }

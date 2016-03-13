@@ -11,6 +11,7 @@ using Epam.Wunderlist.Services.Interface.Entities;
 
 namespace Epam.Wunderlist.Web.Controllers
 {
+    [Authorize]
     public class ToDoListController : Controller
     {
         private readonly UserServiceBase userService;
@@ -20,7 +21,7 @@ namespace Epam.Wunderlist.Web.Controllers
         private readonly ItemServiceBase itemService;
         private readonly IMapper mapper;
 
-        internal ToDoListController(UserServiceBase userService, RoleServiceBase roleService, FolderServiceBase folderService, ToDoListServiceBase toDoListService, ItemServiceBase itemService, IMapper mapper)
+        public ToDoListController(UserServiceBase userService, RoleServiceBase roleService, FolderServiceBase folderService, ToDoListServiceBase toDoListService, ItemServiceBase itemService, IMapper mapper)
         {
             this.userService = userService;
             this.roleService = roleService;
@@ -46,5 +47,17 @@ namespace Epam.Wunderlist.Web.Controllers
             ToDoListModel[] lists = toDoListService.GetByFolderId(folderId).Select(list =>mapper.Map<ToDoListEntity,ToDoListModel>(list)).ToArray();
             return Json(lists, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult Create(string name,int folderId)
+        {
+            toDoListService.Create(new ToDoListEntity()
+            {
+                Name = name,
+                FolderId = folderId
+            });
+            return null;
+        }
+
     }
 }

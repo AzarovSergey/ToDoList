@@ -177,3 +177,13 @@ body{
 .to-do-list{
     height:50px;
 }
+
+#create-folder{
+    bottom:0;
+    position:fixed;
+    width:300px;
+}
+
+.folder-description>.right-side{
+    height:20px;
+}

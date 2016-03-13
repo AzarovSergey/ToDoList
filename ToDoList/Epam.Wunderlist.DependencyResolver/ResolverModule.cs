@@ -13,25 +13,43 @@ namespace Epam.Wunderlist.DependencyResolver
     {
         public override void Load()
         {
-            Bind<IUnitOfWork>().To<UnitOfWork>();
-
             //Bind<DbContext>().To<EntityModel>().InSingletonScope();
             Bind<DbContext>().To<EntityModel>().InRequestScope();
-            
-            Bind<RoleServiceBase>().To<RoleService>();
-            Bind<UserServiceBase>().To<UserService>();
-            Bind<FolderServiceBase>().To<FolderService>();
-            Bind<ToDoListServiceBase>().To<ToDoListService>();
-            Bind<ItemServiceBase>().To<ItemService>();
 
-            Bind<RoleRepositoryBase>().To<RoleRepository>();
-            Bind<UserRepositoryBase>().To<UserRepository>();
-            Bind<FolderRepositoryBase>().To<FolderRepository>();
-            Bind<ToDoListRepositoryBase>().To<ToDoListRepository>();
-            Bind<ItemRepositoryBase>().To<ItemRepository>();
+            Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
 
-            Bind<Epam.Wunderlist.DataAccess.Interfaces.Mapper.IMapper>().To<Epam.Wunderlist.DataAccess.MsSql.Mappers.Mapper>();
-            Bind<Epam.Wunderlist.Services.Interface.Mappers.IMapper>().To<Epam.Wunderlist.Services.Mappers.Mapper>();
+            Bind<RoleServiceBase>().To<RoleService>().InRequestScope();
+            Bind<UserServiceBase>().To<UserService>().InRequestScope();
+            Bind<FolderServiceBase>().To<FolderService>().InRequestScope();
+            Bind<ToDoListServiceBase>().To<ToDoListService>().InRequestScope();
+            Bind<ItemServiceBase>().To<ItemService>().InRequestScope();
+
+            Bind<RoleRepositoryBase>().To<RoleRepository>().InRequestScope();
+            Bind<UserRepositoryBase>().To<UserRepository>().InRequestScope();
+            Bind<FolderRepositoryBase>().To<FolderRepository>().InRequestScope();
+            Bind<ToDoListRepositoryBase>().To<ToDoListRepository>().InRequestScope();
+            Bind<ItemRepositoryBase>().To<ItemRepository>().InRequestScope();
+
+            Bind<Epam.Wunderlist.DataAccess.Interfaces.Mapper.IMapper>().To<Epam.Wunderlist.DataAccess.MsSql.Mappers.Mapper>().InRequestScope();
+            Bind<Epam.Wunderlist.Services.Interface.Mappers.IMapper>().To<Epam.Wunderlist.Services.Mappers.Mapper>().InRequestScope();
+
+
+            //Bind<IUnitOfWork>().To<UnitOfWork>();
+
+            //Bind<RoleServiceBase>().To<RoleService>();
+            //Bind<UserServiceBase>().To<UserService>();
+            //Bind<FolderServiceBase>().To<FolderService>();
+            //Bind<ToDoListServiceBase>().To<ToDoListService>();
+            //Bind<ItemServiceBase>().To<ItemService>();
+
+            //Bind<RoleRepositoryBase>().To<RoleRepository>();
+            //Bind<UserRepositoryBase>().To<UserRepository>();
+            //Bind<FolderRepositoryBase>().To<FolderRepository>();
+            //Bind<ToDoListRepositoryBase>().To<ToDoListRepository>();
+            //Bind<ItemRepositoryBase>().To<ItemRepository>();
+
+            //Bind<Epam.Wunderlist.DataAccess.Interfaces.Mapper.IMapper>().To<Epam.Wunderlist.DataAccess.MsSql.Mappers.Mapper>();
+            //Bind<Epam.Wunderlist.Services.Interface.Mappers.IMapper>().To<Epam.Wunderlist.Services.Mappers.Mapper>();
         }
     }
 }

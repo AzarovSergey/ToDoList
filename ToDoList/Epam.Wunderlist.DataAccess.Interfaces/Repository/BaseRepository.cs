@@ -54,6 +54,7 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
             if (x == null)
                 return false;
             context.Entry(x).CurrentValues.SetValues(modelEntity);
+            context.SaveChanges();
             return true;
         }
 
