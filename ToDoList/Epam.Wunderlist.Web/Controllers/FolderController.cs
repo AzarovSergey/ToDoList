@@ -61,6 +61,18 @@ namespace Epam.Wunderlist.Web.Controllers.API
             return new EmptyResult();
         }
 
+        public JsonResult Delete(int folderId)
+        {
+            folderService.Delete(folderId);
+            return GetFolders();
+        }
 
+        [HttpPost]
+        public void Rename(string name, int id)
+        {
+            var entity = folderService.GetById(id);
+            entity.Name = name;
+            folderService.Update(entity);
+        }
     }
 }

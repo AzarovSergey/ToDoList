@@ -51,7 +51,9 @@
                                 <span class="folder-title">{{folder.Name}}</span>
                             </span>
                             <span class="right-side">
-                                <button type="button" class="btn btn-default fa fa-plus" onclick="creatingFolderId=+($(this).attr('data-folder-id'));" data-folder-id="{{folder.Id}}" data-toggle="modal" data-target="#modal-create-todolist"></button>
+                                <span class="fa fa-pencil-square" onclick="targetInstanceId=+($(this).attr('data-todolist-id'));" data-todolist-id="{{folder.Id}}" data-toggle="modal" data-target="#modal-edit-folder"></span>
+                                <span type="button" class="fa fa-plus" onclick="creatingFolderId=+($(this).attr('data-folder-id'));" data-folder-id="{{folder.Id}}" data-toggle="modal" data-target="#modal-create-todolist"></span>
+                                <span class="fa fa-trash" ng-click="DeleteFolder(folder.Id);"></span>
                             </span>
                         </div>
                         <div class="to-do-list-container">
@@ -60,6 +62,8 @@
                                 <span class="right-side">
                                     <span class="missed">3</span>
                                     <span class="total">6</span>
+                                    <span class="fa fa-pencil-square" onclick="targetInstanceId=+($(this).attr('data-todolist-id'));" data-todolist-id="{{todolist.Id}}" data-toggle="modal" data-target="#modal-edit-todolist"></span>
+                                    <span class="fa fa-trash" ng-click="DeleteToDoList(todolist.Id);"></span>
                                 </span>
                             </div>
                         </div>
@@ -81,9 +85,15 @@
             <input type="text" @*id="add-item-input"*@ onkeypress="AddItem(event);" />
         </div>
         <div id="active-item-container">
-            <div class="task" ng-repeat="item in items">
-                <span class="checkbox-item" ng-click="SetCompletion($event,true);" data-db-id="{{item.Id}}"></span>
+            <div class="task" ng-repeat="item in activeItems">
+                <span class="fa fa-square-o" ng-click="SetCompletion($event,true);" data-db-id="{{item.Id}}"></span>
                 <span>{{item.Name + item.IsCompleted}}</span>
+            </div>
+        </div>
+        <div id="disabled-item-container">
+            <div class="task" ng-repeat="item in disabledItems">
+                <span class="fa fa-check-square-o" ng-click="SetCompletion($event,false);" data-db-id="{{item.Id}}"></span>
+                <span><strike>{{item.Name + item.IsCompleted}}</strike></span>
             </div>
         </div>
     </div>
@@ -93,6 +103,7 @@
         var http;
         var scope;
         var creatingFolderId;
+        var targetInstanceId;
         
         $('#user-info').hide();
         $('#user-info-button').click(function () {
@@ -118,7 +129,8 @@
         app.controller('main', function ($scope, $http) {
             http = $http;
             scope = $scope;
-            $scope.items = [];
+            $scope.activeItems = [];
+            $scope.disabledItems = [];
             $http.get('/folder/GetFolders/').then(function (responce) {
                 $scope.folders = responce.data;
                 //console.log(responce);
@@ -131,7 +143,18 @@
 
             $scope.SetSelectedToDoList = function (Id) {
                 $http.get('/item/GetItems?toDoListId=' + Id).then(function (responce) {
-                    $scope.items = responce.data;
+                    var allItems = responce.data;
+                    $scope.activeItems = [];
+                    $scope.disabledItems = [];
+                    for (var itemIndex in allItems) {
+                        var item = allItems[itemIndex];
+                        if (item.IsCompleted) {
+                            $scope.disabledItems.push(item);
+                        } else {
+                            $scope.activeItems.push(item);
+                        }
+                    }
+
                     SelectedToDoListId=Id;
                     console.log(responce);
                 });
@@ -159,6 +182,36 @@
                 });
             }
 
+            $scope.DeleteFolder = function (folderId) {
+                var path = '/folder/delete?folderId=' + folderId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        alert('success');
+                    },
+                    error: function (responce) {
+                        console.log(responce);
+                        alert('error');
+                    }
+                });
+            }
+
+            $scope.DeleteToDoList = function (todolistId) {
+                var path = '/todolist/delete?id=' + todolistId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        alert('success');
+                    },
+                    error: function (responce) {
+                        console.log(responce);
+                        alert('error');
+                    }
+                });
+            }
+
             $scope.AddToDoList = function (event) {
                 console.log(event);
                 var path = "/todoList/create?name=" + $(event.target).siblings('input')[0].value+"&folderId="+creatingFolderId;
@@ -168,6 +221,38 @@
                     success: function (responce) {
                         alert('success');
                         scope.SetSelectedToDoList(SelectedToDoListId);
+                    },
+                    error: function (responce) {
+                        console.log(responce);
+                        alert('error');
+                    }
+                });
+            }
+
+            $scope.EditToDoList = function (event) {
+                console.log(event);
+                var path = "/todoList/Rename?name=" + $(event.target).siblings('input')[0].value + "&Id=" + targetInstanceId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        alert('success');
+                    },
+                    error: function (responce) {
+                        console.log(responce);
+                        alert('error');
+                    }
+                });
+            }
+
+            $scope.EditFolder = function (event) {
+                console.log(event);
+                var path = "/folder/Rename?name=" + $(event.target).siblings('input')[0].value + "&Id=" + targetInstanceId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        alert('success');
                     },
                     error: function (responce) {
                         console.log(responce);
@@ -296,6 +381,49 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modal-edit-todolist">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h4 class="modal-title">Edit to-do list</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-todolist-form">
+                        <span>Name</span>
+                        <input type="text" placeholder="Name" name="name" />
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="EditToDoList($event);">Rename</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-edit-folder">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h4 class="modal-title">Edit folder</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-todolist-form">
+                        <span>Name</span>
+                        <input type="text" placeholder="Name" name="name" />
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="EditFolder($event);">Rename</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="~/Scripts/bootstrap.js"></script>
 </body>

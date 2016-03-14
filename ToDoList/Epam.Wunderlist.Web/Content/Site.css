@@ -146,7 +146,7 @@ body{
     padding:24px;
 }
 
-#active-item-container{
+#active-item-container,#disabled-item-container{
     margin:16px;
 }
 
@@ -186,4 +186,9 @@ body{
 
 .folder-description>.right-side{
     height:20px;
+}
+
+#disabled-item-container{
+    /*border:4px solid;*/
+    opacity:0.5;
 }

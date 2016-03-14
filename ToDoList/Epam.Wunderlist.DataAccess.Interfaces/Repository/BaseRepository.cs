@@ -44,6 +44,7 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
             //TOrm modelEntity = mapper.Map<TDal, TOrm>(entity);
             DbEntityEntry<TOrm> dbEntity = context.Entry<TOrm>(context.Set<TOrm>().Find(key));
             context.Set<TOrm>().Remove(dbEntity.Entity);
+            context.SaveChanges();
             return true;
         }
 
