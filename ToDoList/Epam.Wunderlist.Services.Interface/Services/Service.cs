@@ -55,7 +55,9 @@ namespace Epam.Wunderlist.Services.Interface.Services
 
         public bool Delete(int id)
         {
-            return repository.Delete(id);
+            var result = repository.Delete(id);
+            uow.Commit();
+            return result;
         }
     }
 }

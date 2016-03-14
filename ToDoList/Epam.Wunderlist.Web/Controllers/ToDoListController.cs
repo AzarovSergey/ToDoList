@@ -59,5 +59,18 @@ namespace Epam.Wunderlist.Web.Controllers
             return null;
         }
 
+        [HttpPost]
+        public void Rename(string name, int id)
+        {
+            var entity = toDoListService.GetById(id);
+            entity.Name = name;
+            toDoListService.Update(entity);
+        }
+
+        public void Delete(int id)
+        {
+            toDoListService.Delete(id);
+        }
+
     }
 }
