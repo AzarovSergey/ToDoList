@@ -14,6 +14,7 @@ namespace Epam.Wunderlist.Services.Mappers
             TinyMapper.Bind<FolderEntity, DalFolder>();
             TinyMapper.Bind<ToDoListEntity, DalToDoList>();
             TinyMapper.Bind<ItemEntity, DalItem>();
+            TinyMapper.Bind<DalPhoto, DalPhoto>();
         }
 
         public TTarget Map<TSource, TTarget>(TSource entity)

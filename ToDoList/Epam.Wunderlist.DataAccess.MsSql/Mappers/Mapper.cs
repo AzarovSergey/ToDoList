@@ -14,6 +14,7 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Mappers
             TinyMapper.Bind<Folder, DalFolder>();
             TinyMapper.Bind<ToDoList, DalToDoList>();
             TinyMapper.Bind<Item, DalItem>();
+            TinyMapper.Bind<Photo, DalPhoto>();
         }
 
         public TTarget Map<TSource, TTarget>(TSource entity)
