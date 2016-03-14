@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Epam.Wunderlist.DataAccess.Interfaces.DTO;
 using Epam.Wunderlist.DataAccess.Interfaces.Repository;
 using System.Data.Entity;
@@ -22,7 +23,10 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
         public override Image GetPhoto(int key)
         {         
             var tempUser = mapper.Map<User, DalUser>(context.Set<User>().FirstOrDefault(user => user.Id == key));
-            return ByteArrayToImage(mapper.Map<Photo, DalPhoto>(context.Set<Photo>().FirstOrDefault(photo => photo.Id == tempUser.PhotoId)));
+            var tempPhoto = context.Set<Photo>().FirstOrDefault(photo => photo.Id == tempUser.PhotoId);
+            if (tempPhoto == null)
+                throw new ArgumentNullException(nameof(tempPhoto));
+            return ByteArrayToImage(tempPhoto.Image);
         }
 
         public override bool SetPhoto(int key, Image image)
@@ -37,16 +41,16 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
             return true;
         }
 
-        public override byte[] ImageToByteArray(Image imageIn)
+        private byte[] ImageToByteArray(Image imageIn)
         {
             MemoryStream ms = new MemoryStream();
             imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
             return ms.ToArray();
         }
 
-        public override Image ByteArrayToImage(DalPhoto photo)
+        private Image ByteArrayToImage(byte[] array)
         {
-            MemoryStream ms = new MemoryStream(photo.Image);
+            MemoryStream ms = new MemoryStream(array);
             Image returnImage = Image.FromStream(ms);
             return returnImage;
         }

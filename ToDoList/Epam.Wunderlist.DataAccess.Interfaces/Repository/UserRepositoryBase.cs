@@ -13,10 +13,6 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
 
         public abstract bool SetPhoto(int key, Image image);
 
-        public abstract byte[] ImageToByteArray(Image imageIn);
-
-        public abstract Image ByteArrayToImage(DalPhoto photo);
-
         protected UserRepositoryBase(DbContext context) : base(context)
         {
         }
