@@ -71,5 +71,13 @@ namespace Epam.Wunderlist.Web.Controllers
             itemService.Update(currentItem);
             return GetItems(currentItem.ToDoListId);
         }
+
+        public void Update(int id,string note,string name)
+        {
+            var item = itemService.GetById(id);
+            item.Note = note;
+            item.Name = name;
+            itemService.Update(item);
+        }
     }
 }

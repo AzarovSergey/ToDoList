@@ -18,6 +18,7 @@ namespace Epam.Wunderlist.Orm
         public DbSet<Folder> Folders { get; set; }
         public DbSet<ToDoList> ToDoLists { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -64,14 +65,14 @@ namespace Epam.Wunderlist.Orm
                 };
                 Item[] items = new Item[]
                 {
-                    new Item() {Name="item1",Note="note",ToDoList=toDoLists[0],DueDateTime=DateTime.Now },
-                    new Item() {Name="item2",Note="note",ToDoList=toDoLists[0],DueDateTime=DateTime.Now },
-                    new Item() {Name="item3",Note="note",ToDoList=toDoLists[1],DueDateTime=DateTime.Now },
-                    new Item() {Name="item4",Note="note",ToDoList=toDoLists[1],DueDateTime=DateTime.Now },
-                    new Item() {Name="item5",Note="note",ToDoList=toDoLists[0],DueDateTime=DateTime.Now },
-                    new Item() {Name="item6",Note="note",ToDoList=toDoLists[2],DueDateTime=DateTime.Now },
-                    new Item() {Name="item7",Note="note",ToDoList=toDoLists[1],DueDateTime=DateTime.Now },
-                    new Item() {Name="item8",Note="note",ToDoList=toDoLists[2],DueDateTime=DateTime.Now },
+                    new Item() {Name="item1",Note="note1",ToDoList=toDoLists[0],DueDateTime=DateTime.Now },
+                    new Item() {Name="item2",Note="note2",ToDoList=toDoLists[0],DueDateTime=DateTime.Now },
+                    new Item() {Name="item3",Note="note3",ToDoList=toDoLists[1],DueDateTime=DateTime.Now },
+                    new Item() {Name="item4",Note="note4",ToDoList=toDoLists[1],DueDateTime=DateTime.Now },
+                    new Item() {Name="item5",Note="note5",ToDoList=toDoLists[0],DueDateTime=DateTime.Now },
+                    new Item() {Name="item6",Note="note6",ToDoList=toDoLists[2],DueDateTime=DateTime.Now },
+                    new Item() {Name="item7",Note="note7",ToDoList=toDoLists[1],DueDateTime=DateTime.Now },
+                    new Item() {Name="item8",Note="note8",ToDoList=toDoLists[2],DueDateTime=DateTime.Now },
                 };
                
                 context.Roles.Add(roleUser);

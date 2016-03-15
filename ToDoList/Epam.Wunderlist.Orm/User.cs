@@ -24,7 +24,7 @@ namespace Epam.Wunderlist.Orm
         [Required]
         public int RoleId { get; set; }
 
-        [Required]
+        //[Required]
         public int PhotoId { get; set; }
 
         public virtual Role Role { get; set; }

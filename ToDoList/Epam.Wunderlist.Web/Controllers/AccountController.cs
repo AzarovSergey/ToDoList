@@ -9,6 +9,9 @@ using System.Web.Security;
 using Epam.Wunderlist.Services.Interface.Services;
 using Epam.Wunderlist.Web.Providers;
 using System.Diagnostics;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace Epam.Wunderlist.Web.Controllers
 {
@@ -93,7 +96,40 @@ namespace Epam.Wunderlist.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        public void ChangeName(int id,string name)
+        {
+            var user = userService.GetById(id);
+            user.Name = name;
+            userService.Update(user);
+        }
 
+        [HttpPost]
+        public void ChangePhoto()
+        {
+            var user = userService.GetByEmail(User.Identity.Name);
+            if (Request.Files.Count != 1)
+            {
+                return;
+            }
+            var stream = Request.Files.Get(0).InputStream;
+            byte[] fileBytes = new byte[stream.Length];
+            stream.Read(fileBytes,0,(int)stream.Length);
+            userService.SetPhoto(user.Id, fileBytes);
+        }
+
+        public ActionResult GetPhoto(string randomString)
+        {
+            var user = userService.GetByEmail(User.Identity.Name);
+            Response.Clear();
+            var photo = userService.GetPhoto(user.Id);
+            if (photo == null)
+                return null;
+            Response.OutputStream.Write(photo, 0, photo.Length);
+            return null;
+        }
+
+        
 
         [HttpGet]
         public JsonResult UserAccount()

@@ -85,18 +85,31 @@
             <input type="text" @*id="add-item-input"*@ onkeypress="AddItem(event);" />
         </div>
         <div id="active-item-container">
-            <div class="task" ng-repeat="item in activeItems">
+            <div class="task" ng-repeat="item in activeItems" title="{{item.Note}}">
                 <span class="fa fa-square-o" ng-click="SetCompletion($event,true);" data-db-id="{{item.Id}}"></span>
-                <span>{{item.Name + item.IsCompleted}}</span>
+                <span>{{item.Name}}</span>
+                <span class="right-side fa fa-edit" data-toggle="modal" data-target="#modal-edit-item" ng-click="PrepareToUpdateItem($event);" data-name="{{item.Name}}" data-note="{{item.Note}}" data-db-id="{{item.Id}}"></span>
             </div>
         </div>
-        <div id="disabled-item-container">
+        <a id="toggle-disabled-items" href="#disabled-item-container" data-toggle="collapse">SHOW COMPLETED TO-DOS</a>
+        <div id="disabled-item-container" class="collapse">
             <div class="task" ng-repeat="item in disabledItems">
                 <span class="fa fa-check-square-o" ng-click="SetCompletion($event,false);" data-db-id="{{item.Id}}"></span>
-                <span><strike>{{item.Name + item.IsCompleted}}</strike></span>
+                <span><strike>{{item.Name}}</strike></span>
+                <span class="right-side fa fa-edit"></span>
             </div>
         </div>
     </div>
+
+    <div id="right">
+        <form>
+            <i class="glyphicon glyphicon-remove close" onclick="RightVisibility(false);"></i>
+            <input type="text" placeholder="Name" name="name" value="{{itemEditor.name}}" />
+            <input type="text" placeholder="Note" name="note" value="{{itemEditor.note}}" />
+            <button type="button" ng-click="EditItem($event);" data-db-id="{{itemEditor.id}}">Submit</button>
+        </form>
+    </div>
+
     <script>
         //event.stopPropagation();
         var SelectedToDoListId=undefined;
@@ -109,6 +122,13 @@
         $('#user-info-button').click(function () {
             $('#user-info').toggle();
         });
+        RightVisibility(false);
+
+        function RightVisibility(isVisible) {
+            // $('#right').toggle(isVisible);
+            var opacity = isVisible + 0;
+            $('#right').css('opacity', opacity);
+        }
 
         var isLeftHide = false;
         $('#menu-toggle-button').click(function () {
@@ -131,6 +151,8 @@
             scope = $scope;
             $scope.activeItems = [];
             $scope.disabledItems = [];
+            $scope.itemEditor = { id: 0, name: '', note: '' };
+
             $http.get('/folder/GetFolders/').then(function (responce) {
                 $scope.folders = responce.data;
                 //console.log(responce);
@@ -164,6 +186,22 @@
                 itemId=$(event.currentTarget).attr('data-db-id');
                 $http.post('/item/SetCompletion?itemId=' + itemId + "&isCompleted=" + isCompleted);
             }
+
+            $scope.CahngeUserName = function (event) {
+                var path = "/account/ChangeName?id="+$scope.user.Id+"&name=" + $(event.target).siblings('input')[0].value;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        alert('success');
+                        //scope.SetSelectedToDoList(SelectedToDoListId);
+                    },
+                    error: function (responce) {
+                        console.log(responce);
+                        alert('error');
+                    }
+                });
+            };
 
             $scope.AddFolder = function(event) {
                 console.log($(event.target));
@@ -245,6 +283,24 @@
                 });
             }
 
+            $scope.EditItem = function (event) {
+                console.log(event);
+                RightVisibility(false);
+                var btn = $(event.target);
+                var path = "/item/update?name=" +btn.siblings('[name=name]')[0].value + "&Id="+ btn.attr('data-db-id') + "&note=" +btn.siblings('[name=note]')[0].value;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        alert('success');
+                    },
+                    error: function (responce) {
+                        console.log(responce);
+                        alert('error');
+                    }
+                });
+            }
+
             $scope.EditFolder = function (event) {
                 console.log(event);
                 var path = "/folder/Rename?name=" + $(event.target).siblings('input')[0].value + "&Id=" + targetInstanceId;
@@ -259,6 +315,67 @@
                         alert('error');
                     }
                 });
+            }
+
+
+
+            $scope.PrepareToUpdateItem = function (event) {
+                RightVisibility(true);
+                console.log(event);
+                var btn = $(event.target);
+                $scope.itemEditor = { id: btn.attr('data-db-id'), name: btn.attr('data-name'), note: btn.attr('data-note') };
+            }
+
+            $scope.ChangePhoto = function (event) {
+                var form = $('#user-image-form')[0];
+                var data = new FormData(form);
+                var path = "/account/ChangePhoto";
+                var f = $('#input-photo')[0].files;
+                jQuery.each(f, function (i, file) {
+                    data.append('file-'+i, file);
+                });
+
+                jQuery.ajax({
+                    url: path,
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function(data){
+                        alert('success');
+                        var photo = $('#photo');
+                        var src = photo.attr('src');
+                        //photo.removeAttr('src');
+                        photo.attr('src', src+'?randomString='+new Date());
+                    },
+                    error:function(data){
+                        alert('error');
+                    }
+                });
+
+                //$.ajax({
+                //    method: 'POST',
+                //    url: path,
+                //    xhr: function () {  // Custom XMLHttpRequest
+                //        var myXhr = $.ajaxSettings.xhr();
+                //        if (myXhr.upload) { // Check if upload property exists
+                //            myXhr.upload.addEventListener('progress', function () { alert('aaa'); }, false); // For handling the progress of the upload
+                //        }
+                //        return myXhr;
+                //    },
+                //    success: function (responce) {
+                //        alert('success');
+                //    },
+                //    error: function (responce) {
+                //        console.log(responce);
+                //        alert('error');
+                //    },
+                //    data: data,
+                //    cache: false,
+                //    contentType: false,
+                //    processData: false
+                //});
             }
 
             $http.get('/account/UserAccount').then(function (responce) {
@@ -310,32 +427,30 @@
                         <i class="fa fa-close"></i>
                     </button>
                     <h4 class="modal-title">Profile</h4>
-                    <div style="width:100px;height:100px;background-color:cadetblue"></div>
+                    <div style="width:100px;height:100px;background-color:cadetblue"><img id="photo" src="/account/GetPhoto" /></div>
+                    <form id="user-image-form" onsubmit="return false;">
+                        <input type="file" id="input-photo"/>
+                        <button type="submit" ng-click="ChangePhoto($event);">Change photo</button>
+                    </form>
                 </div>
                 <div class="modal-body">
                     <form id="profile">
-                        <dl>
-                            <dt>Name</dt>
-                            <dd><input type="text" value="{{user.Name}}"/></dd>
-                            <dt>Email</dt>
-                            <dd>
-                                <input type="text" value="{{user.Email}}" />
-                                <button class="btn btn-default">Change Email</button>
-                            </dd>
-                        </dl>
+                        <input type="text" value="{{user.Name}}"/>
+                        <button class="btn btn-default" ng-click="CahngeUserName($event);" data-dismiss="modal">Change Name</button>
+                        <p>Email: {{user.Email}}</p>
                     </form>
-                    <form id="change-pass">
+                    @*<form id="change-pass">
                         <input type="text" placeholder="Current Password"/>
                         <input type="text" placeholder="New password"/>
                         <input type="text" placeholder="Repeat New Password"/>
                         <button class="btn btn-info">Save</button>
-                    </form>
+                    </form>*@
                 </div>
-                <div class="modal-footer">
+                @*<div class="modal-footer">
                     <button class="btn btn-info" type="button" data-dismiss="modal">
                         Done
                     </button>
-                </div>
+                </div>*@
             </div>
         </div>
     </div>
@@ -423,7 +538,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="~/Scripts/bootstrap.js"></script>
 </body>

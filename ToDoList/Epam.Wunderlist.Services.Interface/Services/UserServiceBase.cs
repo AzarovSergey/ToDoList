@@ -21,9 +21,8 @@ namespace Epam.Wunderlist.Services.Interface.Services
         }
         public abstract UserEntity GetByEmail(string email);
 
-        public abstract Image GetPhoto(int key);
+        public abstract byte[] GetPhoto(int userId);
 
-        public abstract bool SetPhoto(int key, Image image);
-
+        public abstract bool SetPhoto(int userId, byte[] image);
     }
 }

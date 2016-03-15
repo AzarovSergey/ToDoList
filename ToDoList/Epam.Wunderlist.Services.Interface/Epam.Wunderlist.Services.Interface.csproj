@@ -76,7 +76,6 @@
     <Compile Include="Entities\FolderEntity.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\ItemEntity.cs" />
-    <Compile Include="Entities\PhotoEntity.cs" />
     <Compile Include="Entities\RoleEntity.cs" />
     <Compile Include="Entities\ToDoListEntity.cs" />
     <Compile Include="Entities\UserEntity.cs" />

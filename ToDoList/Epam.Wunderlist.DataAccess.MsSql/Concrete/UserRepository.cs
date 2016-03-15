@@ -20,39 +20,35 @@ namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
             return mapper.Map<User, DalUser>(context.Set<User>().FirstOrDefault(user => user.Email == email));
         }
 
-        public override Image GetPhoto(int key)
-        {         
-            var tempUser = mapper.Map<User, DalUser>(context.Set<User>().FirstOrDefault(user => user.Id == key));
-            var tempPhoto = context.Set<Photo>().FirstOrDefault(photo => photo.Id == tempUser.PhotoId);
-            if (tempPhoto == null)
-                throw new ArgumentNullException(nameof(tempPhoto));
-            return ByteArrayToImage(tempPhoto.Image);
+        public override byte[] GetPhoto(int userId)
+        {
+            User user = context.Set<User>().Find(userId);
+            if (user == null)
+                return null;
+            Photo photo = context.Set<Photo>().Find(user.PhotoId);
+            if (photo == null)
+                return null;
+            return (byte[])photo.Image.Clone();
         }
 
-        public override bool SetPhoto(int key, Image image)
+        public override bool SetPhoto(int userId, byte[] image)
         {
-            var tempUser = mapper.Map<User, DalUser>(context.Set<User>().FirstOrDefault(user => user.Id == key));
-            var tempPhoto = mapper.Map<Photo, DalPhoto>(context.Set<Photo>().FirstOrDefault(photo => photo.Id == tempUser.PhotoId));
-            if (tempPhoto == null)
+            User user = context.Set<User>().Find(userId);
+            if (user == null)
                 return false;
-            tempPhoto.Image = ImageToByteArray(image);
-            context.Entry(tempPhoto).State = EntityState.Modified;
+            Photo photo =  context.Set<Photo>().Find(user.PhotoId);
+            if (photo == null)
+            {
+                photo = context.Set<Photo>().Add(new Photo() { Image = image });
+            }
+            else
+            {
+                photo.Image = image;
+            }
+            context.SaveChanges();
+            user.PhotoId = photo.Id;
             context.SaveChanges();
             return true;
-        }
-
-        private byte[] ImageToByteArray(Image imageIn)
-        {
-            MemoryStream ms = new MemoryStream();
-            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
-            return ms.ToArray();
-        }
-
-        private Image ByteArrayToImage(byte[] array)
-        {
-            MemoryStream ms = new MemoryStream(array);
-            Image returnImage = Image.FromStream(ms);
-            return returnImage;
         }
     }
 }

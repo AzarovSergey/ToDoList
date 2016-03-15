@@ -9,9 +9,9 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.Repository
     {
         public abstract DalUser GetByEmail(string email);
 
-        public abstract Image GetPhoto(int key);
+        public abstract byte[] GetPhoto(int key);
 
-        public abstract bool SetPhoto(int key, Image image);
+        public abstract bool SetPhoto(int userId, byte[] image);
 
         protected UserRepositoryBase(DbContext context) : base(context)
         {
