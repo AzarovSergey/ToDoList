@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Epam.Wunderlist.Orm
@@ -9,7 +10,7 @@ namespace Epam.Wunderlist.Orm
         [Key]
         public int Id { get; set;}
 
-        [Required]
+        [Required(AllowEmptyStrings = true)]
         [StringLength(100)]
         public string Name { get; set; }
 
@@ -17,7 +18,7 @@ namespace Epam.Wunderlist.Orm
         public int ToDoListId { get; set;}
 
         [Required]
-        public System.DateTime DueDateTime { get; set; }
+        public DateTime DueDateTime { get; set; }
 
         [Required]
         public bool IsStarred { get; set;}
@@ -25,7 +26,7 @@ namespace Epam.Wunderlist.Orm
         [Required]
         public int OrderIndex { get; set;}
 
-        [Required]
+        [Required(AllowEmptyStrings = true)]
         [StringLength(500)]
         public string Note { get; set;}
 

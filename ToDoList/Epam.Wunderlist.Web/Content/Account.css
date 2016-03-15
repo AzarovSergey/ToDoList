@@ -59,3 +59,11 @@ button{
     padding:12px !important;
 }
 
+.fa-close {
+    color: red;
+    font-size: 2em;
+}
+
+.form-item {
+    width: 450px;
+}

@@ -37,7 +37,7 @@
                    required = ""
                     }
                 })
-                <span ng-show="registration.Name.$touched && registration.Name.$invalid">invalid</span>
+                <span ng-show="registration.Name.$touched && registration.Name.$invalid" class="fa fa-close"></span>
             </div>
             <hr />
             <div class="form-item">
@@ -50,8 +50,8 @@
                        required=""
                    }
                })
-                <span ng-show="registration.Email.$touched && registration.Email.$invalid">invalid</span>
-                <span ng-show=" registration.Email.$valid">valid</span>
+                <span ng-show="registration.Email.$touched && registration.Email.$invalid" class="fa fa-close"></span>
+                @*<span ng-show=" registration.Email.$valid">valid</span>*@
             </div>
             <hr />
             <div class="form-item">
@@ -63,7 +63,7 @@
                         ng_model="Password"
                     }
                 })
-                <span ng-show="registration.Password.$touched && registration.Password.$invalid">invalid</span>
+                <span ng-show="registration.Password.$touched && registration.Password.$invalid" class="fa fa-close"></span>
             </div>
             <hr />
             <div class="button-container">

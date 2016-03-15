@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width" />
     <title>AppView</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/reset.css" rel="stylesheet" />
-    <link href="~/Content/normalize.css" rel="stylesheet" />
+    @*<link href="~/Content/reset.css" rel="stylesheet" />
+    <link href="~/Content/normalize.css" rel="stylesheet" />*@
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet"/>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -28,19 +28,18 @@
                 <span id="search-button" class="fa fa-search"></span>
             </div>
             <div id="folder-menu">
-                <div>
-                    <span id="user-info-button">
-                        <img src="~/Content/Images/logo.png" width="40" height="40" />
-                        <span id="username" class="folder-title">Sergey</span>
+                <div id="user-info-button">
+                    <span id="user-info-label">
+                        @*<img src="~/Content/Images/logo.png" width="40" height="40" />*@
+                        <span id="username">{{user.Name}}</span>
                         <span class="glyphicon glyphicon-chevron-down"></span>
                     </span>
-                    <span id="activities-button" class="fa fa-bell-o"></span>
+                    @*<span id="activities-button" class="fa fa-bell-o"></span>*@
                 </div>
 
                 <div id="user-info">
-                    <div class="user-info-item">
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-1">Profile</button></div>
-                    <div class="user-info-item"><a href="/account/logout/">logout</a></div>
+                    <div class="user-info-item" data-toggle="modal" data-target="#modal-1">Profile</div>
+                    <div class="user-info-item"><a href="/account/logout/" class="span-href">logout</a></div>
                 </div>
 
                 <div id="folder-container">
@@ -58,10 +57,10 @@
                         </div>
                         <div class="to-do-list-container">
                             <div class="to-do-list" ng-repeat="todolist in folder.ToDoLists" ng-click="SetSelectedToDoList(todolist.Id);">
-                                <span>{{todolist.Name}}</span>
+                                <span class="todolist-name">{{todolist.Name}}</span>
                                 <span class="right-side">
-                                    <span class="missed">3</span>
-                                    <span class="total">6</span>
+                                    @*<span class="missed">3</span>
+                                    <span class="total">6</span>*@
                                     <span class="fa fa-pencil-square" onclick="targetInstanceId=+($(this).attr('data-todolist-id'));" data-todolist-id="{{todolist.Id}}" data-toggle="modal" data-target="#modal-edit-todolist"></span>
                                     <span class="fa fa-trash" ng-click="DeleteToDoList(todolist.Id);"></span>
                                 </span>
@@ -77,18 +76,19 @@
     </div>
 
     <div id="center">
-        <div id="top-line">
-            folder name here
-        </div>
         <div id="add-item">
             <span class="fa fa-plus" id="add-item-icon"></span>
-            <input type="text" @*id="add-item-input"*@ onkeypress="AddItem(event);" />
+            <input type="text" id="add-item-input" onkeypress="AddItem(event);" placeholder="Add a to-do"/>
         </div>
         <div id="active-item-container">
             <div class="task" ng-repeat="item in activeItems" title="{{item.Note}}">
                 <span class="fa fa-square-o" ng-click="SetCompletion($event,true);" data-db-id="{{item.Id}}"></span>
                 <span>{{item.Name}}</span>
-                <span class="right-side fa fa-edit" data-toggle="modal" data-target="#modal-edit-item" ng-click="PrepareToUpdateItem($event);" data-name="{{item.Name}}" data-note="{{item.Note}}" data-db-id="{{item.Id}}"></span>
+                <span class="right-side item-right">
+                    <span>{{item.dueDate}}</span>
+                    <span class="fa fa-edit" data-toggle="modal" data-target="#modal-edit-item" ng-click="PrepareToUpdateItem($event,item);"></span>
+                    @*<span class="fa fa-edit" data-toggle="modal" data-target="#modal-edit-item" ng-click="PrepareToUpdateItem($event,item);" data-name="{{item.Name}}" data-note="{{item.Note}}" data-db-id="{{item.Id}}"></span>*@
+                </span>
             </div>
         </div>
         <a id="toggle-disabled-items" href="#disabled-item-container" data-toggle="collapse">SHOW COMPLETED TO-DOS</a>
@@ -108,6 +108,9 @@
             <input type="text" placeholder="Note" name="note" value="{{itemEditor.note}}" />
             <button type="button" ng-click="EditItem($event);" data-db-id="{{itemEditor.id}}">Submit</button>
         </form>
+        <input type="date" id="due-date"/>
+        <button class="btn btn-info" ng-click="SetDueDate($event);">Set due date</button>
+        <span class="fa fa-trash btn btn-default" id="button-remove-item" data-db-id="{{itemEditor.id}}" ng-click="RemoveItem($event);">Remove</span>
     </div>
 
     <script>
@@ -127,7 +130,14 @@
         function RightVisibility(isVisible) {
             // $('#right').toggle(isVisible);
             var opacity = isVisible + 0;
-            $('#right').css('opacity', opacity);
+            //$('#right').css('opacity', opacity);
+            
+            var right=$('#right');
+            right.css('display', 'block');
+            right.animate({ 'opacity': opacity }, 1000);
+            if (!isVisible)
+                right.css('display','none');
+
         }
 
         var isLeftHide = false;
@@ -153,39 +163,63 @@
             $scope.disabledItems = [];
             $scope.itemEditor = { id: 0, name: '', note: '' };
 
-            $http.get('/folder/GetFolders/').then(function (responce) {
-                $scope.folders = responce.data;
-                //console.log(responce);
-            });
+
+            $scope.RefreshFolders = function () {
+                $http.get('/folder/GetFolders/').then(function (responce) {
+                    $scope.folders = responce.data;
+                    //console.log(responce);
+                });
+            }
+
 
             $scope.ToggleFolder = function (event) {
                 $(event.currentTarget).siblings('.to-do-list-container').toggle(500);
                 //console.log(event);
             };
 
+
             $scope.SetSelectedToDoList = function (Id) {
+                if (Id === undefined)
+                    return;
                 $http.get('/item/GetItems?toDoListId=' + Id).then(function (responce) {
                     var allItems = responce.data;
                     $scope.activeItems = [];
                     $scope.disabledItems = [];
                     for (var itemIndex in allItems) {
                         var item = allItems[itemIndex];
+                        var dueDateTimeMilliseconds = +item.DueDateTime.replace(/\/Date\((-?\d+)\)\//, '$1');;
+                        var date = new Date(dueDateTimeMilliseconds);
+                        if (+date.getFullYear() != 9999)
+                            item.dueDate = date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear();
+                        else
+                            item.dueDate = '';
                         if (item.IsCompleted) {
                             $scope.disabledItems.push(item);
                         } else {
                             $scope.activeItems.push(item);
                         }
                     }
-
                     SelectedToDoListId=Id;
                     console.log(responce);
                 });
             }
 
+
+            $scope.RefreshToDoList = function () {
+                $scope.SetSelectedToDoList(SelectedToDoListId);
+            }
+
+            $scope.SetDueDate = function (event) {
+                itemEditor.id
+            }
+
             $scope.SetCompletion = function (event, isCompleted) {
                 itemId=$(event.currentTarget).attr('data-db-id');
-                $http.post('/item/SetCompletion?itemId=' + itemId + "&isCompleted=" + isCompleted);
+                $http.post('/item/SetCompletion?itemId=' + itemId + "&isCompleted=" + isCompleted).then(function(){
+                    $scope.RefreshToDoList();
+                });
             }
+
 
             $scope.CahngeUserName = function (event) {
                 var path = "/account/ChangeName?id="+$scope.user.Id+"&name=" + $(event.target).siblings('input')[0].value;
@@ -194,7 +228,7 @@
                     url: path,
                     success: function (responce) {
                         alert('success');
-                        //scope.SetSelectedToDoList(SelectedToDoListId);
+                        $scope.RefreshUser();
                     },
                     error: function (responce) {
                         console.log(responce);
@@ -202,6 +236,7 @@
                     }
                 });
             };
+
 
             $scope.AddFolder = function(event) {
                 console.log($(event.target));
@@ -211,7 +246,7 @@
                     url: path,
                     success: function (responce) {
                         alert('success');
-                        //scope.SetSelectedToDoList(SelectedToDoListId);
+                        $scope.RefreshFolders();
                     },
                     error: function (responce) {
                         console.log(responce);
@@ -219,6 +254,7 @@
                     }
                 });
             }
+
 
             $scope.DeleteFolder = function (folderId) {
                 var path = '/folder/delete?folderId=' + folderId;
@@ -227,6 +263,7 @@
                     url: path,
                     success: function (responce) {
                         alert('success');
+                        $scope.RefreshFolders();
                     },
                     error: function (responce) {
                         console.log(responce);
@@ -235,6 +272,7 @@
                 });
             }
 
+
             $scope.DeleteToDoList = function (todolistId) {
                 var path = '/todolist/delete?id=' + todolistId;
                 $.ajax({
@@ -242,6 +280,7 @@
                     url: path,
                     success: function (responce) {
                         alert('success');
+                        $scope.RefreshFolders();
                     },
                     error: function (responce) {
                         console.log(responce);
@@ -249,6 +288,7 @@
                     }
                 });
             }
+
 
             $scope.AddToDoList = function (event) {
                 console.log(event);
@@ -259,6 +299,7 @@
                     success: function (responce) {
                         alert('success');
                         scope.SetSelectedToDoList(SelectedToDoListId);
+                        $scope.RefreshFolders();
                     },
                     error: function (responce) {
                         console.log(responce);
@@ -266,6 +307,7 @@
                     }
                 });
             }
+
 
             $scope.EditToDoList = function (event) {
                 console.log(event);
@@ -275,6 +317,7 @@
                     url: path,
                     success: function (responce) {
                         alert('success');
+                        $scope.RefreshFolders();
                     },
                     error: function (responce) {
                         console.log(responce);
@@ -282,6 +325,7 @@
                     }
                 });
             }
+
 
             $scope.EditItem = function (event) {
                 console.log(event);
@@ -293,6 +337,7 @@
                     url: path,
                     success: function (responce) {
                         alert('success');
+                        $scope.RefreshToDoList();
                     },
                     error: function (responce) {
                         console.log(responce);
@@ -300,6 +345,25 @@
                     }
                 });
             }
+
+
+            $scope.RemoveItem = function (event) {
+                RightVisibility(false);
+                var path = "/item/Delete?id=" + $(event.target).attr('data-db-id');
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        alert('success');
+                        $scope.RefreshToDoList();
+                    },
+                    error: function (responce) {
+                        console.log(responce);
+                        alert('error');
+                    }
+                });
+            }
+
 
             $scope.EditFolder = function (event) {
                 console.log(event);
@@ -309,22 +373,30 @@
                     url: path,
                     success: function (responce) {
                         alert('success');
+                        $scope.RefreshFolders();
                     },
                     error: function (responce) {
                         console.log(responce);
                         alert('error');
                     }
                 });
+
             }
 
 
 
-            $scope.PrepareToUpdateItem = function (event) {
+            $scope.PrepareToUpdateItem = function (event,item) {
                 RightVisibility(true);
                 console.log(event);
                 var btn = $(event.target);
-                $scope.itemEditor = { id: btn.attr('data-db-id'), name: btn.attr('data-name'), note: btn.attr('data-note') };
+                $scope.itemEditor = {
+                    id: item.Id,
+                    name: item.Name,
+                    note: item.Note
+                    //dateObject:
+                };
             }
+
 
             $scope.ChangePhoto = function (event) {
                 var form = $('#user-image-form')[0];
@@ -334,7 +406,6 @@
                 jQuery.each(f, function (i, file) {
                     data.append('file-'+i, file);
                 });
-
                 jQuery.ajax({
                     url: path,
                     data: data,
@@ -353,42 +424,26 @@
                         alert('error');
                     }
                 });
-
-                //$.ajax({
-                //    method: 'POST',
-                //    url: path,
-                //    xhr: function () {  // Custom XMLHttpRequest
-                //        var myXhr = $.ajaxSettings.xhr();
-                //        if (myXhr.upload) { // Check if upload property exists
-                //            myXhr.upload.addEventListener('progress', function () { alert('aaa'); }, false); // For handling the progress of the upload
-                //        }
-                //        return myXhr;
-                //    },
-                //    success: function (responce) {
-                //        alert('success');
-                //    },
-                //    error: function (responce) {
-                //        console.log(responce);
-                //        alert('error');
-                //    },
-                //    data: data,
-                //    cache: false,
-                //    contentType: false,
-                //    processData: false
-                //});
             }
 
-            $http.get('/account/UserAccount').then(function (responce) {
-                $scope.user = responce.data;
-                console.log($scope.user);
-            });
-        });
+            
+
+            $scope.RefreshUser = function () {
+                $http.get('/account/UserAccount').then(function (responce) {
+                    $scope.user = responce.data;
+                    console.log($scope.user);
+                });
+            }
+
+            $scope.RefreshUser();
+            $scope.RefreshFolders();
+        });//main controller initialization
 
         function ItemUrlSuffix(name, toDoListId, id, isStarred, orderIndex, note, isCompleted, dueDateTime) {
             id = id || 0;
             dueDateTime = dueDateTime || 0;
             isCompleted = isCompleted || false;
-            note = note || "p";
+            note = note || "";
             orderIndex = orderIndex || 0;
             isStarred = isStarred || false;
             return "?Name=" + name + "&Id=" + id + "&ToDoListId=" + toDoListId + "&DueDateTime=" + dueDateTime + "&IsStarred=" + isStarred + "&OrderIndex=" + orderIndex + "&Note=" + note + "&IsComleted=" + isCompleted;

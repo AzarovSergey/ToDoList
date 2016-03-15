@@ -1,4 +1,10 @@
-﻿#left{
+﻿* {
+   margin: 0;
+   padding: 0;
+   outline: 0;
+}
+
+#left{
     width:300px;
 }
 #left-container{
@@ -24,12 +30,27 @@ input{
 }
 
 #search-button,#menu-toggle-button,
-#activities-button,
-#user-info-button
+#activities-button
 {
     padding:20px;
     background-color:inherit;
     cursor:pointer;
+}
+
+#user-info-button{
+    padding:8px;
+    background-color:#eee;
+    cursor:pointer;
+    height:40px;
+}
+
+#user-info-label{
+    margin-left:52px;
+}
+
+#username{
+    font-size:1.1em;
+    margin-top:100px;
 }
 
 #activities-button{
@@ -37,14 +58,10 @@ input{
     padding-bottom:0;
 }
 
-#user-info-button{
-    margin:0;
-    padding:0;
-}
 
 .right-side{
     float:right;
-    margin:12px;
+    margin:8px;
     /*margin-right:-40px;*/
 }
 .missed{
@@ -113,6 +130,8 @@ body{
 
 .folder-title{
     margin-left:20px;
+    font-size:1.1em;
+    vertical-align:middle;
 }
 
 #center{
@@ -175,7 +194,20 @@ body{
 }
 
 .to-do-list{
+    display:block;
     height:50px;
+    background-color:aliceblue;
+    width:300px;
+}
+.to-do-list:hover{
+    background-color:#ded;
+}
+
+.todolist-name{
+    vertical-align:middle;
+    margin-left:80px;
+    display:inline;
+    line-height:50px;
 }
 
 #create-folder{
@@ -186,6 +218,12 @@ body{
 
 .folder-description>.right-side{
     height:20px;
+}
+.folder-description{
+    background-color:#cdc;
+}
+.folder-description:hover{
+    background-color:#cce;
 }
 
 #disabled-item-container{
@@ -219,6 +257,7 @@ body{
     opacity:1;
 }
 
+/*
 * {
     -moz-transition-property: opacity;
     -o-transition-property: opacity;
@@ -229,4 +268,29 @@ body{
     -o-transition-duration: 1s;
     -webkit-transition-duration: 1s;
     transition-duration: 1s;
+}*/
+
+#button-remove-item{
+    position:fixed;
+    bottom:20px;
+    right:100px;
+}
+
+.span-href{
+    text-decoration: none;
+}
+
+.item-right{
+    vertical-align:middle;
+    line-height:20px;
+    margin:0;
+}
+
+#add-item-input{
+    background-color:inherit;
+    padding:20px 0;
+    width:300px;
+    border:hidden;
+    margin:0;
+    font-size:1.5em;
 }

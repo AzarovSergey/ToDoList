@@ -51,6 +51,8 @@ namespace Epam.Wunderlist.Web.Controllers
         {
             if (item.DueDateTime == DateTime.MinValue)
                 item.DueDateTime = DateTime.MaxValue;
+            item.Note = item.Note ?? "";
+            item.Name = item.Name ?? "";
             ItemEntity entity = mapper.Map<ItemModel, ItemEntity>(item);
             if (item.Id!=0)
             {
@@ -78,6 +80,12 @@ namespace Epam.Wunderlist.Web.Controllers
             item.Note = note;
             item.Name = name;
             itemService.Update(item);
+        }
+
+        [HttpPost]
+        public void Delete(int id)
+        {
+            itemService.Delete(id);
         }
     }
 }
