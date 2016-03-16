@@ -87,7 +87,6 @@
                 <span class="right-side item-right">
                     <span>{{item.dueDate}}</span>
                     <span class="fa fa-edit" data-toggle="modal" data-target="#modal-edit-item" ng-click="PrepareToUpdateItem($event,item);"></span>
-                    @*<span class="fa fa-edit" data-toggle="modal" data-target="#modal-edit-item" ng-click="PrepareToUpdateItem($event,item);" data-name="{{item.Name}}" data-note="{{item.Note}}" data-db-id="{{item.Id}}"></span>*@
                 </span>
             </div>
         </div>
@@ -190,7 +189,7 @@
                         var dueDateTimeMilliseconds = +item.DueDateTime.replace(/\/Date\((-?\d+)\)\//, '$1');;
                         var date = new Date(dueDateTimeMilliseconds);
                         if (+date.getFullYear() != 9999)
-                            item.dueDate = date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear();
+                            item.dueDate = date.getDate() + '.' + (date.getMonth()+1) + '.' + date.getFullYear();
                         else
                             item.dueDate = '';
                         if (item.IsCompleted) {
@@ -210,7 +209,13 @@
             }
 
             $scope.SetDueDate = function (event) {
-                itemEditor.id
+                var due = $('#due-date')[0].value;
+                console.log(due);
+                if (due=="")
+                    return;
+                $http.post('/item/SetDueDate?itemId=' + $scope.itemEditor.id + "&dueDate=" + due).then(function () {
+                    $scope.RefreshToDoList();
+                });
             }
 
             $scope.SetCompletion = function (event, isCompleted) {

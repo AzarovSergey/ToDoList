@@ -66,6 +66,25 @@ namespace Epam.Wunderlist.Web.Controllers
         }
 
         [HttpPost]
+        public void SetDueDate(int itemId,string dueDate)
+        {
+            DateTime date;//=DateTime.MinValue;
+            try
+            {
+                date=Convert.ToDateTime(dueDate);
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+            ItemEntity item = itemService.GetById(itemId);
+            if (item == null)
+                return;
+            item.DueDateTime = date;
+            itemService.Update(item);
+        }
+
+        [HttpPost]
         public JsonResult SetCompletion(int itemId,bool isCompleted)
         {
             var currentItem = itemService.GetById(itemId);
