@@ -193,6 +193,7 @@
     <Content Include="Content\reset.css" />
     <Content Include="Content\Account.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\waves.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -219,6 +220,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Site.js" />
+    <Content Include="Scripts\waves.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
