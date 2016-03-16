@@ -9,9 +9,10 @@ namespace Epam.Wunderlist.Web.Controllers
     [Authorize]
     public class HomeController:Controller
     {
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            return View("AppView");
         }
 
         [HttpGet]

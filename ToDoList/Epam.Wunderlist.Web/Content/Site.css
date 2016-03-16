@@ -132,13 +132,16 @@ body{
     margin-left:20px;
     font-size:1.1em;
     vertical-align:middle;
+    max-width:160px;
+    display:inline-block;
+    overflow:hidden;
 }
 
 #center{
     position:fixed;
     top:0;
     left:300px;
-    width:400px;
+    width:500px;
     /*remove width*/
 }
 
@@ -208,6 +211,9 @@ body{
     margin-left:80px;
     display:inline;
     line-height:50px;
+    max-width:160px;
+    overflow:hidden;
+    display:inline-block;
 }
 
 #create-folder{
@@ -251,7 +257,7 @@ body{
     height:100vh;
     right:0;
     top:0;
-    background-color:white;
+    background-color:#f0f8ff;
     padding:20px;
     position:absolute;
     opacity:1;
@@ -293,4 +299,40 @@ body{
     border:hidden;
     margin:0;
     font-size:1.5em;
+}
+
+#update-item>input{
+    background-color:#668964;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    margin:4px;
+    color:white;
+}
+
+#update-item>button{
+    display:block;
+    margin:8px;
+}
+
+
+#right>[type="date"]{
+    background-color:#fa573c;
+    border:none;
+    padding:8px;
+    border-radius:20px;
+    color:white;
+    margin:20px 0;
+}
+
+.item-name{
+    max-width:300px;
+    overflow:hidden;
+    display:inline-block;
+    margin-bottom:-4px;
+}
+
+#photo{
+    width:100px;
+    height:100px;
 }
