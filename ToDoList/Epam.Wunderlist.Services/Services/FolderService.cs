@@ -1,40 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Epam.Wunderlist.Services.Interface.Entities;
 using Epam.Wunderlist.Services.Interface.Services;
 using Epam.Wunderlist.DataAccess.Interfaces.Repository;
-using Epam.Wunderlist.Services.Mappers;
+using Epam.Wunderlist.DataAccess.Interfaces.DTO;
+using Epam.Wunderlist.Services.Interface.Mappers;
 
 namespace Epam.Wunderlist.Services.Services
 {
-    public class FolderService : IFolderService
+    public class FolderService : FolderServiceBase
     {
-        private readonly IUnitOfWork uow;
-        private readonly IFolderRepository folderRepository;
-
-        public FolderService(IUnitOfWork uow, IFolderRepository repository)
+        public FolderService(FolderRepositoryBase repository, IUnitOfWork unitOfWork, IMapper mapper)
+            : base(repository, unitOfWork, mapper)
         {
-            this.uow = uow;
-            this.folderRepository = repository;
+
         }
 
-        public void Create(FolderEntity folder)
+        public override IEnumerable<FolderEntity> GetByAuthorId(int authorId)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<FolderEntity> GetByAuthorId(int authorId)
-        {
-            return folderRepository.GetByAuthorId(authorId).Select(folder => folder.ToBllFolder());
-        }
-
-        public FolderEntity GetById(int id)
-        {
-            return null;
-            //return folderRepository.GetById(id);
+            return repository.GetByAuthorId(authorId).Select(folder => mapper.Map<DalFolder, FolderEntity>(folder));
         }
     }
 }

@@ -10,14 +10,8 @@ using System.Drawing;
 namespace Epam.Wunderlist.Orm
 {
     [Table("User")]
-    public partial class User
+    public partial class User : IEntity
     {
-
-        public User()
-        {
-            
-        }
-
         [Key]
         public int Id { get; set; }
 
@@ -36,10 +30,9 @@ namespace Epam.Wunderlist.Orm
         [Required]
         public int RoleId { get; set; }
               
-        public byte[] Photo { get; set; }
+        //[Required]
+        public int PhotoId { get; set; }
 
         public virtual Role Role { get; set; }
-       // public virtual ICollection<A> A { get; set; }
-       // public virtual Theme Theme { get; set; }
     }
 }

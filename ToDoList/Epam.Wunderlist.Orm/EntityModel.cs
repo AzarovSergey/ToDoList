@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epam.Wunderlist.Orm
 {
@@ -22,6 +18,7 @@ namespace Epam.Wunderlist.Orm
         public DbSet<Folder> Folders { get; set; }
         public DbSet<ToDoList> ToDoLists { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -33,7 +30,6 @@ namespace Epam.Wunderlist.Orm
             protected override void Seed(EntityModel context)
             {
                 base.Seed(context);
-
             }
         }
 
@@ -48,6 +44,7 @@ namespace Epam.Wunderlist.Orm
                 User u1 = new User() { Name = "User 1", Role = roleUser, Password = "p1", Email = "u1@m.c" };
                 User u2 = new User() { Name = "User 2", Role = roleUser, Password = "p2", Email = "u2@m.c" };
                 User u3 = new User() { Name = "User 3", Role = roleUser, Password = "p3", Email = "u3@m.c" };
+                
 
                 //RepeatKind kind1 = new RepeatKind() { Name = "Kind 1" };
                 Folder[] folders = new Folder[] {
@@ -57,30 +54,49 @@ namespace Epam.Wunderlist.Orm
                     new Folder() { Name = "Folder 4", User = u1 },
                     new Folder() { Name = "Folder u3", User = u3 },
                 };
-                //ToDoList list1 = new ToDoList() { Name = "List 1" };
-                //ToDoList list2 = new ToDoList() { Name = "List 2" };
-                //ToDoListFolder lf1 = new ToDoListFolder() { ToDoListId = list1.Id, FolderId = folder1.Id, IndexInFolder = 1 };
-                //ToDoListFolder lf2 = new ToDoListFolder() { ToDoListId = list2.Id, FolderId = folder2.Id, IndexInFolder = 2 };
-                //Item i1 = new Item() { Name = "Item 1", ToDoListId = list1.Id, UserId = u1.Id, OrderIndex = 1 };
-                //Item i2 = new Item() { Name = "Item 2", ToDoListId = list2.Id, UserId = u2.Id, OrderIndex = 2 };
+                ToDoList[] toDoLists = new ToDoList[]
+                {
+                    new ToDoList() {Folder=folders[0],Name="the first list" },
+                    new ToDoList() {Folder=folders[0],Name="L2" },
+                    new ToDoList() {Folder=folders[2],Name="L3" },
+                    new ToDoList() {Folder=folders[2],Name="L4" },
+                    new ToDoList() {Folder=folders[0],Name="L5" },
+                    new ToDoList() {Folder=folders[0],Name="L6" },
+                };
+
+                DateTime itemDate = DateTime.MaxValue;
+                Item[] items = new Item[]
+                {
+                    new Item() {Name="item1",Note="note1",ToDoList=toDoLists[0],DueDateTime=itemDate },
+                    new Item() {Name="item2",Note="note2",ToDoList=toDoLists[0],DueDateTime=itemDate },
+                    new Item() {Name="item3",Note="note3",ToDoList=toDoLists[1],DueDateTime=itemDate },
+                    new Item() {Name="item4",Note="note4",ToDoList=toDoLists[1],DueDateTime=itemDate },
+                    new Item() {Name="item5",Note="note5",ToDoList=toDoLists[0],DueDateTime=itemDate },
+                    new Item() {Name="item6",Note="note6",ToDoList=toDoLists[2],DueDateTime=itemDate },
+                    new Item() {Name="item7",Note="note7",ToDoList=toDoLists[1],DueDateTime=itemDate },
+                    new Item() {Name="item8",Note="note8",ToDoList=toDoLists[2],DueDateTime=itemDate },
+                };
                
                 context.Roles.Add(roleUser);
                 context.Roles.Add(roleAdmin);
                 context.Users.Add(u1);
                 context.Users.Add(u2);
                 context.Users.Add(u3);
-               // context.RepeatKinds.Add(kind1);
+
                 foreach(Folder folder in folders)
                 {
                     context.Folders.Add(folder);
                 }
-                //context.ToDoLists.Add(list1);
-                //context.ToDoLists.Add(list2);
-                //context.Items.Add(i1);
-                //context.Items.Add(i2);
-                //context.ToDoListsFolders.Add(lf1);
-                //context.ToDoListsFolders.Add(lf2);
 
+                foreach(ToDoList toDoList in toDoLists)
+                {
+                    context.ToDoLists.Add(toDoList);
+                }
+
+                foreach(Item item in items)
+                {
+                    context.Items.Add(item);
+                }
             }
         }
 

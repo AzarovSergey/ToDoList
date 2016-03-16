@@ -1,95 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Epam.Wunderlist.DataAccess.Interfaces.DTO;
+﻿using Epam.Wunderlist.DataAccess.Interfaces.DTO;
 using Epam.Wunderlist.Services.Interface.Entities;
+using Nelibur.ObjectMapper;
+using Epam.Wunderlist.Services.Interface.Mappers;
 
 namespace Epam.Wunderlist.Services.Mappers
 {
-    public static class Mapper
+    public class Mapper:IMapper
     {
-        public static RoleEntity ToBllRole(this DalRole role)
+        static Mapper()
         {
-            return new RoleEntity()
-            {
-                Id = role.Id,
-                Name = role.Name,
-            };
+            TinyMapper.Bind<RoleEntity, DalRole>();
+            TinyMapper.Bind<UserEntity, DalUser>();
+            TinyMapper.Bind<FolderEntity, DalFolder>();
+            TinyMapper.Bind<ToDoListEntity, DalToDoList>();
+            TinyMapper.Bind<ItemEntity, DalItem>();
         }
 
-        public static DalUser ToDalUser(this UserEntity user)
+        public TTarget Map<TSource, TTarget>(TSource entity)
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-            return new DalUser()
-            {
-                Email = user.Email,
-                IsEmailNotification = user.IsEmailNotification,
-                Id = user.Id,
-                Name = user.Name,
-                Password = user.Password,
-                Photo = user.Photo,
-                RoleId = user.RoleId,
-                ThemeId = user.ThemeId,
-            };
-        }
-        public static UserEntity ToBllUser(this DalUser user)
-        {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-            return new UserEntity()
-            {
-                Email = user.Email,
-                IsEmailNotification = user.IsEmailNotification,
-                Id = user.Id,
-                Name = user.Name,
-                Password = user.Password,
-                Photo = user.Photo,
-                RoleId = user.RoleId,
-                ThemeId = user.ThemeId,
-            };
-        }
-
-        public static FolderEntity ToBllFolder(this DalFolder folder)
-        {
-            if (folder == null)
-                throw new ArgumentNullException(nameof(folder));
-            return new FolderEntity()
-            {
-                UserId = folder.UserId,
-                Id = folder.Id,
-                Name = folder.Name,
-                OrdreIndex = folder.OrderIndex,
-            };
-        }
-        public static ItemEntity ToBllItem(this DalItem item)
-        {
-            if (item == null)
-                throw new ArgumentNullException(nameof(item));
-            return new ItemEntity()
-            {
-                CompletionDateTime = item.DueDateTime,
-                Note = item.Note,
-                ExecutorId = item.ExecutorId,
-                Id = item.Id,
-                IsComleted = item.IsCompleted,
-                IsStarred = item.IsStarred,
-                Name = item.Name,
-                OrderIndex = item.OrderIndex,
-                ToDoListId = item.ToDoListId,
-            };
-        }
-        public static ToDoListEntity ToBllToDoList(this DalToDoList toDoList)
-        {
-            if (toDoList == null)
-                throw new ArgumentNullException(nameof(toDoList));
-            return new ToDoListEntity()
-            {
-                Id=toDoList.Id,
-                Name=toDoList.Name,
-            };
+            return entity == null ? default(TTarget) : TinyMapper.Map<TTarget>(entity);
         }
     }
 }

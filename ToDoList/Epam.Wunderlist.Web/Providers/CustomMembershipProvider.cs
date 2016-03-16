@@ -11,9 +11,9 @@ namespace Epam.Wunderlist.Web.Providers
 {
     public class CustomMembershipProvider : MembershipProvider
     {
-        private IUserService userService = (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
+        private UserServiceBase userService = (UserServiceBase)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(UserServiceBase));
 
-        private IRoleService roleService = (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
+        private RoleServiceBase roleService = (RoleServiceBase)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(RoleServiceBase));
 
 
         public MembershipUser CreateUser(string email, string password, string userName)

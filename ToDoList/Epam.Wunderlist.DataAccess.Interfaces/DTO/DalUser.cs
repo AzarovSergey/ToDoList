@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Epam.Wunderlist.DataAccess.Interfaces.DTO
 {
@@ -13,9 +8,7 @@ namespace Epam.Wunderlist.DataAccess.Interfaces.DTO
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public bool IsEmailNotification { get; set; }
         public int RoleId { get; set; }
-        public int ThemeId { get; set; }
-        public Image Photo { get; set; }
+        public int PhotoId { get; set; }
     }
 }

@@ -10,14 +10,15 @@
     <meta name="viewport" content="width=device-width" />
     <title>AppView</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/reset.css" rel="stylesheet" />
-    <link href="~/Content/normalize.css" rel="stylesheet" />
+    @*<link href="~/Content/reset.css" rel="stylesheet" />
+    <link href="~/Content/normalize.css" rel="stylesheet" />*@
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet"/>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/Site.js"></script>
 </head>
-<body>
+<body ng-app="app" ng-controller="main">
     <div id="background-container"></div>
     <div id="left-container">
         <div id="left">
@@ -27,178 +28,548 @@
                 <span id="search-button" class="fa fa-search"></span>
             </div>
             <div id="folder-menu">
-                <div>
-                    <span id="user-info-button">
-                        <img src="~/Content/Images/logo.png" width="40" height="40" />
-                        <span id="username" class="folder-title">Sergey</span>
+                <div id="user-info-button">
+                    <span id="user-info-label">
+                        @*<img src="~/Content/Images/logo.png" width="40" height="40" />*@
+                        <span id="username">{{user.Name}}</span>
                         <span class="glyphicon glyphicon-chevron-down"></span>
                     </span>
-                    <span id="activities-button" class="fa fa-bell-o"></span>
+                    @*<span id="activities-button" class="fa fa-bell-o"></span>*@
                 </div>
 
                 <div id="user-info">
-                    <div class="user-info-item">btn1</div>
-                    <div class="user-info-item">button 2</div>
-                    <div class="user-info-item">3</div>
-                    <div class="user-info-item"><a href="/account/logout/">logout</a></div>
+                    <div class="user-info-item" data-toggle="modal" data-target="#modal-1">Profile</div>
+                    <div class="user-info-item"><a href="/account/logout/" class="span-href">logout</a></div>
                 </div>
 
                 <div id="folder-container">
-                    @*<div class="folder">
-                        <span class="left-side">
-                            <img src="~/Content/Images/logo.png" width="40" height="40" />
-                            <span class="folder-title">Folder name</span>
-                        </span>
-                        <span class="right-side">
-                            <span class="missed">3</span>
-                            <span class="total">6</span>
-                        </span>
-                    </div>
+                    <div class="folder" ng-repeat="folder in folders">
+                        <div class="folder-description" ng-click="ToggleFolder($event);">
+                            <span class="left-side">
+                                <img src="/Content/Images/logo.png" width="40" height="40">
+                                <span class="folder-title">{{folder.Name}}</span>
+                            </span>
+                            <span class="right-side">
+                                <span class="fa fa-pencil-square" onclick="targetInstanceId=+($(this).attr('data-todolist-id'));" data-todolist-id="{{folder.Id}}" data-toggle="modal" data-target="#modal-edit-folder"></span>
+                                <span type="button" class="fa fa-plus" onclick="creatingFolderId=+($(this).attr('data-folder-id'));" data-folder-id="{{folder.Id}}" data-toggle="modal" data-target="#modal-create-todolist"></span>
+                                <span class="fa fa-trash" ng-click="DeleteFolder(folder.Id);"></span>
+                            </span>
+                        </div>
+                        <div class="to-do-list-container">
+                            <div class="to-do-list" ng-repeat="todolist in folder.ToDoLists" ng-click="SetSelectedToDoList(todolist.Id);" ondrop="DragItemFinish(event);" ondragover="event.preventDefault();" data-db-id="{{todolist.Id}}">
+                                <span class="todolist-name">{{todolist.Name}}</span>
+                                <span class="right-side">
+                                    @*<span class="missed">3</span>
+                                    <span class="total">6</span>*@
+                                    <span class="fa fa-pencil-square" onclick="targetInstanceId=+($(this).attr('data-todolist-id'));" data-todolist-id="{{todolist.Id}}" data-toggle="modal" data-target="#modal-edit-todolist"></span>
+                                    <span class="fa fa-trash" ng-click="DeleteToDoList(todolist.Id);"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div> @* .folder*@
+                </div> @* #folder-container*@
+                <button id="create-folder" class="fa fa-plus btn btn-info" data-toggle="modal" data-target="#modal-create-folder">Create folder</button>
+            </div> @* #folder-menu*@ 
 
-
-
-                    <div class="folder">
-                        <span class="left-side">
-                            <img src="~/Content/Images/logo.png" width="40" height="40" />
-                            <span class="folder-title">Folder with items</span>
-                        </span>
-                        <span class="right-side">
-                            <span class="missed">3</span>
-                            <span class="total">6</span>
-                        </span>
-                    </div>
-
-                    <div class="folder">
-                        <span class="left-side">
-                            <img src="~/Content/Images/logo.png" width="40" height="40" />
-                            <span class="folder-title">Folder name</span>
-                        </span>
-                        <span class="right-side">
-                            <span class="missed">3</span>
-                            <span class="total">6</span>
-                        </span>
-                    </div>*@
-                </div>
-
-
-            </div>
+            
         </div> @*left*@
     </div>
 
     <div id="center">
-        <div id="top-line">
-            folder name here
-        </div>
         <div id="add-item">
             <span class="fa fa-plus" id="add-item-icon"></span>
-            <input type="text" @*id="add-item-input"*@ />
+            <input type="text" id="add-item-input" onkeypress="AddItem(event);" placeholder="Add a to-do"/>
         </div>
         <div id="active-item-container">
-
-            <div class="task">
-                <span class="checkbox-item"></span>
-                <span>item 1</span>
+            <div class="task" ng-repeat="item in activeItems" title="{{item.Note}}" data-db-id="{{item.Id}}" draggable="true" ondragstart="DragItemStart(event);">
+                <span class="fa fa-square-o" ng-click="SetCompletion($event,true);" data-db-id="{{item.Id}}"></span>
+                <span>{{item.Name}}</span>
+                <span class="right-side item-right">
+                    <span>{{item.dueDate}}</span>
+                    <span class="fa fa-edit" data-toggle="modal" data-target="#modal-edit-item" ng-click="PrepareToUpdateItem($event,item);"></span>
+                </span>
             </div>
-
-            <div class="task">
-                <span class="checkbox-item"></span>
-                <span>item 2</span>
+        </div>
+        <a id="toggle-disabled-items" href="#disabled-item-container" data-toggle="collapse">SHOW COMPLETED TO-DOS</a>
+        <div id="disabled-item-container" class="collapse">
+            <div class="task" ng-repeat="item in disabledItems">
+                <span class="fa fa-check-square-o" ng-click="SetCompletion($event,false);" data-db-id="{{item.Id}}"></span>
+                <span><strike>{{item.Name}}</strike></span>
+                <span class="right-side fa fa-edit"></span>
             </div>
-
-            <div class="task">
-                <span class="checkbox-item"></span>
-                <span>item 3</span>
-            </div>
-
-            <div class="task">
-                <span class="checkbox-item"></span>
-                <span>item 4</span>
-            </div>
-
         </div>
     </div>
+
+    <div id="right">
+        <form>
+            <i class="glyphicon glyphicon-remove close" onclick="RightVisibility(false);"></i>
+            <input type="text" placeholder="Name" name="name" value="{{itemEditor.name}}" />
+            <input type="text" placeholder="Note" name="note" value="{{itemEditor.note}}" />
+            <button type="button" ng-click="EditItem($event);" data-db-id="{{itemEditor.id}}">Submit</button>
+        </form>
+        <input type="date" id="due-date"/>
+        <button class="btn btn-info" ng-click="SetDueDate($event);">Set due date</button>
+        <span class="fa fa-trash btn btn-default" id="button-remove-item" data-db-id="{{itemEditor.id}}" ng-click="RemoveItem($event);">Remove</span>
+    </div>
+
     <script>
-        var selectedFolderIndex = NaN;
+    function DragItemStart(event){
+        draggedItem = event.toElement;
+        // console.log(event);
+        console.log(draggedItem);
+    }
+
+    function DragItemFinish(event){
+        var todolist=event.toElement;
+        var itemId=$(draggedItem).attr('data-db-id');
+        var todolistId=$(todolist).attr('data-db-id');
+        var url='/item/drag?itemId='+itemId+"&todolistId="+todolistId;
+        console.log(url);
+        http.post(url).then(function(){
+            scope.RefreshToDoList();
+        });
+    }
+        //event.stopPropagation();
+        var SelectedToDoListId=undefined;
+        var http;
+        var scope;
+        var creatingFolderId;
+        var targetInstanceId;
+        var draggedItem;
 
         $('#user-info').hide();
         $('#user-info-button').click(function () {
             $('#user-info').toggle();
         });
+        RightVisibility(false);
+
+        function RightVisibility(isVisible) {
+            // $('#right').toggle(isVisible);
+            var opacity = isVisible + 0;
+            //$('#right').css('opacity', opacity);
+            
+            var right=$('#right');
+            right.css('display', 'block');
+            right.animate({ 'opacity': opacity }, 1000);
+            if (!isVisible)
+                right.css('display','none');
+
+        }
 
         var isLeftHide = false;
         $('#menu-toggle-button').click(function () {
             if (isLeftHide) {
                 $('#left-container').css('width', '300px');
                 $('#center').css('left', '300px');
+                $('#create-folder').show();
             } else {
                 $('#left-container').css('width', '50px');
                 $('#center').css('left', '50px');
+                $('#create-folder').hide();
             }
             isLeftHide ^= true;
         });
 
-        (function AjaxInitializator(){
-            var interval=5000;
-            setInterval(FoldersRefresher, interval);
-            setInterval(ToDoListRefresher, interval);
-        })();
-        FoldersRefresher();
-        ToDoListRefresher();
 
-        function FoldersRefresher() {
-            $.ajax({
-                url: "/folder/GetFolders/",
-                success: function (result) {
-                    if (result.redirect != undefined)
-                        location.href = result.redirect;
-                    //alert('---'+result+'---');
-                    var folders = $('.folder');
-                    folders.remove();
-                    folders = $('#folder-container');
-                    for (var item in result) {
-                        folder = $('<div></div>').addClass('folder').html(
-                            '<span class="left-side">\
-                                <img src="/Content/Images/logo.png" width="40" height="40" />\
-                                <span class="folder-title">'+result[item].Name+'</span>\
-                            </span>\
-                            <span class="right-side">\
-                                <span class="missed">3</span>\
-                                <span class="total">6</span>\
-                            </span>'
-                        );
-                        folder.click(function () {
-                            folders.children()
-                                .css('background-color', 'white')
-                                .removeAttr('data-selected-folder');
-                            $(this)
-                                .css('background-color', '#e0eefa')
-                                .attr('data-selected-folder','selected');
-                        });
-                        folders.append(folder);
-                        //alert(item);
+        var app = angular.module('app', []);
+        app.controller('main', function ($scope, $http) {
+            http = $http;
+            scope = $scope;
+            $scope.activeItems = [];
+            $scope.disabledItems = [];
+            $scope.itemEditor = { id: 0, name: '', note: '' };
+
+
+            $scope.RefreshFolders = function () {
+                $http.get('/folder/GetFolders/').then(function (responce) {
+                    $scope.folders = responce.data;
+                });
+            }
+
+
+            $scope.ToggleFolder = function (event) {
+                $(event.currentTarget).siblings('.to-do-list-container').toggle(500);
+            };
+
+
+            $scope.SetSelectedToDoList = function (Id) {
+                if (Id === undefined)
+                    return;
+                $http.get('/item/GetItems?toDoListId=' + Id).then(function (responce) {
+                    var allItems = responce.data;
+                    $scope.activeItems = [];
+                    $scope.disabledItems = [];
+                    for (var itemIndex in allItems) {
+                        var item = allItems[itemIndex];
+                        var dueDateTimeMilliseconds = +item.DueDateTime.replace(/\/Date\((-?\d+)\)\//, '$1');;
+                        var date = new Date(dueDateTimeMilliseconds);
+                        if (+date.getFullYear() != 9999)
+                            item.dueDate = date.getDate() + '.' + (date.getMonth()+1) + '.' + date.getFullYear();
+                        else
+                            item.dueDate = '';
+                        if (item.IsCompleted) {
+                            $scope.disabledItems.push(item);
+                        } else {
+                            $scope.activeItems.push(item);
+                        }
                     }
-                    
-                },
-                error: function (result) {
-                    alert("error at FoldersRefresher");
-                }
-            });
-        };
+                    SelectedToDoListId=Id;
+                });
+            }
 
-        function ToDoListRefresher() {
-            if (isNaN(selectedFolderIndex))
-                return;
-            var folderId = $('[data-selected-folder]').attr('data-server-id');
-            $.ajax({
-                url: '/todolist/GetByFolderId/' + folderId,
-                success: function (result) {
-                    alert(result);
-                },
-                error: function (result) {
-                    alert("error at ToDoListRefresher");
-                }
-            });
-        };
+
+            $scope.RefreshToDoList = function () {
+                $scope.SetSelectedToDoList(SelectedToDoListId);
+            }
+
+            $scope.SetDueDate = function (event) {
+                var due = $('#due-date')[0].value;
+                if (due=="")
+                    return;
+                $http.post('/item/SetDueDate?itemId=' + $scope.itemEditor.id + "&dueDate=" + due).then(function () {
+                    $scope.RefreshToDoList();
+                });
+            }
+
+            $scope.SetCompletion = function (event, isCompleted) {
+                itemId=$(event.currentTarget).attr('data-db-id');
+                $http.post('/item/SetCompletion?itemId=' + itemId + "&isCompleted=" + isCompleted).then(function(){
+                    $scope.RefreshToDoList();
+                });
+            }
+
+
+            $scope.CahngeUserName = function (event) {
+                var path = "/account/ChangeName?id="+$scope.user.Id+"&name=" + $(event.target).siblings('input')[0].value;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        $scope.RefreshUser();
+                    },
+                    error: function (responce) {
+                    }
+                });
+            };
+
+
+            $scope.AddFolder = function(event) {
+                var path = "/folder/create?name=" + $(event.target).siblings('input')[0].value+"&folderId="+creatingFolderId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        $scope.RefreshFolders();
+                    },
+                    error: function (responce) {
+                    }
+                });
+            }
+
+
+            $scope.DeleteFolder = function (folderId) {
+                var path = '/folder/delete?folderId=' + folderId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        $scope.RefreshFolders();
+                    },
+                    error: function (responce) {
+                    }
+                });
+            }
+
+
+            $scope.DeleteToDoList = function (todolistId) {
+                var path = '/todolist/delete?id=' + todolistId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        $scope.RefreshFolders();
+                    },
+                    error: function (responce) {
+                    }
+                });
+            }
+
+
+            $scope.AddToDoList = function (event) {
+                var path = "/todoList/create?name=" + $(event.target).siblings('input')[0].value+"&folderId="+creatingFolderId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        scope.SetSelectedToDoList(SelectedToDoListId);
+                        $scope.RefreshFolders();
+                    },
+                    error: function (responce) {
+                    }
+                });
+            }
+
+
+            $scope.EditToDoList = function (event) {
+                var path = "/todoList/Rename?name=" + $(event.target).siblings('input')[0].value + "&Id=" + targetInstanceId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        $scope.RefreshFolders();
+                    },
+                    error: function (responce) {
+                    }
+                });
+            }
+
+
+            $scope.EditItem = function (event) {
+                RightVisibility(false);
+                var btn = $(event.target);
+                var path = "/item/update?name=" +btn.siblings('[name=name]')[0].value + "&Id="+ btn.attr('data-db-id') + "&note=" +btn.siblings('[name=note]')[0].value;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        $scope.RefreshToDoList();
+                    },
+                    error: function (responce) {
+                    }
+                });
+            }
+
+
+            $scope.RemoveItem = function (event) {
+                RightVisibility(false);
+                var path = "/item/Delete?id=" + $(event.target).attr('data-db-id');
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        $scope.RefreshToDoList();
+                    },
+                    error: function (responce) {
+                    }
+                });
+            }
+
+
+            $scope.EditFolder = function (event) {
+                var path = "/folder/Rename?name=" + $(event.target).siblings('input')[0].value + "&Id=" + targetInstanceId;
+                $.ajax({
+                    method: 'POST',
+                    url: path,
+                    success: function (responce) {
+                        $scope.RefreshFolders();
+                    },
+                    error: function (responce) {
+                    }
+                });
+
+            }
+
+
+
+            $scope.PrepareToUpdateItem = function (event,item) {
+                RightVisibility(true);
+                var btn = $(event.target);
+                $scope.itemEditor = {
+                    id: item.Id,
+                    name: item.Name,
+                    note: item.Note
+                };
+            }
+
+
+            $scope.ChangePhoto = function (event) {
+                var form = $('#user-image-form')[0];
+                var data = new FormData(form);
+                var path = "/account/ChangePhoto";
+                var f = $('#input-photo')[0].files;
+                jQuery.each(f, function (i, file) {
+                    data.append('file-'+i, file);
+                });
+                jQuery.ajax({
+                    url: path,
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function(data){
+                        var photo = $('#photo');
+                        var src = photo.attr('src');
+                        photo.attr('src', src+'?randomString='+new Date());
+                    },
+                    error:function(data){
+                    }
+                });
+            }
+
+            
+
+            $scope.RefreshUser = function () {
+                $http.get('/account/UserAccount').then(function (responce) {
+                    $scope.user = responce.data;
+                });
+            }
+
+            $scope.RefreshUser();
+            $scope.RefreshFolders();
+        });//main controller initialization
+
+        function ItemUrlSuffix(name, toDoListId, id, isStarred, orderIndex, note, isCompleted, dueDateTime) {
+            id = id || 0;
+            dueDateTime = dueDateTime || 0;
+            isCompleted = isCompleted || false;
+            note = note || "";
+            orderIndex = orderIndex || 0;
+            isStarred = isStarred || false;
+            return "?Name=" + name + "&Id=" + id + "&ToDoListId=" + toDoListId + "&DueDateTime=" + dueDateTime + "&IsStarred=" + isStarred + "&OrderIndex=" + orderIndex + "&Note=" + note + "&IsComleted=" + isCompleted;
+        }
+
+        function AddItem(event) {
+            if (event.keyCode === 13) {
+                if (SelectedToDoListId === undefined)
+                    return;
+                var path="/item"+ItemUrlSuffix(event.target.value,SelectedToDoListId);
+                $.ajax({
+                    method:'POST',
+                    url: path,
+                    success: function (responce) {
+                        scope.SetSelectedToDoList(SelectedToDoListId);
+                    },
+                    error: function (responce) {
+                    }
+                });
+            }
+        }
+
+        
+        
     </script>
+
+    <div class="modal fade" id="modal-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h4 class="modal-title">Profile</h4>
+                    <div style="width:100px;height:100px;background-color:cadetblue"><img id="photo" src="/account/GetPhoto" /></div>
+                    <form id="user-image-form" onsubmit="return false;">
+                        <input type="file" id="input-photo"/>
+                        <button type="submit" ng-click="ChangePhoto($event);">Change photo</button>
+                    </form>
+                </div>
+                <div class="modal-body">
+                    <form id="profile">
+                        <input type="text" value="{{user.Name}}"/>
+                        <button class="btn btn-default" ng-click="CahngeUserName($event);" data-dismiss="modal">Change Name</button>
+                        <p>Email: {{user.Email}}</p>
+                    </form>
+                    @*<form id="change-pass">
+                        <input type="text" placeholder="Current Password"/>
+                        <input type="text" placeholder="New password"/>
+                        <input type="text" placeholder="Repeat New Password"/>
+                        <button class="btn btn-info">Save</button>
+                    </form>*@
+                </div>
+                @*<div class="modal-footer">
+                    <button class="btn btn-info" type="button" data-dismiss="modal">
+                        Done
+                    </button>
+                </div>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-create-folder">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h4 class="modal-title">Create Folder</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="create-folder-form">
+                        <span>Name</span>
+                        <input type="text" placeholder="Name" name="name"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="AddFolder($event);">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-create-todolist">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h4 class="modal-title">Create to-do list</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="create-todolist-form">
+                        <span>Name</span>
+                        <input type="text" placeholder="Name" name="name" />
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="AddToDoList($event);">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-edit-todolist">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h4 class="modal-title">Edit to-do list</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-todolist-form">
+                        <span>Name</span>
+                        <input type="text" placeholder="Name" name="name" />
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="EditToDoList($event);">Rename</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-edit-folder">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h4 class="modal-title">Edit folder</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-todolist-form">
+                        <span>Name</span>
+                        <input type="text" placeholder="Name" name="name" />
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="EditFolder($event);">Rename</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/bootstrap.js"></script>
 </body>
 </html>

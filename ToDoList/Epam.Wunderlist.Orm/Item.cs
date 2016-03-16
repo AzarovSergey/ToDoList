@@ -1,34 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Epam.Wunderlist.Orm
 {
     [Table("Item")]
-    public partial class Item
+    public partial class Item : IEntity
     {
-        public Item()
-        {
-
-        }
-
         [Key]
         public int Id { get; set;}
 
-        [Required]
+        [Required(AllowEmptyStrings = true)]
         [StringLength(100)]
         public string Name { get; set; }
 
         [Required]
-        //[ForeignKey("ToDoList")]
         public int ToDoListId { get; set;}
 
         [Required]
-        public System.DateTime DueDateTime { get; set; }
+        public DateTime DueDateTime { get; set; }
 
         [Required]
         public bool IsStarred { get; set;}
@@ -36,17 +26,13 @@ namespace Epam.Wunderlist.Orm
         [Required]
         public int OrderIndex { get; set;}
 
-        [Required]
-       // [ForeignKey("User")]
-        public int UserId { get; set;}
-
-        [Required]
+        [Required(AllowEmptyStrings = true)]
         [StringLength(500)]
         public string Note { get; set;}
 
         [Required]
         public bool IsCompleted { get; set;}
 
-        public virtual ToDoList Container { get; set; }
+        public virtual ToDoList ToDoList { get; set; }
     }
 }

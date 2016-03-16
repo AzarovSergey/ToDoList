@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Epam.Wunderlist.Services.Interface.Entities;
 using Epam.Wunderlist.Services.Interface.Services;
 using Epam.Wunderlist.DataAccess.Interfaces.Repository;
-using Epam.Wunderlist.Services.Mappers;
+using Epam.Wunderlist.Services.Interface.Mappers;
+using Epam.Wunderlist.DataAccess.Interfaces.DTO;
 
 namespace Epam.Wunderlist.Services.Services
 {
-    public class ToDoListService : IToDoListService
+    public class ToDoListService : ToDoListServiceBase
     {
-        private readonly IUnitOfWork uow;
-        private readonly IToDoListRepository toDoListRepository;
-
-        public ToDoListService(IUnitOfWork uow, IToDoListRepository repository)
+        public ToDoListService(ToDoListRepositoryBase repository, IUnitOfWork unitOfWork, IMapper mapper)
+            :base(repository,unitOfWork,mapper)
         {
-            this.uow = uow;
-            this.toDoListRepository = repository;
+
         }
 
-        public IEnumerable<ToDoListEntity> GetByFolderId(int folderId)
+        public override IEnumerable<ToDoListEntity> GetByFolderId(int folderId)
         {
-            return toDoListRepository.GetByFolderId(folderId).Select(toDoList=>toDoList.ToBllToDoList());
+            return repository.GetByFolderId(folderId).Select(toDoList => mapper.Map<DalToDoList,ToDoListEntity>(toDoList));
         }
+
     }
 }

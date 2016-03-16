@@ -16,19 +16,21 @@ namespace Epam.Wunderlist.Web.Controllers.API
     [Authorize]
     public class FolderController : Controller//ApiController
     {
-        private readonly IUserService userService;
-        private readonly IRoleService roleService;
-        private readonly IFolderService folderService;
-        private readonly IToDoListService toDoListService;
-        private readonly IItemService itemService;
+        private readonly UserServiceBase userService;
+        private readonly RoleServiceBase roleService;
+        private readonly FolderServiceBase folderService;
+        private readonly ToDoListServiceBase toDoListService;
+        private readonly ItemServiceBase itemService;
+        private readonly IMapper mapper;
 
-        public FolderController(IUserService userService, IRoleService roleService, IFolderService folderService, IToDoListService toDoListService, IItemService itemService)
+        public FolderController(UserServiceBase userService, RoleServiceBase roleService, FolderServiceBase folderService, ToDoListServiceBase toDoListService, ItemServiceBase itemService, IMapper mapper)
         {
             this.userService = userService;
             this.roleService = roleService;
             this.folderService = folderService;
             this.toDoListService = toDoListService;
             this.itemService = itemService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -40,52 +42,37 @@ namespace Epam.Wunderlist.Web.Controllers.API
                 return Json(new { redirect = "/account/login/" }, JsonRequestBehavior.AllowGet);
             }
             var user = userService.GetByEmail(User.Identity.Name);
-            FolderModel[] folders = folderService.GetByAuthorId(user.Id).Select(folder=>folder.ToFolderModel()).ToArray();
+            FolderModel[] folders = folderService.GetByAuthorId(user.Id).Select(folder=>mapper.Map<FolderEntity,FolderModel>(folder)).ToArray();
+            foreach(var folder in folders)
+            {
+                folder.ToDoLists = toDoListService.GetByFolderId(folder.Id).Select(toDoList => mapper.Map<ToDoListEntity, ToDoListModel>(toDoList)).ToArray();
+            }
             return Json(folders, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public JsonResult/*<IEnumerable<FolderModel>>*/ GetFillFolders()
+        [HttpPost]
+        public EmptyResult Create(string name)
         {
-            throw new NotImplementedException();
-            //return Json
-            //    (new FolderModel()
-            //    {
-            //        Name ="f1",
-            //        OrderIndex =3,
-            //        ToDoLists =
-            //            new ToDoListModel[]
-            //            {
-            //            new ToDoListModel
-            //                {
-            //                    Name ="tl1",OrderIndex=2,
-            //                    Items =new ItemModel[] { new ItemModel() {Name="ii1" },new ItemModel {Name="ii2" } }
-            //                }
-            //            }
-            //    },
-            //    JsonRequestBehavior.AllowGet);
-            if (!User.Identity.IsAuthenticated)
+            folderService.Create(new FolderEntity()
             {
-                return Json(new { redirect = "/account/login/" }, JsonRequestBehavior.AllowGet);
-            }
-            var user = userService.GetByEmail(User.Identity.Name);
-            FolderEntity[] folders = folderService.GetByAuthorId(user.Id).ToArray();
-            FolderModel[] folderModels=new FolderModel[folders.Count()];
-            for (int i = 0; i < folders.Length; i++)
-            {
-                folderModels[i] = folders[i].ToFolderModel();
-
-                ToDoListEntity[] toDoLists = toDoListService.GetByFolderId(folders[i].Id).ToArray();
-                ToDoListModel[] toDoListModels = new ToDoListModel[toDoLists.Length];
-                for (int j = 0; j < toDoLists.Length; j++)
-                {
-                    toDoListModels[j].Items = itemService.GetByToDoListId(toDoLists[j].Id).Select(item=>item.ToItemModel()).ToArray();
-                }
-                folderModels[i].ToDoLists = toDoListModels;
-            }
-            return Json(folderModels, JsonRequestBehavior.AllowGet);
+                Name = name,
+                UserId = userService.GetByEmail(User.Identity.Name).Id
+            });
+            return new EmptyResult();
         }
 
+        public JsonResult Delete(int folderId)
+        {
+            folderService.Delete(folderId);
+            return GetFolders();
+        }
+
+        [HttpPost]
+        public void Rename(string name, int id)
+        {
+            var entity = folderService.GetById(id);
+            entity.Name = name;
+            folderService.Update(entity);
+        }
     }
 }

@@ -1,38 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Epam.Wunderlist.Services.Interface.Entities;
 using Epam.Wunderlist.Services.Interface.Services;
 using Epam.Wunderlist.DataAccess.Interfaces.Repository;
-using Epam.Wunderlist.Services.Mappers;
+using Epam.Wunderlist.Services.Interface.Mappers;
+using Epam.Wunderlist.DataAccess.Interfaces.DTO;
 
 namespace Epam.Wunderlist.Services.Services
 {
-    public class RoleService:IRoleService
+    public class RoleService : RoleServiceBase
     {
-        //private readonly IUnitOfWork uow;
-        private readonly IRoleRepository roleRepository;
-
-        public RoleService(IRoleRepository roleRepository)
+        public RoleService(RoleRepositoryBase repository, IUnitOfWork unitOfWork, IMapper mapper)
+            : base(repository, unitOfWork, mapper)
         {
-            this.roleRepository = roleRepository;
+
         }
 
-        public IEnumerable<RoleEntity> GetAll()
+        public override IEnumerable<RoleEntity> GetAll()
         {
-            return roleRepository.GetAll().Select(role=>role.ToBllRole());
+            return repository.GetAll().Select(role => mapper.Map<DalRole, RoleEntity>(role));
         }
 
-        public RoleEntity GetById(int id)
+        public override RoleEntity GetByRoleName(string roleName)
         {
-            return roleRepository.GetAll().FirstOrDefault(role => role.Id == id).ToBllRole();
-        }
-
-        public RoleEntity GetByRoleName(string roleName)
-        {
-            return roleRepository.GetAll().FirstOrDefault(role => role.Name == roleName)?.ToBllRole();
+            return mapper.Map<DalRole,RoleEntity>(repository.GetAll().FirstOrDefault(role => role.Name == roleName));
         }
     }
 }

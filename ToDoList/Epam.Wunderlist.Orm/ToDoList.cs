@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Epam.Wunderlist.Orm
 {
     [Table("ToDoList")]
-    public partial class ToDoList
+    public partial class ToDoList : IEntity
     {
         public ToDoList()
         {
@@ -20,10 +20,9 @@ namespace Epam.Wunderlist.Orm
         public string Name { get; set; }
 
         [Required]
-        //[ForeignKey("Folder")]
         public int FolderId { get; set; }
 
-
+        public virtual Folder Folder { get; set; }
         public virtual ICollection<Item> Items { get; set; }
     }
 }

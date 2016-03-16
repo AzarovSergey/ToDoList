@@ -6,24 +6,29 @@ using System.Web.Mvc;
 using Epam.Wunderlist.Services.Interface.Services;
 using Epam.Wunderlist.Web.Mapper;
 using Epam.Wunderlist.Web.Models;
+using Epam.Wunderlist.Services.Interface;
+using Epam.Wunderlist.Services.Interface.Entities;
 
 namespace Epam.Wunderlist.Web.Controllers
 {
+    [Authorize]
     public class ToDoListController : Controller
     {
-        private readonly IUserService userService;
-        private readonly IRoleService roleService;
-        private readonly IFolderService folderService;
-        private readonly IToDoListService toDoListService;
-        private readonly IItemService itemService;
+        private readonly UserServiceBase userService;
+        private readonly RoleServiceBase roleService;
+        private readonly FolderServiceBase folderService;
+        private readonly ToDoListServiceBase toDoListService;
+        private readonly ItemServiceBase itemService;
+        private readonly IMapper mapper;
 
-        public ToDoListController(IUserService userService, IRoleService roleService, IFolderService folderService, IToDoListService toDoListService, IItemService itemService)
+        public ToDoListController(UserServiceBase userService, RoleServiceBase roleService, FolderServiceBase folderService, ToDoListServiceBase toDoListService, ItemServiceBase itemService, IMapper mapper)
         {
             this.userService = userService;
             this.roleService = roleService;
             this.folderService = folderService;
             this.toDoListService = toDoListService;
             this.itemService = itemService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -39,8 +44,33 @@ namespace Epam.Wunderlist.Web.Controllers
             {
                 return Json(new { redirect = "/account/login/" }, JsonRequestBehavior.AllowGet);
             }
-            ToDoListModel[] lists = toDoListService.GetByFolderId(folderId).Select(list => list.ToToDoListModel()).ToArray();
+            ToDoListModel[] lists = toDoListService.GetByFolderId(folderId).Select(list =>mapper.Map<ToDoListEntity,ToDoListModel>(list)).ToArray();
             return Json(lists, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult Create(string name,int folderId)
+        {
+            toDoListService.Create(new ToDoListEntity()
+            {
+                Name = name,
+                FolderId = folderId
+            });
+            return null;
+        }
+
+        [HttpPost]
+        public void Rename(string name, int id)
+        {
+            var entity = toDoListService.GetById(id);
+            entity.Name = name;
+            toDoListService.Update(entity);
+        }
+
+        public void Delete(int id)
+        {
+            toDoListService.Delete(id);
+        }
+
     }
 }

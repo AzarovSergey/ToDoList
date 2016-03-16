@@ -1,33 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Epam.Wunderlist.DataAccess.Interfaces.DTO;
 using Epam.Wunderlist.DataAccess.Interfaces.Repository;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
 using Epam.Wunderlist.Orm;
-using Epam.Wunderlist.DataAccess.MsSql.Mappers;
 
 namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository : UserRepositoryBase
     {
-
-        private readonly DbContext context;
-        public UserRepository(DbContext dbContext)
+        public UserRepository(DbContext dbContext) : base(dbContext)
         {
-            this.context = dbContext;
         }
 
-        public void Create(DalUser user)
+        public override DalUser GetByEmail(string email)
         {
-            context.Set<User>().Add(user.ToOrmUser());
+            return mapper.Map<User, DalUser>(context.Set<User>().FirstOrDefault(user => user.Email == email));
         }
 
-        public DalUser GetByEmail(string email)
+        public override byte[] GetPhoto(int userId)
         {
-            return context.Set<User>().FirstOrDefault(user=>user.Email==email)?.ToDalUser();
+            User user = context.Set<User>().Find(userId);
+            if (user == null)
+                return null;
+            Photo photo = context.Set<Photo>().Find(user.PhotoId);
+            if (photo == null)
+                return null;
+            return (byte[])photo.Image.Clone();
+        }
+
+        public override bool SetPhoto(int userId, byte[] image)
+        {
+            User user = context.Set<User>().Find(userId);
+            if (user == null)
+                return false;
+            Photo photo =  context.Set<Photo>().Find(user.PhotoId);
+            if (photo == null)
+            {
+                photo = context.Set<Photo>().Add(new Photo() { Image = image });
+            }
+            else
+            {
+                photo.Image = image;
+            }
+            context.SaveChanges();
+            user.PhotoId = photo.Id;
+            context.SaveChanges();
+            return true;
         }
     }
 }

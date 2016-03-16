@@ -9,9 +9,9 @@ namespace Epam.Wunderlist.Web.Providers
 {
     public class CustomRoleProvider : RoleProvider
     {
-        public IUserService UserService = (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
+        public UserServiceBase UserService = (UserServiceBase)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(UserServiceBase));
 
-        public IRoleService RoleService = (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
+        public RoleServiceBase RoleService = (RoleServiceBase)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(RoleServiceBase));
 
         public override bool IsUserInRole(string email, string roleName)
         {

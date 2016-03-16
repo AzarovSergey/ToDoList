@@ -1,10 +1,5 @@
 ﻿using Epam.Wunderlist.DataAccess.Interfaces.Repository;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epam.Wunderlist.DataAccess.MsSql.Concrete
 {

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Epam.Wunderlist.Services.Interface.Entities;
 
 namespace Epam.Wunderlist.Services.Interface.Services
 {
-    public interface IToDoListService
+    public interface IService<T>
     {
-        IEnumerable<ToDoListEntity> GetByFolderId(int folderId);
+        int Create(T entity);
+        T GetById(int Id);
+        bool Update(T entity);
+        bool Delete(int id);
     }
 }
