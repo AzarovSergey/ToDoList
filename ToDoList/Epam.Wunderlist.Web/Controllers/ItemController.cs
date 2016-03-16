@@ -66,6 +66,14 @@ namespace Epam.Wunderlist.Web.Controllers
         }
 
         [HttpPost]
+        public void Drag(int itemId,int todolistId)
+        {
+            ItemEntity item = itemService.GetById(itemId);
+            item.ToDoListId = todolistId;
+            itemService.Update(item);
+        }
+
+        [HttpPost]
         public void SetDueDate(int itemId,string dueDate)
         {
             DateTime date;//=DateTime.MinValue;

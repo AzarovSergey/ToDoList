@@ -56,7 +56,7 @@
                             </span>
                         </div>
                         <div class="to-do-list-container">
-                            <div class="to-do-list" ng-repeat="todolist in folder.ToDoLists" ng-click="SetSelectedToDoList(todolist.Id);">
+                            <div class="to-do-list" ng-repeat="todolist in folder.ToDoLists" ng-click="SetSelectedToDoList(todolist.Id);" ondrop="DragItemFinish(event);" ondragover="event.preventDefault();" data-db-id="{{todolist.Id}}">
                                 <span class="todolist-name">{{todolist.Name}}</span>
                                 <span class="right-side">
                                     @*<span class="missed">3</span>
@@ -81,7 +81,7 @@
             <input type="text" id="add-item-input" onkeypress="AddItem(event);" placeholder="Add a to-do"/>
         </div>
         <div id="active-item-container">
-            <div class="task" ng-repeat="item in activeItems" title="{{item.Note}}">
+            <div class="task" ng-repeat="item in activeItems" title="{{item.Note}}" data-db-id="{{item.Id}}" draggable="true" ondragstart="DragItemStart(event);">
                 <span class="fa fa-square-o" ng-click="SetCompletion($event,true);" data-db-id="{{item.Id}}"></span>
                 <span>{{item.Name}}</span>
                 <span class="right-side item-right">
@@ -113,13 +113,30 @@
     </div>
 
     <script>
+    function DragItemStart(event){
+        draggedItem = event.toElement;
+        // console.log(event);
+        console.log(draggedItem);
+    }
+
+    function DragItemFinish(event){
+        var todolist=event.toElement;
+        var itemId=$(draggedItem).attr('data-db-id');
+        var todolistId=$(todolist).attr('data-db-id');
+        var url='/item/drag?itemId='+itemId+"&todolistId="+todolistId;
+        console.log(url);
+        http.post(url).then(function(){
+            scope.RefreshToDoList();
+        });
+    }
         //event.stopPropagation();
         var SelectedToDoListId=undefined;
         var http;
         var scope;
         var creatingFolderId;
         var targetInstanceId;
-        
+        var draggedItem;
+
         $('#user-info').hide();
         $('#user-info-button').click(function () {
             $('#user-info').toggle();
@@ -166,14 +183,12 @@
             $scope.RefreshFolders = function () {
                 $http.get('/folder/GetFolders/').then(function (responce) {
                     $scope.folders = responce.data;
-                    //console.log(responce);
                 });
             }
 
 
             $scope.ToggleFolder = function (event) {
                 $(event.currentTarget).siblings('.to-do-list-container').toggle(500);
-                //console.log(event);
             };
 
 
@@ -199,7 +214,6 @@
                         }
                     }
                     SelectedToDoListId=Id;
-                    console.log(responce);
                 });
             }
 
@@ -210,7 +224,6 @@
 
             $scope.SetDueDate = function (event) {
                 var due = $('#due-date')[0].value;
-                console.log(due);
                 if (due=="")
                     return;
                 $http.post('/item/SetDueDate?itemId=' + $scope.itemEditor.id + "&dueDate=" + due).then(function () {
@@ -232,30 +245,23 @@
                     method: 'POST',
                     url: path,
                     success: function (responce) {
-                        alert('success');
                         $scope.RefreshUser();
                     },
                     error: function (responce) {
-                        console.log(responce);
-                        alert('error');
                     }
                 });
             };
 
 
             $scope.AddFolder = function(event) {
-                console.log($(event.target));
                 var path = "/folder/create?name=" + $(event.target).siblings('input')[0].value+"&folderId="+creatingFolderId;
                 $.ajax({
                     method: 'POST',
                     url: path,
                     success: function (responce) {
-                        alert('success');
                         $scope.RefreshFolders();
                     },
                     error: function (responce) {
-                        console.log(responce);
-                        alert('error');
                     }
                 });
             }
@@ -267,12 +273,9 @@
                     method: 'POST',
                     url: path,
                     success: function (responce) {
-                        alert('success');
                         $scope.RefreshFolders();
                     },
                     error: function (responce) {
-                        console.log(responce);
-                        alert('error');
                     }
                 });
             }
@@ -284,56 +287,44 @@
                     method: 'POST',
                     url: path,
                     success: function (responce) {
-                        alert('success');
                         $scope.RefreshFolders();
                     },
                     error: function (responce) {
-                        console.log(responce);
-                        alert('error');
                     }
                 });
             }
 
 
             $scope.AddToDoList = function (event) {
-                console.log(event);
                 var path = "/todoList/create?name=" + $(event.target).siblings('input')[0].value+"&folderId="+creatingFolderId;
                 $.ajax({
                     method: 'POST',
                     url: path,
                     success: function (responce) {
-                        alert('success');
                         scope.SetSelectedToDoList(SelectedToDoListId);
                         $scope.RefreshFolders();
                     },
                     error: function (responce) {
-                        console.log(responce);
-                        alert('error');
                     }
                 });
             }
 
 
             $scope.EditToDoList = function (event) {
-                console.log(event);
                 var path = "/todoList/Rename?name=" + $(event.target).siblings('input')[0].value + "&Id=" + targetInstanceId;
                 $.ajax({
                     method: 'POST',
                     url: path,
                     success: function (responce) {
-                        alert('success');
                         $scope.RefreshFolders();
                     },
                     error: function (responce) {
-                        console.log(responce);
-                        alert('error');
                     }
                 });
             }
 
 
             $scope.EditItem = function (event) {
-                console.log(event);
                 RightVisibility(false);
                 var btn = $(event.target);
                 var path = "/item/update?name=" +btn.siblings('[name=name]')[0].value + "&Id="+ btn.attr('data-db-id') + "&note=" +btn.siblings('[name=note]')[0].value;
@@ -341,12 +332,9 @@
                     method: 'POST',
                     url: path,
                     success: function (responce) {
-                        alert('success');
                         $scope.RefreshToDoList();
                     },
                     error: function (responce) {
-                        console.log(responce);
-                        alert('error');
                     }
                 });
             }
@@ -359,30 +347,23 @@
                     method: 'POST',
                     url: path,
                     success: function (responce) {
-                        alert('success');
                         $scope.RefreshToDoList();
                     },
                     error: function (responce) {
-                        console.log(responce);
-                        alert('error');
                     }
                 });
             }
 
 
             $scope.EditFolder = function (event) {
-                console.log(event);
                 var path = "/folder/Rename?name=" + $(event.target).siblings('input')[0].value + "&Id=" + targetInstanceId;
                 $.ajax({
                     method: 'POST',
                     url: path,
                     success: function (responce) {
-                        alert('success');
                         $scope.RefreshFolders();
                     },
                     error: function (responce) {
-                        console.log(responce);
-                        alert('error');
                     }
                 });
 
@@ -392,13 +373,11 @@
 
             $scope.PrepareToUpdateItem = function (event,item) {
                 RightVisibility(true);
-                console.log(event);
                 var btn = $(event.target);
                 $scope.itemEditor = {
                     id: item.Id,
                     name: item.Name,
                     note: item.Note
-                    //dateObject:
                 };
             }
 
@@ -419,14 +398,11 @@
                     processData: false,
                     type: 'POST',
                     success: function(data){
-                        alert('success');
                         var photo = $('#photo');
                         var src = photo.attr('src');
-                        //photo.removeAttr('src');
                         photo.attr('src', src+'?randomString='+new Date());
                     },
                     error:function(data){
-                        alert('error');
                     }
                 });
             }
@@ -436,7 +412,6 @@
             $scope.RefreshUser = function () {
                 $http.get('/account/UserAccount').then(function (responce) {
                     $scope.user = responce.data;
-                    console.log($scope.user);
                 });
             }
 
@@ -455,7 +430,6 @@
         }
 
         function AddItem(event) {
-            console.log(event);
             if (event.keyCode === 13) {
                 if (SelectedToDoListId === undefined)
                     return;
@@ -464,12 +438,9 @@
                     method:'POST',
                     url: path,
                     success: function (responce) {
-                        //alert('success');
                         scope.SetSelectedToDoList(SelectedToDoListId);
                     },
                     error: function (responce) {
-                        console.log(responce);
-                        alert('error');
                     }
                 });
             }
